@@ -1,11 +1,11 @@
 {
-  "name": "bewly-cat",
-  "displayName": "BewlyCat",
+  "name": "bewly-mac",
+  "displayName": "BewlyMac",
   "type": "module",
   "version": "1.7.3",
   "packageManager": "pnpm@11.17.0",
-  "description": "Just make a few small changes to your Bilibili homepage.",
-  "homepage": "https://github.com/keleus/BewlyCat",
+  "description": "A personal browser extension for a customized Bilibili experience.",
+  "homepage": "https://github.com/STERILITZIA02/BewlyMac",
   "scripts": {
     "build-pack": "pnpm build && pnpm build-firefox && pnpm pack:zip && pnpm pack:zip-firefox && pnpm pack:zip-firefox-sources",
     "dev": "npm run clear && cross-env NODE_ENV=development run-p dev:*",
