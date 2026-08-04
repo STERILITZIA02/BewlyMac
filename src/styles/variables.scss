@@ -68,12 +68,6 @@
   --bew-space-12: 48px;
   // #endregion
 
-  // Keep fixed Dock controls visually separate from scrollable page content.
-  --bew-dock-item-size: 35px;
-  --bew-dock-content-gap: var(--bew-space-3);
-  // Item size + the Dock's edge offset, shell margin/padding, and content gap.
-  --bew-dock-safe-inset: calc(var(--bew-dock-item-size) + var(--bew-space-10) + var(--bew-dock-content-gap));
-
   // #region Motion
   // Prefer specific transition properties over `transition: all` to avoid layout jumps.
   --bew-duration-fast: 150ms;
@@ -108,6 +102,17 @@
   --bew-control-background: var(--bew-elevated);
   --bew-control-background-white: color-mix(in oklab, var(--bew-elevated-solid), transparent 80%);
   --bew-control-border-color: transparent;
+  --bew-floating-control-size: 40px;
+  --bew-dock-control-size: 35px;
+  --bew-dock-control-size-lg: 45px;
+  --bew-floating-control-icon-size: var(--bew-icon-size-md);
+  --bew-dock-control-icon-size: 18px;
+  --bew-dock-control-icon-size-lg: 22px;
+  --bew-dock-navigation-active-bg: hsl(0 0% 100%);
+  --bew-dock-navigation-active-color: hsl(0 0% 0%);
+  --bew-dock-navigation-active-shadow: 0 4px 30px 4px rgb(255 255 255 / 60%);
+  --bew-dock-navigation-hover-icon-glow: drop-shadow(0 0 2px rgb(255 255 255 / 90%))
+    drop-shadow(0 0 8px rgb(255 255 255 / 70%));
   // #endregion
 
   // Search and logo stay one step larger (still full capsule/circle)
@@ -116,6 +121,9 @@
   --bew-top-bar-brand-logo-width: 84px;
   --bew-top-bar-brand-logo-height: 28px;
   --bew-top-bar-brand-logo-compact-size: 24px;
+  --bew-top-bar-solid-background: var(--bew-elevated-solid);
+  --bew-top-bar-solid-background-force-white: hsl(0 0% 0%);
+  --bew-top-bar-solid-shadow: var(--bew-shadow-1);
 
   // Interaction tokens aligned with home tab buttons
   --bew-segment-item-hover-bg: var(--bew-fill-1);
@@ -136,6 +144,7 @@
   --bew-liquid-indicator-paint-duration: var(--bew-duration-normal);
 
   --bew-top-bar-height: 64px;
+  --bew-top-bar-switcher-height: 24px;
 
   // #region Filters
   // Use this in all components (except dialogs) if you want to add a frosted glass effect
@@ -1054,10 +1063,4 @@
   --Lb7_rgb: 88, 177, 212;
 }
 
-@media (min-width: 1024px) {
-  :host,
-  :root {
-    --bew-dock-item-size: 45px;
-  }
-}
 // #endregion

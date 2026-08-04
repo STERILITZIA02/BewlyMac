@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { onKeyStroke, useEventListener, useIntersectionObserver, useThrottleFn, useToggle } from '@vueuse/core'
 import type { Ref } from 'vue'
-import { provide, ref } from 'vue'
+import { provide, ref, watch } from 'vue'
 
 import Button from '~/components/Button.vue'
 import type { BewlyAppProvider } from '~/composables/useAppProvider'
 import { DrawerType, UndoForwardState } from '~/composables/useAppProvider'
 import { confirmDialogKey } from '~/composables/useConfirmDialog'
 import { useDark } from '~/composables/useDark'
-import { BEWLY_MOUNTED, DRAWER_VIDEO_ENTER_PAGE_FULL, DRAWER_VIDEO_EXIT_PAGE_FULL, IFRAME_PAGE_SWITCH_BEWLY, IFRAME_PAGE_SWITCH_BILI, OVERLAY_SCROLL_BAR_SCROLL, OVERLAY_SCROLL_STATE_CHANGE } from '~/constants/globalEvents'
+import { BEWLY_MOUNTED, DRAWER_VIDEO_ENTER_PAGE_FULL, DRAWER_VIDEO_EXIT_PAGE_FULL, OVERLAY_SCROLL_BAR_SCROLL, OVERLAY_SCROLL_STATE_CHANGE } from '~/constants/globalEvents'
 import { HomeSubPage } from '~/contentScripts/views/Home/types'
 import { AppPage } from '~/enums/appEnums'
 import { settings } from '~/logic'
@@ -19,6 +19,7 @@ import { useTopBarStore } from '~/stores/topBarStore'
 import { setOriginalBilibiliTopBarScrolled } from '~/utils/bilibiliTopBar'
 import { isHomePage, isInIframe, isNotificationPage, isSearchResultsPage, isVideoOrBangumiPage, openLinkToNewTab, queryDomUntilFound, scrollToTop } from '~/utils/main'
 import emitter from '~/utils/mitt'
+import { resolvePageModeNavigationUrl, resolvePageModeTarget } from '~/utils/pageMode'
 
 import { setupNecessarySettingsWatchers } from './necessarySettingsWatchers'
 
@@ -44,6 +45,12 @@ else {
 }
 const [showSettings, toggleSettings] = useToggle(false)
 const searchFocusOverlayActive = ref(false)
+
+// The top-bar switcher is teleported to document.body, outside this Shadow DOM.
+// Raise the host while settings are open so the modal can stay above that layer.
+watch(showSettings, (visible) => {
+  document.getElementById('bewly')?.classList.toggle('settings-open', visible)
+}, { immediate: true })
 
 interface ConfirmDialogRequest {
   id: number
@@ -131,6 +138,21 @@ function getPageParam(): AppPage | null {
 }
 
 const activatedPage = ref<AppPage>(getPageParam() || (settings.value.dockItemsConfig.find(e => e.visible === true)?.page || AppPage.Home))
+
+const shouldUseOriginalSearchResultsPage = computed(() => {
+  return activatedPage.value === AppPage.SearchResults
+    && settingsStore.getDockItemIsUseOriginalBiliPage(AppPage.Search)
+})
+
+watch(shouldUseOriginalSearchResultsPage, (useOriginalBiliPage) => {
+  if (!useOriginalBiliPage || !isHomePage(window.location.href) || isInIframe())
+    return
+
+  const target = resolvePageModeTarget(window.location.href, activatedPage.value)
+  const navigationUrl = resolvePageModeNavigationUrl(window.location.href, target, true)
+  if (navigationUrl)
+    window.location.assign(navigationUrl)
+}, { immediate: true })
 
 // 监听 URL 变化,同步更新 activatedPage
 useEventListener(window, 'pushstate', () => {
@@ -300,24 +322,6 @@ function setActiveDrawer(drawer: DrawerType) {
 const hideUIForIframePhotoViewer = ref<boolean>(false)
 
 const iframePageRef = ref()
-useEventListener(window, 'message', ({ data }) => {
-  switch (data) {
-    case IFRAME_PAGE_SWITCH_BEWLY:
-      {
-        const currentDockItemConfig = settingsStore.getDockItemConfigByPage(activatedPage.value)
-        if (currentDockItemConfig)
-          currentDockItemConfig.useOriginalBiliPage = false
-      }
-      break
-    case IFRAME_PAGE_SWITCH_BILI:
-      {
-        const currentDockItemConfig = settingsStore.getDockItemConfigByPage(activatedPage.value)
-        if (currentDockItemConfig)
-          currentDockItemConfig.useOriginalBiliPage = true
-      }
-      break
-  }
-})
 
 // 监听来自iframe的图片预览器状态
 useEventListener(window, 'message', ({ data, source }) => {
@@ -388,11 +392,13 @@ const iframePageURL = computed((): string => {
   // If the iframe is not the BiliBili homepage or in iframe, then don't show the iframe page
   if (!isHomePage(window.self.location.href) || isInIframe())
     return ''
-  const currentDockItemConfig = settings.value.dockItemsConfig.find(e => e.page === activatedPage.value)
-  if (currentDockItemConfig) {
-    return currentDockItemConfig.useOriginalBiliPage || !mainStore.getDockItemByPage(activatedPage.value)?.hasBewlyPage ? mainStore.getBiliWebPageURLByPage(activatedPage.value) : ''
-  }
-  return ''
+  const dockItem = mainStore.getDockItemByPage(activatedPage.value)
+  if (!dockItem)
+    return ''
+
+  return settingsStore.getDockItemIsUseOriginalBiliPage(activatedPage.value) || !dockItem.hasBewlyPage
+    ? mainStore.getBiliWebPageURLByPage(activatedPage.value)
+    : ''
 })
 const showBewlyPage = computed((): boolean => {
   if (isInIframe())
@@ -982,6 +988,7 @@ if (settings.value.cleanUrlArgument) {
       <SideBar
         v-else
         pointer-events-auto
+        :activated-page="activatedPage"
         @settings-visibility-change="toggleSettings"
       />
     </div>
@@ -1025,13 +1032,8 @@ if (settings.value.cleanUrlArgument) {
           >
             <main m-auto max-w="$bew-page-max-width">
               <div
-                class="bewly-page-content"
-                :class="{
-                  'bewly-page-content--dock-left': activatedPage === AppPage.Home && settings.dockPosition === 'left',
-                  'bewly-page-content--dock-right': activatedPage === AppPage.Home && settings.dockPosition === 'right',
-                  'bewly-page-content--dock-bottom': activatedPage === AppPage.Home && settings.dockPosition === 'bottom',
-                }"
                 p="t-[calc(var(--bew-top-bar-height)+10px)]" m-auto
+                w="lg:[calc(100%-200px)] [calc(100%-150px)]"
                 :style="settings.useOriginalBilibiliTopBar && !reachTop
                   ? { paddingTop: 'calc(var(--bew-top-bar-height) + 120px)' }
                   : undefined"
@@ -1221,28 +1223,5 @@ if (settings.value.cleanUrlArgument) {
 .bewly-scroll-viewport {
   outline: none;
   scrollbar-gutter: stable;
-}
-
-.bewly-page-content {
-  --bew-page-inline-padding: clamp(16px, 4vw, 80px);
-  --bew-page-padding-left: var(--bew-page-inline-padding);
-  --bew-page-padding-right: var(--bew-page-inline-padding);
-
-  box-sizing: border-box;
-  width: 100%;
-  padding-left: var(--bew-page-padding-left);
-  padding-right: var(--bew-page-padding-right);
-}
-
-.bewly-page-content--dock-left {
-  --bew-page-padding-left: max(var(--bew-page-inline-padding), var(--bew-dock-safe-inset));
-}
-
-.bewly-page-content--dock-right {
-  --bew-page-padding-right: max(var(--bew-page-inline-padding), var(--bew-dock-safe-inset));
-}
-
-.bewly-page-content--dock-bottom {
-  padding-bottom: var(--bew-dock-safe-inset);
 }
 </style>

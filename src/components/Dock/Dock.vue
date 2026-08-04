@@ -12,8 +12,11 @@ import { AppPage } from '~/enums/appEnums'
 import { settings } from '~/logic'
 import type { DockItem } from '~/stores/mainStore'
 import { useMainStore } from '~/stores/mainStore'
+import { useSettingsStore } from '~/stores/settingsStore'
 import { isHomePage, openLinkToNewTab } from '~/utils/main'
 
+import LiquidSegmentIndicator from '../LiquidSegmentIndicator.vue'
+import PageModeSwitcherButton from '../PageModeSwitcherButton.vue'
 import Tooltip from '../Tooltip.vue'
 import type { HoveringDockItem } from './types'
 
@@ -32,6 +35,7 @@ const emit = defineEmits<{
 }>()
 
 const mainStore = useMainStore()
+const settingsStore = useSettingsStore()
 const { isDark, toggleDark } = useDark()
 const { reachTop, homeActivatedPage, undoForwardState, canRefreshHomeSubPage } = useBewlyApp()
 
@@ -42,6 +46,8 @@ const showForward = computed(() => undoForwardState.value === UndoForwardState.S
 
 const hideDock = ref<boolean>(false)
 const dockContentHover = ref<boolean>(false)
+const dockReady = ref(false)
+let dockReadyFrame: number | undefined
 const dockContentRef = useDelayedHover({
   enterDelay: 100,
   leaveDelay: 600,
@@ -109,7 +115,6 @@ const hoveringDockItem = reactive<HoveringDockItem>({
   settings: false,
 })
 const currentDockItems = ref<DockItem[]>([])
-const activatedDockItem = ref<DockItem>()
 
 const tooltipPlacement = computed(() => {
   if (settings.value.dockPosition === 'left')
@@ -125,8 +130,7 @@ const tooltipPlacement = computed(() => {
  * Whether to show the back to top or refresh button
  */
 const showBackToTopOrRefreshButton = computed((): boolean => {
-  const dockItemConfig = settings.value.dockItemsConfig.find(e => e.page === props.activatedPage)
-  if (dockItemConfig && dockItemConfig.useOriginalBiliPage) {
+  if (settingsStore.getDockItemIsUseOriginalBiliPage(props.activatedPage)) {
     return false
   }
 
@@ -178,55 +182,35 @@ watch(() => settings.value.autoHideDock, (newValue) => {
 }, { immediate: true })
 
 // use Json stringify to watch the changes of the array item properties
-watch(() => JSON.stringify(settings.value.dockItemsConfig), () => {
-  currentDockItems.value = computeDockItem()
-}, { immediate: true })
+watch(
+  [
+    () => JSON.stringify(settings.value.dockItemsConfig),
+    () => settings.value.pageMode,
+  ],
+  () => {
+    currentDockItems.value = computeDockItem()
+  },
+  { immediate: true },
+)
 
 function computeDockItem(): DockItem[] {
-  if (Array.isArray(settings.value.dockItemsConfig) && settings.value.dockItemsConfig.length < mainStore.dockItems.length) {
-    // Add missing items to dockItemsConfig
-    const missingItems = mainStore.dockItems.filter(dock => !settings.value.dockItemsConfig.some(item => item.page === dock.page))
-    settings.value.dockItemsConfig = [
-      ...settings.value.dockItemsConfig,
-      ...missingItems.map(dock => ({
-        page: dock.page,
-        visible: true,
-        openInNewTab: false,
-        useOriginalBiliPage: dock.useOriginalBiliPage,
-      })),
-    ]
-  }
-  // if dockItemsConfig not fresh, set it to default
-  else if (!Array.isArray(settings.value.dockItemsConfig) || settings.value.dockItemsConfig.length !== mainStore.dockItems.length) {
-    settings.value.dockItemsConfig = mainStore.dockItems.map(dock => ({
-      page: dock.page,
-      visible: true,
-      openInNewTab: false,
-      useOriginalBiliPage: dock.useOriginalBiliPage,
-    }))
-  }
-
   const targetDockItems: DockItem[] = []
 
-  settings.value.dockItemsConfig.forEach((item) => {
-    const foundItem = mainStore.dockItems.find(defaultItem => defaultItem.page === item.page)
-    // If the dock item does not have Bewly page, then use the original BiliBili page
-    if (!foundItem?.hasBewlyPage)
-      item.useOriginalBiliPage = true
+  for (const item of settingsStore.ensureDockItemsConfig()) {
+    if (!item.visible)
+      continue
 
-    if (item.visible) {
-      targetDockItems.push({
-        i18nKey: foundItem?.i18nKey || '',
-        icon: foundItem?.icon || '',
-        iconActivated: foundItem?.iconActivated || '',
-        page: foundItem?.page || AppPage.Home,
-        openInNewTab: item.openInNewTab,
-        useOriginalBiliPage: item.useOriginalBiliPage || !foundItem?.hasBewlyPage,
-        url: foundItem?.url || '',
-        hasBewlyPage: foundItem?.hasBewlyPage || false,
-      })
-    }
-  })
+    const defaultItem = mainStore.getDockItemByPage(item.page)
+    if (!defaultItem)
+      continue
+
+    targetDockItems.push({
+      ...defaultItem,
+      openInNewTab: item.openInNewTab,
+      useOriginalBiliPage: settingsStore.getDockItemIsUseOriginalBiliPage(item.page)
+        || !defaultItem.hasBewlyPage,
+    })
+  }
   return targetDockItems
 }
 
@@ -243,12 +227,10 @@ function handleDockItemClick($event: MouseEvent, dockItem: DockItem) {
     return
   }
 
-  activatedDockItem.value = dockItem
   emit('dockItemClick', dockItem)
 }
 
 function openDockItemInNewTab(dockItem: DockItem) {
-  activatedDockItem.value = dockItem
   openLinkToNewTab(`https://www.bilibili.com/?page=${dockItem.page}`)
 }
 
@@ -300,8 +282,24 @@ function isDockItemActivated(dockItem: DockItem): boolean {
   return props.activatedPage === dockItem.page && isHomePage()
 }
 
+const activeDockItemPage = computed(() => {
+  return currentDockItems.value.find(isDockItemActivated)?.page
+})
+
 const { width: windowWidth, height: windowHeight } = useWindowSize()
 const { width: dockWidth, height: dockHeight } = useElementSize(dockContentRef)
+
+// The initial 0 -> measured scale must render without a transition; later
+// responsive scale changes can keep the existing smooth behavior.
+watch([dockWidth, dockHeight], ([width, height]) => {
+  if (dockReady.value || dockReadyFrame !== undefined || !width || !height)
+    return
+
+  dockReadyFrame = requestAnimationFrame(() => {
+    dockReady.value = true
+    dockReadyFrame = undefined
+  })
+}, { flush: 'post' })
 
 const dockScale = computed((): number => {
   if (!dockHeight.value || !dockWidth.value)
@@ -508,6 +506,8 @@ onUnmounted(() => {
   if (mouseLeaveTimer) {
     clearTimeout(mouseLeaveTimer)
   }
+  if (dockReadyFrame !== undefined)
+    cancelAnimationFrame(dockReadyFrame)
 })
 </script>
 
@@ -537,6 +537,7 @@ onUnmounted(() => {
         'hide': hideDock,
         'half-hide': settings.halfHideDock,
         'hover': dockContentHover,
+        'ready': dockReady,
       }"
       :style="dockTransformStyle"
       @mouseenter="toggleHideDock(false)"
@@ -545,34 +546,44 @@ onUnmounted(() => {
       <div
         class="dock-content-inner"
       >
-        <template v-for="dockItem in currentDockItems" :key="dockItem.page">
-          <Tooltip :content="$t(dockItem.i18nKey)" :placement="tooltipPlacement">
-            <button
-              class="dock-item group"
-              :class="{
-                'active': isDockItemActivated(dockItem),
-                'inactive': hoveringDockItem.themeMode && isDark,
-                'disable-glowing-effect': settings.disableDockGlowingEffect,
-              }"
-              @click="handleDockItemClick($event, dockItem)"
-              @click.middle="openDockItemInNewTab(dockItem)"
-            >
-              <div
-                v-show="!isDockItemActivated(dockItem)"
-                :class="dockItem.icon"
-                text-xl
-              />
-              <div
-                v-show="isDockItemActivated(dockItem)"
-                :class="dockItem.iconActivated"
-                text-xl
-              />
-            </button>
-          </Tooltip>
-        </template>
+        <div
+          class="dock-page-navigation bew-segment-control"
+          :class="{ 'disable-glowing-effect': settings.disableDockGlowingEffect }"
+        >
+          <LiquidSegmentIndicator :active-key="activeDockItemPage" white />
+
+          <template v-for="dockItem in currentDockItems" :key="dockItem.page">
+            <Tooltip :content="$t(dockItem.i18nKey)" :placement="tooltipPlacement">
+              <button
+                type="button"
+                class="dock-page-navigation__item bew-segment-control__item bew-segment-control__item--icon"
+                :class="{ inactive: hoveringDockItem.themeMode && isDark }"
+                data-segment-item
+                :data-active="isDockItemActivated(dockItem) ? 'true' : undefined"
+                :aria-current="isDockItemActivated(dockItem) ? 'page' : undefined"
+                @click="handleDockItemClick($event, dockItem)"
+                @click.middle="openDockItemInNewTab(dockItem)"
+              >
+                <span
+                  class="dock-page-navigation__icon"
+                  :class="isDockItemActivated(dockItem) ? dockItem.iconActivated : dockItem.icon"
+                  aria-hidden="true"
+                />
+              </button>
+            </Tooltip>
+          </template>
+        </div>
 
         <!-- dividing line -->
         <div class="divider" />
+
+        <PageModeSwitcherButton
+          v-if="settings.showBewlyOrBiliPageSwitcher"
+          :activated-page="activatedPage"
+          :placement="tooltipPlacement"
+          variant="dock"
+          :disable-glowing-effect="settings.disableDockGlowingEffect"
+        />
 
         <Tooltip
           v-if="!settings.disableLightDarkModeSwitcherOnDock"
@@ -798,13 +809,12 @@ onUnmounted(() => {
 
   .back-to-top-or-refresh-btn {
     --uno: "transform active:important-scale-90 hover:scale-110";
+    --uno: "lg:w-45px w-35px lg:h-45px h-35px";
     --uno: "grid place-items-center";
     --uno: "filter-$bew-filter-glass-1";
     --uno: "bg-$bew-elevated hover:bg-$bew-content-hover";
     --uno: "rounded-full shadow-$bew-shadow-2 border-1 border-$bew-border-color";
 
-    width: var(--bew-dock-item-size);
-    height: var(--bew-dock-item-size);
     backdrop-filter: var(--bew-filter-glass-1);
     transition:
       transform 300ms var(--bew-ease-emphasized, cubic-bezier(0.34, 1.3, 0.64, 1)),
@@ -817,7 +827,23 @@ onUnmounted(() => {
 }
 
 .dock-content {
-  --uno: "absolute flex justify-center items-center duration-300 scale-$scale";
+  --uno: "absolute flex justify-center items-center scale-$scale";
+
+  transition-duration: 0ms;
+
+  &.ready {
+    transition-duration: var(--bew-duration-moderate, 300ms);
+  }
+
+  // Dock reveal can move an item underneath a stationary pointer. Delay only
+  // Dock tooltips so that movement does not cause a tooltip to flash immediately.
+  :deep(.b-tooltip) {
+    transition-delay: 0ms;
+  }
+
+  :deep(.b-tooltip-wrapper:hover .b-tooltip) {
+    transition-delay: var(--bew-duration-moderate, 300ms);
+  }
 
   &.left {
     --uno: "left-2 after:right--4px";
@@ -870,15 +896,88 @@ onUnmounted(() => {
     --uno: "flex-row";
   }
 
+  .dock-page-navigation {
+    --bew-liquid-indicator-bg-white: var(--bew-dock-navigation-active-bg);
+    --bew-liquid-indicator-shadow-white: var(--bew-dock-navigation-active-shadow);
+
+    flex-direction: column;
+    width: auto;
+    height: auto;
+    padding: 0;
+    gap: var(--bew-space-2);
+    overflow: visible;
+
+    &.disable-glowing-effect {
+      --bew-liquid-indicator-shadow-white: var(--bew-shadow-edge-glow-1), var(--bew-shadow-1);
+    }
+  }
+
+  &.bottom .dock-page-navigation {
+    flex-direction: row;
+  }
+
+  .dock-page-navigation__item {
+    width: var(--bew-dock-control-size);
+    height: var(--bew-dock-control-size);
+    color: var(--bew-text-1);
+    transition:
+      color var(--bew-duration-normal) var(--bew-ease-standard),
+      transform var(--bew-duration-moderate) var(--bew-ease-emphasized);
+
+    &:hover:not([data-active="true"]):not(:disabled) {
+      transform: scale(1.1);
+    }
+
+    &[data-active="true"] {
+      color: var(--bew-dock-navigation-active-color);
+    }
+
+    &:hover:not([data-active="true"]):not(:disabled),
+    &:focus-visible:not([data-active="true"]):not(:disabled) {
+      background: transparent;
+      box-shadow: none;
+    }
+
+    &:focus-visible:not([data-active="true"]):not(:disabled) {
+      outline: 2px solid var(--bew-theme-color-40);
+      outline-offset: var(--bew-space-0-5);
+    }
+
+    &:active:not(:disabled) {
+      transform: scale(0.9);
+    }
+
+    &.inactive {
+      opacity: 0.8;
+      box-shadow: none !important;
+    }
+  }
+
+  .dock-page-navigation:not(.disable-glowing-effect) {
+    .dock-page-navigation__item:hover:not([data-active="true"]):not(:disabled),
+    .dock-page-navigation__item:focus-visible:not([data-active="true"]):not(:disabled) {
+      .dock-page-navigation__icon {
+        filter: var(--bew-dock-navigation-hover-icon-glow);
+      }
+    }
+  }
+
+  .dock-page-navigation__icon {
+    display: block;
+    width: var(--bew-icon-size-md);
+    height: var(--bew-icon-size-md);
+    font-size: var(--bew-icon-size-md);
+    transition: filter var(--bew-duration-normal) var(--bew-ease-standard);
+  }
+
   .back-to-top-or-refresh-btn {
     --uno: "transform active:important-scale-90 hover:scale-110";
+    --uno: "lg:w-45px w-35px lg:h-45px h-35px";
     --uno: "grid place-items-center";
     --uno: "filter-$bew-filter-glass-1";
     --uno: "bg-$bew-elevated hover:bg-$bew-content-hover";
     --uno: "rounded-full shadow-$bew-shadow-2 border-1 border-$bew-border-color";
 
-    width: var(--bew-dock-item-size);
-    height: var(--bew-dock-item-size);
     backdrop-filter: var(--bew-filter-glass-1);
     transition:
       transform 300ms var(--bew-ease-emphasized, cubic-bezier(0.34, 1.3, 0.64, 1)),
@@ -911,6 +1010,9 @@ onUnmounted(() => {
   --shadow-active-active: 0 4px 20px var(--bew-theme-color-80);
 
   --uno: "relative transform active:important-scale-90 hover:scale-110";
+  width: var(--bew-dock-control-size);
+  height: var(--bew-dock-control-size);
+  line-height: var(--bew-dock-control-size);
   --uno: "p-0 flex items-center justify-center";
   --uno: "aspect-square relative";
   --uno: "leading-0";
@@ -918,8 +1020,6 @@ onUnmounted(() => {
   --uno: "bg-$bew-fill-alt hover:bg-$bew-fill-2 cursor-pointer";
   --uno: "dark:bg-$bew-fill-1 dark-hover:bg-$bew-fill-4";
 
-  width: var(--bew-dock-item-size);
-  height: var(--bew-dock-item-size);
   box-shadow: var(--bew-shadow-edge-glow-1), var(--bew-shadow-1);
   transition:
     transform 300ms var(--bew-ease-emphasized, cubic-bezier(0.34, 1.3, 0.64, 1)),
@@ -950,7 +1050,28 @@ onUnmounted(() => {
   }
 
   svg {
-    --uno: "lg:w-22px w-18px lg:h-22px h-18px block align-middle";
+    width: var(--bew-dock-control-icon-size);
+    height: var(--bew-dock-control-icon-size);
+    display: block;
+    vertical-align: middle;
+  }
+}
+
+@media (min-width: 1024px) {
+  .dock-content .dock-page-navigation__item {
+    width: var(--bew-dock-control-size-lg);
+    height: var(--bew-dock-control-size-lg);
+  }
+
+  .dock-item {
+    width: var(--bew-dock-control-size-lg);
+    height: var(--bew-dock-control-size-lg);
+    line-height: var(--bew-dock-control-size-lg);
+
+    svg {
+      width: var(--bew-dock-control-icon-size-lg);
+      height: var(--bew-dock-control-icon-size-lg);
+    }
   }
 }
 </style>

@@ -7,7 +7,6 @@ import { settings } from '~/logic'
 import { useTopBarStore } from '~/stores/topBarStore'
 
 import { useTopBarInteraction } from '../composables/useTopBarInteraction'
-import BewlyOrBiliPageSwitcher from './BewlyOrBiliPageSwitcher.vue'
 import ChannelsPop from './pops/ChannelsPop.vue'
 import TopBarPinnedChannels from './TopBarPinnedChannels.vue'
 
@@ -15,7 +14,7 @@ defineProps<{
   forceWhiteIcon: boolean
 }>()
 
-const { handleClickTopBarItem, setupTopBarItemHoverEvent } = useTopBarInteraction()
+const { handleClickTopBarLogo, setupTopBarItemHoverEvent } = useTopBarInteraction()
 const topBarStore = useTopBarStore()
 const { popupVisible } = storeToRefs(topBarStore)
 const logo = ref<HTMLElement | null>(null)
@@ -51,7 +50,7 @@ const channels = setupTopBarItemHoverEvent('channels')
           aria-label="Bilibili"
           grid="~ place-items-center"
           duration-300
-          @click="(event: MouseEvent) => handleClickTopBarItem(event, 'channels')"
+          @click="handleClickTopBarLogo"
         >
           <span
             v-if="settings.topBarLogoStyle === 'brand'"
@@ -118,8 +117,6 @@ const channels = setupTopBarItemHoverEvent('channels')
         />
       </a>
     </div>
-
-    <BewlyOrBiliPageSwitcher v-if="settings.showBewlyOrBiliPageSwitcher" :force-white-icon="forceWhiteIcon" z-1 />
 
     <TopBarPinnedChannels :force-white-icon="forceWhiteIcon" />
   </div>

@@ -8,12 +8,14 @@ import Select from '~/components/Select.vue'
 import { settings } from '~/logic'
 import type { DockItem } from '~/stores/mainStore'
 import { useMainStore } from '~/stores/mainStore'
+import { useSettingsStore } from '~/stores/settingsStore'
 
 import SettingsItem from '../../components/SettingsItem.vue'
 import SettingsItemGroup from '../../components/SettingsItemGroup.vue'
 
 const { t } = useI18n()
 const mainStore = useMainStore()
+const settingsStore = useSettingsStore()
 
 const dockPositions = computed(() => {
   return [
@@ -66,14 +68,7 @@ watch(() => settings.value.autoHideDock, (newValue) => {
 })
 
 function resetDockContent() {
-  settings.value.dockItemsConfig = mainStore.dockItems.map((e: DockItem) => {
-    return {
-      page: e.page,
-      visible: true,
-      openInNewTab: false,
-      useOriginalBiliPage: e.useOriginalBiliPage,
-    }
-  })
+  settingsStore.resetDockItemsConfig()
 }
 
 function handleToggleDockItem(dockItem: any) {
@@ -85,7 +80,7 @@ function handleToggleDockItem(dockItem: any) {
 }
 
 function updateDockItemPageMode(dockItem: DockItem, useOriginalBiliPage: boolean) {
-  dockItem.useOriginalBiliPage = useOriginalBiliPage
+  settingsStore.setDockItemCustomUseOriginalBiliPage(dockItem.page, useOriginalBiliPage)
 }
 </script>
 
@@ -132,6 +127,7 @@ function updateDockItemPageMode(dockItem: DockItem, useOriginalBiliPage: boolean
           >
             <template #item="{ element }">
               <div
+                class="bew-settings-option--lift"
                 flex="~ gap-2 justify-between items-center wrap" p="x-4 y-2" bg="$bew-fill-1" rounded="$bew-radius" cursor-all-scroll
                 duration-300
                 :style="{
@@ -168,6 +164,13 @@ function updateDockItemPageMode(dockItem: DockItem, useOriginalBiliPage: boolean
       </SettingsItem>
       <SettingsItem :title="$t('settings.disable_dock_glowing_effect')" right-width="auto">
         <Radio v-model="settings.disableDockGlowingEffect" />
+      </SettingsItem>
+      <SettingsItem
+        :title="$t('settings.show_bewly_or_bili_page_switcher')"
+        :desc="$t('settings.show_bewly_or_bili_page_switcher_desc')"
+        right-width="auto"
+      >
+        <Radio v-model="settings.showBewlyOrBiliPageSwitcher" />
       </SettingsItem>
       <SettingsItem :title="$t('settings.disable_light_dark_mode_switcher')" right-width="auto">
         <Radio v-model="settings.disableLightDarkModeSwitcherOnDock" />
