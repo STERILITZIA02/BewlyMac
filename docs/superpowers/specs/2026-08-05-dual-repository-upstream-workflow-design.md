@@ -60,7 +60,7 @@ BewlyMac 的公开 `main` 不做 rebase，不通过 force-push 重写历史。�
 主工作区默认用于 BewlyMac。底层修复在 `.worktrees/fix-*` 临时 Worktree 中完成：
 
 ```sh
-git fetch upstream contrib origin --prune
+git fetch --multiple --prune upstream contrib origin
 git worktree add .worktrees/fix-<issue> -b fix/<issue>-<slug> upstream/main
 ```
 

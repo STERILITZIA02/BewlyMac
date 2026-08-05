@@ -8,6 +8,8 @@ BewlyMac 基于 [BewlyCat](https://github.com/keleus/BewlyCat) 开发；BewlyCat
 
 本项目会继续选择性合并 BewlyCat 上游更新。无冲突的更新正常接收；与 BewlyMac 定制行为冲突时，经人工审查后保留本地定制。
 
+维护者的分支、Fork、cherry-pick 与上游同步流程见[上游协作流程](docs/maintenance/upstream-workflow.md)。
+
 ## 本地构建
 
 ```sh
