@@ -8,6 +8,10 @@ import { DEFAULT_SEARCH_BAR_CHARACTER } from '~/constants/imgs'
 import type { HomeSubPage } from '~/contentScripts/views/Home/types'
 import type { AppPage } from '~/enums/appEnums'
 import { VideoPageTopBarConfig } from '~/enums/appEnums'
+import {
+  MOBILE_LIST_LAYOUT_BREAKPOINT,
+  normalizeListLayoutBreakpoint,
+} from '~/utils/gridLayout'
 import type { PageMode } from '~/utils/pageMode'
 
 export const storageDemo = useStorageLocal('webext-demo', 'Storage Demo')
@@ -206,14 +210,16 @@ export interface Settings {
   enableCommentReplyTreeDisplay: boolean // 启用评论回复树展示
   commentReplyTreeMode: CommentReplyTreeMode // 评论回复树展示模式
   adjustCommentImageHeight: boolean // 调整评论区图片高度以匹配实际比例
+  hideCommentImageScrollbar: boolean // 评论区图片预览时隐藏页面滚动条
   enlargeFavoriteDialog: boolean // 视频页收藏夹放大样式增强
   externalWatchLaterButton: boolean // 稍后再看按钮外置
 
   // Grid 相关设置
   gridColumns: GridColumnsConfig
   autoSwitchListLayout: boolean
+  /** Automatic two-column -> one-column switch threshold in CSS pixels. */
+  autoSwitchListLayoutBreakpoint: number
   releaseOffscreenVideoCardImages: boolean
-  enableHomeGridVirtualization: boolean
 
   language: string
   customizeFont: 'default' | 'recommend' | 'custom'
@@ -493,14 +499,15 @@ export const originalSettings: Settings = {
   enableCommentReplyTreeDisplay: true, // 默认启用评论回复树展示
   commentReplyTreeMode: 'lineKeepMain', // 默认：线条树状，收起时保留父节点正文
   adjustCommentImageHeight: true, // 默认启用评论图片高度调整
+  hideCommentImageScrollbar: false, // 默认不隐藏评论图片预览时的页面滚动条
   enlargeFavoriteDialog: false, // 默认关闭收藏夹放大样式
   externalWatchLaterButton: true, // 默认开启稍后再看按钮外置
 
   // Grid 相关默认设置
   gridColumns: { ...defaultGridColumns },
   autoSwitchListLayout: true,
+  autoSwitchListLayoutBreakpoint: MOBILE_LIST_LAYOUT_BREAKPOINT,
   releaseOffscreenVideoCardImages: false,
-  enableHomeGridVirtualization: false,
 
   language: '',
   customizeFont: 'default',
@@ -812,6 +819,7 @@ watch(
 
     Reflect.deleteProperty(record, 'detectCommentShadowBan')
     Reflect.deleteProperty(record, 'homeTabsPosition')
+    Reflect.deleteProperty(record, 'enableHomeGridVirtualization')
 
     // 清理已移除的音量均衡功能设置。
     for (const field of ['enableVolumeNormalization', 'targetVolume', 'normalizationStrength', 'adaptiveGainSpeed', 'voiceGateDb', 'volumeNormalizationDebug'])
@@ -852,6 +860,10 @@ watch(
 
     if (record.frostedGlassBlurIntensity > FROSTED_GLASS_BLUR_MAX_PX)
       record.frostedGlassBlurIntensity = FROSTED_GLASS_BLUR_MAX_PX
+
+    // Normalize the user-configurable two-column list breakpoint. Older
+    // versions used a fixed 640px threshold and do not have this field.
+    record.autoSwitchListLayoutBreakpoint = normalizeListLayoutBreakpoint(record.autoSwitchListLayoutBreakpoint)
 
     // 迁移旧的布尔类型自动播放设置到新的 AutoPlayMode 类型
     const autoPlayFields = ['autoPlayMultipart', 'autoPlayCollection', 'autoPlayRecommend', 'autoPlayWatchLater', 'autoPlayPlaylist'] as const

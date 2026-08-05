@@ -2,7 +2,7 @@
   "name": "bewly-mac",
   "displayName": "BewlyMac",
   "type": "module",
-  "version": "1.7.3",
+  "version": "1.7.4",
   "packageManager": "pnpm@11.17.0",
   "description": "A personal browser extension for a customized Bilibili experience.",
   "homepage": "https://github.com/STERILITZIA02/BewlyMac",
