@@ -10,6 +10,8 @@ BewlyMac 基于 [BewlyCat](https://github.com/keleus/BewlyCat) 开发；BewlyCat
 
 维护者的分支、Fork、cherry-pick 与上游同步流程见[上游协作流程](docs/maintenance/upstream-workflow.md)。
 
+本项目仅接受外观和视觉交互的issue，底层功能请向上游提交。
+
 ## 本地构建
 
 ```sh
