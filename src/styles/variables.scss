@@ -108,9 +108,9 @@
   --bew-floating-control-icon-size: var(--bew-icon-size-md);
   --bew-dock-control-icon-size: 18px;
   --bew-dock-control-icon-size-lg: 22px;
-  --bew-dock-navigation-active-bg: hsl(0 0% 100%);
-  --bew-dock-navigation-active-color: hsl(0 0% 0%);
-  --bew-dock-navigation-active-shadow: 0 4px 30px 4px rgb(255 255 255 / 60%);
+  --bew-dock-navigation-active-bg: var(--bew-theme-color);
+  --bew-dock-navigation-active-color: hsl(0 0% 100%);
+  --bew-dock-navigation-active-shadow: 0 4px 30px 4px var(--bew-theme-color-60);
   --bew-dock-navigation-hover-icon-glow: drop-shadow(0 0 2px rgb(255 255 255 / 90%))
     drop-shadow(0 0 8px rgb(255 255 255 / 70%));
   // #endregion
@@ -368,6 +368,10 @@
   --bew-logo-color: var(--bew-text-1);
 
   --bew-theme-color-auto: var(--bew-text-1);
+
+  --bew-dock-navigation-active-bg: hsl(0 0% 100%);
+  --bew-dock-navigation-active-color: hsl(0 0% 0%);
+  --bew-dock-navigation-active-shadow: 0 4px 30px 4px rgb(255 255 255 / 60%);
 
   --bew-text-auto: black;
   --bew-text-1: hsl(220 13% 95%);

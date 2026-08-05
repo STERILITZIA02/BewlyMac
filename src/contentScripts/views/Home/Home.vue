@@ -432,6 +432,12 @@ function toggleTabContentLoading(loading: boolean) {
 .home-grid-layout-switcher {
   grid-column: 2;
   justify-self: end;
+
+  &.bew-segment-control--solid {
+    --bew-liquid-indicator-bg: var(--bew-theme-color);
+    --bew-segment-item-active-bg: var(--bew-theme-color);
+    --bew-segment-item-active-color: hsl(0 0% 100%);
+  }
 }
 
 .home-grid-layout-item {
