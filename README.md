@@ -5,10 +5,12 @@
 > [!IMPORTANT]
 > 本插件及Fork代码禁止以任何形式的客户端封装
 > 欢迎功能建议与bug反馈，本分支是一个较大规模视觉及交互重构的basement。
+> 关于底层及其他优化事项请提交到上游BewlyCat存储库中，本分支是为了视觉重构所准备的
 > 浏览器拓展商店上架正在计划中。
 > 本项目由MIT许可在原项目基础上开发。
 
-## ⚒️ 开发
+## ⚒️ 开发注意事项
+请维护设计准则
 
 
 ## 🤝 构建项目参考
@@ -27,7 +29,3 @@
 [bilibili-app-recommend](https://github.com/magicdawn/bilibili-app-recommend) - 获取访问密钥的参考来源
 - [Bilibili-Evolved](https://github.com/the1812/Bilibili-Evolved) - 部分功能实现
 - [bilibili-API-collect](https://github.com/SocialSisterYi/bilibili-API-collect)
-
-## Star History
-
-[![Star History Chart](https://api.star-history.com/svg?repos=keleus/BewlyCat&type=Date)](https://www.star-history.com/#keleus/BewlyCat&Date)
