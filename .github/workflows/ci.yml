@@ -7,8 +7,6 @@ on:
       - main
     paths-ignore:
       - LICENSE
-      - README-cmn_CN.md
-      - README-cmn_TW.md
       - docs/**
 
   pull_request:
@@ -17,8 +15,6 @@ on:
       - main
     paths-ignore:
       - LICENSE
-      - README-cmn_CN.md
-      - README-cmn_TW.md
       - docs/**
 
 jobs:
@@ -86,7 +82,7 @@ jobs:
         if: ${{ matrix.os == 'ubuntu-latest' && matrix.node == 'lts/*' && github.ref_name == 'main' }}
         uses: actions/upload-artifact@v4.3.1
         with:
-          name: BewlyMac-chrome-extension
+          name: Bewly_Nocturne-chrome-extension
           path: extension
 
       - name: Build Firefox Extension
@@ -96,5 +92,5 @@ jobs:
         if: ${{ matrix.os == 'ubuntu-latest' && matrix.node == 'lts/*' && github.ref_name == 'main' }}
         uses: actions/upload-artifact@v4.3.1
         with:
-          name: BewlyMac-firefox-extension
+          name: Bewly_Nocturne-firefox-extension
           path: extension-firefox

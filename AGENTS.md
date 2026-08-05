@@ -1,6 +1,6 @@
 # AGENTS.md
 
-BewlyCat：基于 BewlyBewly 的 bilibili 浏览器扩展（Vue 3 + TS + Vite + UnoCSS，包管理用 `pnpm`）。
+Bewly_Nocturne（夜曲设计）：基于 BewlyCat 持续维护的 Bilibili 浏览器扩展（Vue 3 + TS + Vite + UnoCSS，包管理使用 `pnpm`）。
 
 ## 命令
 
@@ -107,15 +107,14 @@ pnpm typecheck
 
 ## 双仓库开发守则
 
-完整流程见[上游协作流程](docs/maintenance/upstream-workflow.md)和[双仓库上游协作设计](docs/superpowers/specs/2026-08-05-dual-repository-upstream-workflow-design.md)。以下规则对未来 Agent 强制生效：
+完整流程见[上游同步](docs/maintenance/upstream-workflow.md)，品牌与 UI 边界见[夜曲设计语言](docs/design-language.md)。以下规则对未来 Agent 强制生效：
 
 - 开始任何写入前，必须执行并阅读 `git status --short --branch`、`git remote -v` 和 `git branch -vv`；remote URL、当前分支或追踪关系与文档不符时，停止写入并报告。
-- 必须先按任务类型选择基线：BewlyMac 品牌、外观、交互、个人定制、`port/*` 和 `sync/*` 从最新 `origin/main` 创建；可独立贡献给 BewlyCat 的 `fix/*` 从最新 `upstream/main` 创建。
-- 推送目标必须与任务类型一致：`fix/*` 只能推送到 `contrib`，BewlyMac 功能、`port/*` 和 `sync/*` 只能推送到 `origin`，永远不得推送到 `upstream`。未经用户明确授权，不得 push 或创建、合并 PR。
-- 处理上游修复前，必须用 `git merge-base --is-ancestor upstream/main HEAD` 检查 ancestry，并用 `git log --oneline upstream/main..HEAD` 与 `git diff --stat upstream/main...HEAD` 检查提交和差异范围；发现 BewlyMac 定制内容时不得推送。
-- 移植修复只能在从 `origin/main` 创建的 `port/*` 上使用 `git cherry-pick -x <sha>`，并检查 `origin/main...HEAD` 的提交与 diff；不得 merge 整个 `fix/*`。
-- 同步上游只能在从 `origin/main` 创建的 `sync/*` 上显式执行 `git merge --no-ff upstream/main`，不得在 `main` 直接 merge。
+- Bewly_Nocturne 的品牌、外观、交互和个人定制从最新 `origin/main` 创建分支，只能推送到 `origin`。
+- `upstream` 永远只读；`codex/upstream-main` 和 `contrib/main` 必须与 `upstream/main` 保持零差异，不得提交 Bewly_Nocturne 品牌、文档、UI 或个人设置。
+- 同步上游只能从最新 `origin/main` 创建 `sync/*`，并显式执行 `git merge --no-ff upstream/main`；不得在 `main` 直接 merge。
+- 上游同步后必须检查 `git log --oneline origin/main..HEAD` 与 `git diff --stat origin/main...HEAD`，确认接收范围和定制区域差异。
 - 冲突必须逐项、逐块审查。复杂或语义不明确的 UI 冲突必须停止操作、列出行为差异并请求用户决定；不得整文件选择 ours/theirs，也不得使用 blanket ours/theirs 策略。
 - 必须保护用户已有的 staged、unstaged、untracked 和 stash 内容。未经明确授权，禁止 reset、clean、删除分支或 Worktree、改写历史以及其他 destructive Git 操作。
-- 上游 PR 必须排除 BewlyMac 专用 `AGENTS.md`、品牌化 `README.md`、维护文档、构建或打包产物，以及与修复无关的格式化；只包含可独立提交给 BewlyCat 的最小修复。
+- 未经用户明确授权，不得 push、创建或合并 PR；任何 Bewly_Nocturne 分支都不得推送到 `upstream` 或 `contrib`。
 - 实际执行 commit 前必须重新运行 `pnpm lint` 和 `pnpm typecheck`；只有各命令最新一次完整运行的退出码均为 `0`，才能声明检查通过。
