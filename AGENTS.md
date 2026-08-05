@@ -118,3 +118,15 @@ pnpm typecheck
 - 必须保护用户已有的 staged、unstaged、untracked 和 stash 内容。未经明确授权，禁止 reset、clean、删除分支或 Worktree、改写历史以及其他 destructive Git 操作。
 - 未经用户明确授权，不得 push、创建或合并 PR；任何 Bewly_Nocturne 分支都不得推送到 `upstream` 或 `contrib`。
 - 实际执行 commit 前必须重新运行 `pnpm lint` 和 `pnpm typecheck`；只有各命令最新一次完整运行的退出码均为 `0`，才能声明检查通过。
+
+### UI 定制保留底线
+
+以下规则保护用户可见的视觉、交互和设置兼容性，不冻结具体实现。上游改动即使没有冲突，只要触及相关组件、token、路由或存储字段，也必须严格审查；只有视觉与行为等价的修复或重构才能接收，无法证明等价时保留 Bewly_Nocturne 并请求用户决定。
+
+- **顶栏雾化**：保留仿 iOS scroll-edge effect 的多层渐进模糊与雾色；模糊向内容区平滑归零，不得退化成单层模糊、普通渐变、纯色遮罩，也不得出现重影、硬边或亮带。必须检查浅色、深色、壁纸以及页面顶部/滚动状态。不得为了复用设置页模糊而改写或破坏顶栏实现。
+- **Dock 导航**：未选中项只显示紧凑图标且无圆形底色；选中项为白色发光滑块和黑色图标；未选中 hover/focus 为白色泛光。同标签页切换时滑块平滑移动，新标签页打开时当前滑块不动；左、右、底部 Dock 及刷新后图标都必须保持居中。
+- **页面配置切换器**：切换器位于 Dock/Sidebar，不放回顶栏；状态固定按 `original → bewly → custom → original` 循环，并使用 Bilibili、猫、笔尺图标。设置开启时所有页面保留按钮，不支持 Bewly 的页面禁用并提示。`custom` 必须与设置页 Dock 逐页配置一致；切换全局模式不得覆盖自定义配置，状态和逐页选择必须持久化。
+- **重点审查区**：`TopBarHeader.vue`、`Dock.vue`、`LiquidSegmentIndicator.vue`、`PageModeSwitcherButton.vue`、`usePageModeSwitcher.ts`、`pageMode.ts`、`settingsStore.ts`、`storage.ts`、`variables.scss` 及其直接依赖。
+- **强制验证**：除 `pnpm lint`、`pnpm typecheck` 外，涉及上述区域时必须比较同步前后的实际页面，覆盖明暗色、壁纸、滚动、三种 Dock 方向、刷新、同/新标签页、三档模式、支持/不支持页面和设置持久化。未经目测不得声称视觉兼容。
+- **停止条件**：基准无法复现、视觉或动效发生变化、状态语义或页面覆盖改变、设置迁移不明确、只能整文件选择 ours/theirs，或验证未完成时，停止合并并列出差异让用户决定。
+- 未来新增或移除保留项，只能由用户明确要求；不得在同步上游时顺带降低这些底线。
