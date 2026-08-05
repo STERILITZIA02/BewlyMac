@@ -115,6 +115,7 @@ pnpm typecheck
 - 处理上游修复前，必须用 `git merge-base --is-ancestor upstream/main HEAD` 检查 ancestry，并用 `git log --oneline upstream/main..HEAD` 与 `git diff --stat upstream/main...HEAD` 检查提交和差异范围；发现 BewlyMac 定制内容时不得推送。
 - 移植修复只能在从 `origin/main` 创建的 `port/*` 上使用 `git cherry-pick -x <sha>`，并检查 `origin/main...HEAD` 的提交与 diff；不得 merge 整个 `fix/*`。
 - 同步上游只能在从 `origin/main` 创建的 `sync/*` 上显式执行 `git merge --no-ff upstream/main`，不得在 `main` 直接 merge。
+- 上游顶栏更新默认不批准。除非用户针对具体 PR 或 commit 明确授权，不得移植、合并或以其他方式接收；PR #1006 仅为本次一次性授权，不构成后续顶栏更新的默认许可。
 - 冲突必须逐项、逐块审查。复杂或语义不明确的 UI 冲突必须停止操作、列出行为差异并请求用户决定；不得整文件选择 ours/theirs，也不得使用 blanket ours/theirs 策略。
 - 必须保护用户已有的 staged、unstaged、untracked 和 stash 内容。未经明确授权，禁止 reset、clean、删除分支或 Worktree、改写历史以及其他 destructive Git 操作。
 - 上游 PR 必须排除 BewlyMac 专用 `AGENTS.md`、品牌化 `README.md`、维护文档、构建或打包产物，以及与修复无关的格式化；只包含可独立提交给 BewlyCat 的最小修复。
