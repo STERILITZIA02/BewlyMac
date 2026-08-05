@@ -3,9 +3,9 @@ import Button from '~/components/Button.vue'
 import Dialog from '~/components/Dialog.vue'
 import { settings } from '~/logic'
 
-import { version } from '../../../../../package.json'
+import { homepage, version } from '../../../../../package.json'
 
-const GITHUB_RELEASES_URL = 'https://github.com/keleus/BewlyCat/releases'
+const GITHUB_RELEASES_URL = `${homepage}/releases`
 const BILIBILI_DYNAMIC_URL = 'https://space.bilibili.com/32487218/dynamic'
 
 const dialogVisible = ref(false)

@@ -36,9 +36,9 @@ function getRefreshPromptCopy(locale: string, currentVersion: string): RefreshPr
       currentVersion,
       refresh: '立即重新整理',
       later: '稍後',
-      missingTitle: 'BewlyCat 需要重新整理頁面',
+      missingTitle: 'BewlyMac 需要重新整理頁面',
       missingDescription: '擴充功能已重新載入。重新整理頁面以恢復完整樣式與功能。',
-      updatedTitle: 'BewlyCat 已更新',
+      updatedTitle: 'BewlyMac 已更新',
       updatedDescription: '目前頁面仍在執行舊版本。重新整理後套用 v{version}。',
     }
   }
@@ -48,9 +48,9 @@ function getRefreshPromptCopy(locale: string, currentVersion: string): RefreshPr
       currentVersion,
       refresh: '立即刷新',
       later: '稍后',
-      missingTitle: 'BewlyCat 需要刷新页面',
+      missingTitle: 'BewlyMac 需要刷新页面',
       missingDescription: '扩展已重新加载。刷新页面以恢复完整样式和功能。',
-      updatedTitle: 'BewlyCat 已更新',
+      updatedTitle: 'BewlyMac 已更新',
       updatedDescription: '当前页面仍在运行旧版本。刷新后应用 v{version}。',
     }
   }
@@ -60,9 +60,9 @@ function getRefreshPromptCopy(locale: string, currentVersion: string): RefreshPr
       currentVersion,
       refresh: '今すぐ再読み込み',
       later: '後で',
-      missingTitle: 'BewlyCat の再読み込みが必要です',
+      missingTitle: 'BewlyMac の再読み込みが必要です',
       missingDescription: '拡張機能が再読み込みされました。ページを再読み込みして、スタイルと機能を復元してください。',
-      updatedTitle: 'BewlyCat が更新されました',
+      updatedTitle: 'BewlyMac が更新されました',
       updatedDescription: 'このページでは古いバージョンが実行されています。再読み込みして v{version} を適用してください。',
     }
   }
@@ -72,9 +72,9 @@ function getRefreshPromptCopy(locale: string, currentVersion: string): RefreshPr
       currentVersion,
       refresh: '지금 새로고침',
       later: '나중에',
-      missingTitle: 'BewlyCat 페이지 새로고침 필요',
+      missingTitle: 'BewlyMac 페이지 새로고침 필요',
       missingDescription: '확장 프로그램이 다시 로드되었습니다. 전체 스타일과 기능을 복원하려면 페이지를 새로고침하세요.',
-      updatedTitle: 'BewlyCat 업데이트됨',
+      updatedTitle: 'BewlyMac 업데이트됨',
       updatedDescription: '이 페이지는 이전 버전을 실행 중입니다. 새로고침하여 v{version}을 적용하세요.',
     }
   }
@@ -83,9 +83,9 @@ function getRefreshPromptCopy(locale: string, currentVersion: string): RefreshPr
     currentVersion,
     refresh: 'Refresh now',
     later: 'Later',
-    missingTitle: 'BewlyCat needs a page refresh',
+    missingTitle: 'BewlyMac needs a page refresh',
     missingDescription: 'The extension was reloaded. Refresh this page to restore all styles and features.',
-    updatedTitle: 'BewlyCat was updated',
+    updatedTitle: 'BewlyMac was updated',
     updatedDescription: 'This page is still running an older version. Refresh to apply v{version}.',
   }
 }

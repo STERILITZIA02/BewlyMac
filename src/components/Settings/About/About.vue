@@ -5,7 +5,7 @@ import Radio from '~/components/Radio.vue'
 import { useSettingsCloudSyncPreference } from '~/composables/useSettingsCloudSyncPreference'
 import { settings } from '~/logic'
 
-import { version } from '../../../../package.json'
+import { displayName, homepage, version } from '../../../../package.json'
 import Maintenance from '../Advanced/Maintenance.vue'
 import SettingsItem from '../components/SettingsItem.vue'
 import SettingsItemGroup from '../components/SettingsItemGroup.vue'
@@ -14,6 +14,11 @@ import SettingsSectionHeading from '../components/SettingsSectionHeading.vue'
 const hasNewVersion = ref<boolean>(false)
 const contributorsImageFailed = ref(false)
 const settingsCloudSyncPreference = useSettingsCloudSyncPreference()
+const repositoryPath = new URL(homepage).pathname.replace(/^\//, '')
+const releasesUrl = `${homepage}/releases`
+const latestReleaseApiUrl = `https://api.github.com/repos/${repositoryPath}/releases/latest`
+const contributorsUrl = `${homepage}/graphs/contributors`
+const contributorsImageUrl = `https://contrib.rocks/image?repo=${repositoryPath}`
 
 const isDev = computed((): boolean => import.meta.env.DEV)
 
@@ -22,10 +27,8 @@ onMounted(() => {
 })
 
 async function checkGitHubRelease() {
-  const apiUrl = `https://api.github.com/repos/keleus/BewlyCat/releases/latest`
-
   try {
-    const response = await fetch(apiUrl)
+    const response = await fetch(latestReleaseApiUrl)
     if (!response.ok)
       throw new Error('Network response was not ok')
 
@@ -57,7 +60,7 @@ function handleContributorImageError() {
 
         <a
           v-if="hasNewVersion"
-          href="https://github.com/keleus/BewlyCat/releases" target="_blank"
+          :href="releasesUrl" target="_blank"
           pos="absolute bottom-0 right-0" transform="translate-x-50%" un-text="xs $bew-text-1" p="y-1 x-2" bg="$bew-fill-1"
           rounded="$bew-radius"
         >
@@ -66,7 +69,7 @@ function handleContributorImageError() {
       </div>
       <section class="about-brand" text-center mt-2>
         <p flex="inline gap-2">
-          <span>BewlyCat</span>
+          <span>{{ displayName }}</span>
           <span
             v-if="isDev"
             class="bew-warning-text"
@@ -77,7 +80,7 @@ function handleContributorImageError() {
         </p>
         <p text-center>
           <a
-            href="https://github.com/keleus/BewlyCat/releases" target="_blank"
+            :href="releasesUrl" target="_blank"
             un-text="sm color-$bew-text-2 hover:color-$bew-text-3"
           >
             v{{ version }}
@@ -124,7 +127,7 @@ function handleContributorImageError() {
           </h3>
           <div grid="~ xl:cols-6 lg:cols-5 md:cols-4 cols-3 gap-2">
             <a
-              href="https://github.com/keleus/BewlyCat" target="_blank"
+              :href="homepage" target="_blank"
               class="link-card"
               bg="black dark:white !opacity-10 !hover:opacity-20"
               un-text="black dark:white"
@@ -158,12 +161,12 @@ function handleContributorImageError() {
           </p>
           <a
             v-else
-            href="https://github.com/keleus/BewlyCat/graphs/contributors"
+            :href="contributorsUrl"
             target="_blank"
             class="contributors-image-link"
           >
             <img
-              src="https://contrib.rocks/image?repo=keleus/BewlyCat"
+              :src="contributorsImageUrl"
               :alt="$t('settings.current_contributors')"
               loading="lazy"
               @error="handleContributorImageError"

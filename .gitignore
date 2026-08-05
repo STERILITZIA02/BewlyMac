@@ -25,3 +25,6 @@ extension-safari-macos/
 .playwright-mcp/
 # 本地计划
 UI-FIX-PLAN.md
+
+# Local Git worktrees for upstream fixes
+.worktrees/

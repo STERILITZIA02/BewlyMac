@@ -1,31 +1,31 @@
-# BewlyCat
+# BewlyMac
 
-此项目基于[BewlyBewly](https://github.com/BewlyBewly/BewlyBewly) 和开发[BewlyCat](https://github.com/keleus/BewlyCat)，并在其基础上进行功能扩充和调整，并合并了一些其他拓展的功能。
+BewlyMac 是一个面向个人使用习惯定制的 Bilibili 浏览器扩展。它仍是浏览器扩展，不是 macOS、桌面或移动客户端。
 
-> [!IMPORTANT]
-> 本插件及Fork代码禁止以任何形式的客户端封装
-> 欢迎功能建议与bug反馈，本分支是一个较大规模视觉及交互重构的basement。
-> 关于底层及其他优化事项请提交到上游BewlyCat存储库中，本分支是为了视觉重构所准备的
-> 浏览器拓展商店上架正在计划中。
-> 本项目由MIT许可在原项目基础上开发。
+## 来源与维护
 
-## ⚒️ 开发注意事项
-请维护设计准则
+BewlyMac 基于 [BewlyCat](https://github.com/keleus/BewlyCat) 开发；BewlyCat 基于 [BewlyBewly](https://github.com/BewlyBewly/BewlyBewly)。本仓库保留原项目历史和贡献者信息。
 
+本项目会继续选择性合并 BewlyCat 上游更新。无冲突的更新正常接收；与 BewlyMac 定制行为冲突时，经人工审查后保留本地定制。
 
-## 🤝 构建项目参考
+维护者的分支、Fork、cherry-pick 与上游同步流程见[上游协作流程](docs/maintenance/upstream-workflow.md)。
 
-查看 [CONTRIBUTING.md](docs/CONTRIBUTING-cmn_CN.md)
+## 本地构建
 
-### BewlyCat&BewlyBewly贡献者
+```sh
+pnpm install
+pnpm dev
+```
 
-[![Contributors](https://contrib.rocks/image?repo=keleus/BewlyCat)](https://github.com/keleus/BewlyCat/graphs/contributors)
+Chrome 生产版及 ZIP：
 
-## ❤️ 鸣谢
-- [BewlyCat](https://github.com/keleus/BewlyCat) - 项目基础功能上游渠道
-- [BewlyBewly](https://github.com/BewlyBewly/BewlyBewly) - 该项目的基础
-- [vitesse-webext](https://github.com/antfu/vitesse-webext) - 该项目使用的模板
-- [UserScripts/bilibiliHome](https://github.com/indefined/UserScripts/tree/master/bilibiliHome),
-[bilibili-app-recommend](https://github.com/magicdawn/bilibili-app-recommend) - 获取访问密钥的参考来源
-- [Bilibili-Evolved](https://github.com/the1812/Bilibili-Evolved) - 部分功能实现
-- [bilibili-API-collect](https://github.com/SocialSisterYi/bilibili-API-collect)
+```sh
+pnpm build
+pnpm pack:zip
+```
+
+构建目录为 `extension/`，压缩包为 `extension.zip`。
+
+## 许可
+
+本项目使用[基于 MIT 并附加使用限制的自定义许可](LICENSE)。额外限制包括禁止将项目封装、转换或发布为独立客户端。复制、修改或分发本项目时，必须保留适用的版权声明与许可文本。

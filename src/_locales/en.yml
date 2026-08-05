@@ -89,7 +89,7 @@ settings:
     located: Setting located
   category_general_desc: Configure language, interaction, home performance, and drawer behavior.
   category_appearance_desc: Configure frosted glass, theme colors, wallpaper, fonts, custom styles, and page style adaptation.
-  category_shortcuts_desc: Enable, customize, or restore BewlyCat and player shortcuts.
+  category_shortcuts_desc: Enable, customize, or restore BewlyMac and player shortcuts.
   breadcrumb: Settings location
   group_interaction_layout: Interaction & Layout
   category_browsing_home_desc: Configure home recommendations, content filters, following, and home tabs.
@@ -106,7 +106,7 @@ settings:
   category_bilibili_vip_desc: Configure reminders related to premium membership benefits.
   category_advanced_performance_desc: Adjust memory and long-list rendering strategies for the home grid. These options are off by default.
   category_advanced_compatibility_desc: Configure compatibility with original pages, third-party extensions, and other pages.
-  category_advanced_maintenance_desc: Export a backup, import settings, or restore BewlyCat defaults.
+  category_advanced_maintenance_desc: Export a backup, import settings, or restore BewlyMac defaults.
   advanced_performance:
     title: Home Performance & Memory
     home_grid: Home Grid
@@ -120,14 +120,14 @@ settings:
     title: Backup & Reset
     backup_title: Settings backup
     backup_desc: Export settings for backup or migration, or restore an existing backup.
-    import_desc: Import recognized settings from a BewlyCat JSON backup.
+    import_desc: Import recognized settings from a BewlyMac JSON backup.
     import_failed: The settings file could not be read. Make sure it is a valid JSON backup.
     import_no_matches: No recognized settings were found in this backup.
     import_success: 'Import complete: applied {imported} settings and ignored {ignored} unknown settings.'
     reset_title: Restore default settings
-    reset_desc: Actions in this section affect all BewlyCat settings.
+    reset_desc: Actions in this section affect all BewlyMac settings.
     reset_warning: This cannot be undone. Your current language will be preserved.
-  menu_plugin_components_and_pages: BewlyCat Interface
+  menu_plugin_components_and_pages: BewlyMac Interface
   menu_bilibili_features_enhancement: Bilibili Features
   menu_appearance: Appearance
   menu_compatibility: Compatibility
@@ -199,7 +199,7 @@ settings:
   group_topbar: Top Bar
   topbar_logo_and_channels: Logo settings
   topbar_logo_and_channels_desc: Choose the top bar Logo style and whether to show the home button in touch mode.
-  topbar_switchers: BewlyCat/Bilibili switchers
+  topbar_switchers: BewlyMac/Bilibili switchers
   topbar_switchers_desc: Control the homepage page switcher and the top bar switcher separately.
   topbar_actions: Top bar actions
   topbar_actions_desc: Set the visibility, badges, and related reminders for each action icon.
@@ -303,7 +303,7 @@ settings:
   open_top_bar_items_in_bewly: Open Bewly pages from top bar icons
   open_top_bar_items_in_bewly_desc: When touch screen optimization is off, the Logo, Moments, Favorites, History, and Watch Later icons follow the top bar link opening behavior and open the corresponding Dock page using its Bewly/original Bilibili setting. Unsupported icons keep their existing behavior.
   show_bewly_or_bili_page_switcher_desc: Show the Original, Bewly, and Custom page mode switcher in the floating Dock or sidebar.
-  show_bewly_or_bili_top_bar_switcher_desc: Show a switcher when hovering at the top of the page to move between the BewlyCat and original Bilibili top bars.
+  show_bewly_or_bili_top_bar_switcher_desc: Show a switcher when hovering at the top of the page to move between the BewlyMac and original Bilibili top bars.
   hide_lv6_last_login_location_in_top_bar_user_pop: Hide LV6 last login info
   hide_lv6_last_login_location_in_top_bar_user_pop_desc: When enabled, the LV6 section in the top bar user popup will no longer show the last login time or location, and no login log request will be made.
   chk_box:
@@ -528,7 +528,7 @@ settings:
   theme_schedule: Light mode hours
   theme_schedule_desc: Use light mode during this time range and dark mode outside it.
   video_page_dark_mode: Video page dark mode only
-  video_page_dark_mode_desc: Keep the global theme unchanged and enable BewlyCat dark styles only on video playback pages.
+  video_page_dark_mode_desc: Keep the global theme unchanged and enable BewlyMac dark styles only on video playback pages.
   theme_color: Theme color
   dark_mode_base_color: Dark mode base color
   gradient_theme_color_background: Use a gradient theme color as the background in dark mode
@@ -715,7 +715,7 @@ settings:
 
     This operation cannot be reversed. Are you sure you want to reset your
     settings?
-  current_contributors: BewlyCat Contributors (including BewlyBewly)
+  current_contributors: BewlyMac Contributors (including BewlyBewly)
   contributors_image_failed: Contributor image failed to load
   enable_settings_sync: Allow syncing settings
   enable_settings_sync_desc: >-
@@ -892,7 +892,7 @@ settings:
   enable_clean_share_link: Enable clean share link
   enable_clean_share_link_desc: >
     When enabled, the share link will be cleaned by removing tracking parameters and optionally including the video title.
-    This applies to BewlyCat's copy link feature and intercepts Bilibili's native share button.
+    This applies to BewlyMac's copy link feature and intercepts Bilibili's native share button.
   clean_share_link_include_title: Include video title in shared link
   clean_share_link_include_title_desc: >
     When sharing, the video title will be added before the link, e.g. "Video Title https://www.bilibili.com/video/BVxxx"
@@ -1044,7 +1044,7 @@ dock:
   page_mode_bewly: All Bewly
   page_mode_custom: Custom
   page_mode_switch_tooltip: 'Current: {current}; click to switch to {next}'
-  bewly_page_unavailable: No BewlyCat version is available for this page
+  bewly_page_unavailable: No BewlyMac version is available for this page
   dark_mode: Dark Mode
   light_mode: Light Mode
   settings: Settings
@@ -1189,7 +1189,7 @@ favorites:
   search_placeholder: Search for current favorites
 version_reminder:
   trigger: What's new
-  title: BewlyCat has been updated
+  title: BewlyMac has been updated
   current_version: Current version v{version}
   description: View the release notes and latest updates for this version. After confirmation, this version will not be shown again.
   github_releases: GitHub Releases

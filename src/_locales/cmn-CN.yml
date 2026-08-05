@@ -89,7 +89,7 @@ settings:
     located: 已定位到此设置
   category_general_desc: 配置语言、交互布局、首页性能与抽屉行为。
   category_appearance_desc: 配置毛玻璃、主题颜色、壁纸、字体、自定义样式和其他页面的适配。
-  category_shortcuts_desc: 启用、修改或恢复 BewlyCat 与播放器快捷键。
+  category_shortcuts_desc: 启用、修改或恢复 BewlyMac 与播放器快捷键。
   breadcrumb: 设置位置
   group_interaction_layout: 交互与布局
   category_browsing_home_desc: 配置首页推荐、内容过滤、关注页和首页标签。
@@ -106,7 +106,7 @@ settings:
   category_bilibili_vip_desc: 配置大会员权益相关的提醒功能。
   category_advanced_performance_desc: 调整首页 Grid 的内存与长列表渲染策略；这些选项默认关闭。
   category_advanced_compatibility_desc: 配置原版页面、第三方扩展和其他页面的兼容行为。
-  category_advanced_maintenance_desc: 导出备份、导入设置或恢复 BewlyCat 默认配置。
+  category_advanced_maintenance_desc: 导出备份、导入设置或恢复 BewlyMac 默认配置。
   advanced_performance:
     title: 首页性能与内存
     home_grid: 首页 Grid
@@ -120,14 +120,14 @@ settings:
     title: 备份与重置
     backup_title: 设置备份
     backup_desc: 导出设置用于备份或迁移，也可以从已有备份恢复。
-    import_desc: 从 BewlyCat JSON 备份中导入已识别的设置项。
+    import_desc: 从 BewlyMac JSON 备份中导入已识别的设置项。
     import_failed: 设置文件无法读取，请确认它是有效的 JSON 备份。
     import_no_matches: 备份中没有可导入的设置项。
     import_success: 导入成功：已应用 {imported} 项，忽略 {ignored} 项未知设置。
     reset_title: 恢复默认设置
-    reset_desc: 此区域的操作会影响全部 BewlyCat 设置。
+    reset_desc: 此区域的操作会影响全部 BewlyMac 设置。
     reset_warning: 恢复后无法撤销，当前语言设置会保留。
-  menu_plugin_components_and_pages: BewlyCat界面
+  menu_plugin_components_and_pages: BewlyMac界面
   menu_bilibili_features_enhancement: Bilibili 功能
   menu_appearance: 外观
   menu_compatibility: 兼容性
@@ -199,7 +199,7 @@ settings:
   group_topbar: 顶栏
   topbar_logo_and_channels: Logo 设置
   topbar_logo_and_channels_desc: 设置顶栏 Logo 样式，以及触屏模式下是否显示首页按钮。
-  topbar_switchers: BewlyCat/Bilibili 切换器
+  topbar_switchers: BewlyMac/Bilibili 切换器
   topbar_switchers_desc: 分别控制首页页面切换器和顶栏切换器是否显示。
   topbar_actions: 顶栏功能图标
   topbar_actions_desc: 分别设置右侧功能图标的显示状态、角标和相关提醒。
@@ -296,7 +296,7 @@ settings:
   open_top_bar_items_in_bewly: 点击顶栏图标打开 Bewly 页面
   open_top_bar_items_in_bewly_desc: 未启用触屏优化时，点击 Logo、动态、收藏、历史或稍后再看图标，将按照“顶栏链接打开行为”打开 Dock 中对应的页面，并沿用该页面的 Bewly/原版 Bilibili 配置；尚未适配的图标保持原有行为。
   show_bewly_or_bili_page_switcher_desc: 在悬浮 Dock 或侧边栏中显示全原版、全 Bewly 与自定义页面模式切换按钮。
-  show_bewly_or_bili_top_bar_switcher_desc: 在页面顶部悬停时显示切换器，用于在 BewlyCat 顶栏和 Bilibili 原版顶栏之间切换。
+  show_bewly_or_bili_top_bar_switcher_desc: 在页面顶部悬停时显示切换器，用于在 BewlyMac 顶栏和 Bilibili 原版顶栏之间切换。
   hide_lv6_last_login_location_in_top_bar_user_pop: 隐藏 LV6 等级最后登录信息显示
   hide_lv6_last_login_location_in_top_bar_user_pop_desc: 开启后，顶栏头像弹窗中的 LV6 等级信息区域将不再显示最后登录时间和地点，也不会请求登录记录。
   chk_box:
@@ -479,7 +479,7 @@ settings:
   enable_top_bar_gradient: 启用顶栏渐变效果
   enable_top_bar_gradient_desc: 开启后顶栏默认使用磨砂玻璃渐变，关闭后改为实色背景。
   show_top_bar_theme_color_gradient: 在顶栏显示主题色渐变（仅在暗色模式下有效）
-  show_bewly_or_bili_top_bar_switcher: 显示 BewlyCat/Bilibili 顶栏切换器
+  show_bewly_or_bili_top_bar_switcher: 显示 BewlyMac/Bilibili 顶栏切换器
   show_bewly_or_bili_page_switcher: 显示页面模式切换按钮
   filter_articles_in_moments: 过滤专栏
   filter_articles_in_moments_desc: 在动态列表中过滤掉专栏内容，仅显示视频
@@ -578,7 +578,7 @@ settings:
   theme_schedule: 亮色时间
   theme_schedule_desc: 在所选时间范围内使用亮色模式，其余时间使用暗色模式。
   video_page_dark_mode: 仅视频播放页深色模式
-  video_page_dark_mode_desc: 保持全站主题设置不变，仅在视频播放页启用 BewlyCat 深色样式。
+  video_page_dark_mode_desc: 保持全站主题设置不变，仅在视频播放页启用 BewlyMac 深色样式。
   theme_color: 主题色
   dark_mode_base_color: 深色模式基准颜色
   gradient_theme_color_background: 在暗色模式下使用渐变主题颜色作为背景
@@ -603,7 +603,7 @@ settings:
   customize_css: 自定义 CSS
   customize_css_desc: |-
     如果你不熟悉 CSS，请不要修改 CSS。否则可能会导致意外的显示问题。
-    如果在你修改 CSS 后遇到任何问题，请重新安装 BewlyCat。
+    如果在你修改 CSS 后遇到任何问题，请重新安装 BewlyMac。
   logo_color: Logo 颜色
   logo_color_opt:
     white: 白
@@ -640,7 +640,7 @@ settings:
   auto_switch_recommendation_mode: 自动切换推荐模式
   auto_switch_recommendation_mode_desc: |
     当 App 推荐失败时自动切换至 Web 模式。
-  authorize_app: 授权 BewlyCat 使用 access key
+  authorize_app: 授权 BewlyMac 使用 access key
   authorize_app_desc: |
     授权使用后能在首页推送 bilibili App 端算法的推荐视频，授权 key 有效期约为一个月，过后记得重新授权获取 access key。
   authorize_app_more_info_access_key: 关于 access key
@@ -703,12 +703,12 @@ settings:
   always_show_tabs_on_home_page: 滚动隐藏首页标签栏
   fixed_home_tabs_on_home_page: 固定首页标签栏
   topbar_visibility: 顶栏可见性
-  topbar_visibility_desc: 如果您正在使用 Bilibili Evolved 的顶栏，您可以在这里关闭 BewlyCat 的顶栏。
+  topbar_visibility_desc: 如果您正在使用 Bilibili Evolved 的顶栏，您可以在这里关闭 BewlyMac 的顶栏。
   use_original_bilibili_homepage: 使用原版 Bilibili 首页
   use_original_bilibili_homepage_desc: 在您更改此设置后，如果在首页上，页面将自动刷新！
   use_original_bilibili_topbar: 使用原版 Bilibili 顶栏
   adapt_to_other_page_styles: 适应其他页面样式
-  adapt_to_other_page_styles_desc: 适应一些常见页面，以与 BewlyCat 主题相匹配。
+  adapt_to_other_page_styles_desc: 适应一些常见页面，以与 BewlyMac 主题相匹配。
   prevent_mobile_redirect: 防止跳转移动端
   prevent_mobile_redirect_desc: 开启后，仅在访问 www.bilibili.com 时使用桌面端 UA，避免被跳转到 m.bilibili.com；直接访问移动端不受影响。
   follow_bilibili_evolved_color: 使用 Bilibili Evolved 主题色
@@ -721,7 +721,7 @@ settings:
   reset_settings_confirm: |-
     重置设置？
     该操作无法撤销。你确定要重置你的设置吗？
-  current_contributors: BewlyCat（含 BewlyBewly）贡献者
+  current_contributors: BewlyMac（含 BewlyBewly）贡献者
   contributors_image_failed: 贡献者图片加载失败
   enable_undo_refresh_button: 启用撤销刷新按钮（仅在Web推荐模式下有效）
   enable_undo_refresh_button_desc: 刷新页面后显示撤销按钮，点击可恢复刷新前的内容
@@ -821,7 +821,7 @@ settings:
   enable_clean_share_link: 启用分享链接净化
   enable_clean_share_link_desc: >
     启用后，分享链接将自动移除追踪参数，并可选择是否包含视频标题。
-    此功能适用于 BewlyCat 的复制链接功能，同时也会拦截 Bilibili 原生分享按钮的复制内容。
+    此功能适用于 BewlyMac 的复制链接功能，同时也会拦截 Bilibili 原生分享按钮的复制内容。
   clean_share_link_include_title: 分享时包含视频标题
   clean_share_link_include_title_desc: >
     分享时在链接前添加视频标题，例如 "视频标题 https://www.bilibili.com/video/BVxxx"
@@ -848,9 +848,9 @@ settings:
   group_fonts: 字体
   group_visual_effects: 视觉效果
 auth:
-  auth_access_key_first: 在这之前请先授权 BewlyCat 使用 access key
+  auth_access_key_first: 在这之前请先授权 BewlyMac 使用 access key
 topbar:
-  switch_to_bewly_top_bar: 切换到 BewlyCat 顶栏
+  switch_to_bewly_top_bar: 切换到 BewlyMac 顶栏
   switch_to_bili_top_bar: 切换到 Bilibili/Bilibili-Evolved 顶栏
   sign_in: 登录
   notifications: 通知
@@ -957,10 +957,10 @@ dock:
   watch_later: 稍后再看
   moments: 动态
   page_mode_original: BiliBili
-  page_mode_bewly: BewlyCat
+  page_mode_bewly: BewlyMac
   page_mode_custom: 设置
   page_mode_switch_tooltip: 当前为{current}配置, 点击切换为{next}配置
-  bewly_page_unavailable: 当前页面暂无 BewlyCat 版本
+  bewly_page_unavailable: 当前页面暂无 BewlyMac 版本
   dark_mode: 暗色模式
   light_mode: 亮色模式
   settings: 设置
@@ -1102,7 +1102,7 @@ favorites:
   unfav_seasons_failed: '{count} 个合集取消收藏失败'
 version_reminder:
   trigger: 新版本说明
-  title: BewlyCat 已更新
+  title: BewlyMac 已更新
   current_version: 当前版本 v{version}
   description: 查看本版本的更新记录与最新动态。确认后，本版本将不再显示提醒。
   github_releases: GitHub Releases

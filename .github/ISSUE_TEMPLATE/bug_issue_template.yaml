@@ -8,7 +8,7 @@ body:
       value: |
         标题不填或直接随便写类似“bug”“错误”“有问题”简单带过的 issue 直接 close + lock 不解释，如果是旧版本的问题或是已经有人提问过的问题将会关闭。
 
-        功能请求不是在问题报告里面写的，请[开启空 issue](https://github.com/keleus/BewlyCat/issues/new)。
+        功能请求不是在问题报告里面写的，请[开启空 issue](https://github.com/STERILITZIA02/BewlyMac/issues/new)。
 
         若遇到页面相关问题（比如某页面下出现了不该出现的元素），我们建议一并附上发生问题的页面链接。
 
@@ -19,16 +19,16 @@ body:
       placeholder: |
         - 浏览器（如 Google Chrome）：
         - 浏览器版本（如 126.0.6478.126）：
-        - BewlyCat 版本（如 1.0.3）：
+        - BewlyMac 版本（如 1.0.3）：
 
-        如果你修改了 BewlyCat 的设置，请写在下面以方便我們排查問題（可粗略写成类似“设置了××后出现这个问题”〔将“××”替换为你的设置项〕）：
+        如果你修改了 BewlyMac 的设置，请写在下面以方便我們排查問題（可粗略写成类似“设置了××后出现这个问题”〔将“××”替换为你的设置项〕）：
 
       value: |
         - 浏览器（如 Google Chrome）：
         - 浏览器版本（如 126.0.6478.126）：
-        - BewlyCat 版本（如 0.20.1）：
+        - BewlyMac 版本（如 0.20.1）：
 
-        如果你修改了 BewlyCat 的设置，请写在下面以方便我們排查問題（可粗略写成类似“设置了××后出现这个问题”〔将“××”替换为你的设置项〕）：
+        如果你修改了 BewlyMac 的设置，请写在下面以方便我們排查問題（可粗略写成类似“设置了××后出现这个问题”〔将“××”替换为你的设置项〕）：
 
     validations:
       required: true
@@ -64,11 +64,11 @@ body:
       label: 最终确认
       description: 请确认以下所有内容，尤其是第一点排除B站、浏览器以及其他插件的问题后，再提交。
       options:
-        - label: 我确认在停用 BewlyCat 并强制刷新（按住 Shift 键的同时按刷新键）后，问题不再出现。
+        - label: 我确认在停用 BewlyMac 并强制刷新（按住 Shift 键的同时按刷新键）后，问题不再出现。
           required: false
         - label: 我确认此问题未在其他 issue 中出现过。
           required: false
-        - label: 我确认我正在使用最新的 BewlyCat 版本。
+        - label: 我确认我正在使用最新的 BewlyMac 版本。
           required: false
 
   - type: checkboxes
