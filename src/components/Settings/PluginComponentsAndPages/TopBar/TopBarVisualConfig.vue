@@ -319,19 +319,6 @@ function toggleChannel(value: string) {
       </SettingsItem>
     </SettingsItemGroup>
 
-    <SettingsItemGroup
-      :title="$t('settings.topbar_switchers')"
-      :desc="$t('settings.topbar_switchers_desc')"
-    >
-      <SettingsItem
-        :title="$t('settings.show_bewly_or_bili_top_bar_switcher')"
-        :desc="$t('settings.show_bewly_or_bili_top_bar_switcher_desc')"
-        right-width="auto"
-      >
-        <Radio v-model="settings.showBewlyOrBiliTopBarSwitcher" />
-      </SettingsItem>
-    </SettingsItemGroup>
-
     <SettingsItemGroup :title="$t('settings.group_search_bar')">
       <SettingsItem
         :title="$t('settings.show_hot_search_in_top_bar')"

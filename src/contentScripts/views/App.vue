@@ -31,6 +31,7 @@ function isFestivalPage(): boolean {
 const mainStore = useMainStore()
 const settingsStore = useSettingsStore()
 const topBarStore = useTopBarStore()
+const useOriginalBilibiliTopBar = computed(() => settingsStore.getUseOriginalBilibiliTopBar())
 
 // Conditionally use dark mode. `useDark()` handles the video-page-only route gate.
 let isDark: Ref<boolean>
@@ -45,12 +46,6 @@ else {
 }
 const [showSettings, toggleSettings] = useToggle(false)
 const searchFocusOverlayActive = ref(false)
-
-// The top-bar switcher is teleported to document.body, outside this Shadow DOM.
-// Raise the host while settings are open so the modal can stay above that layer.
-watch(showSettings, (visible) => {
-  document.getElementById('bewly')?.classList.toggle('settings-open', visible)
-}, { immediate: true })
 
 interface ConfirmDialogRequest {
   id: number
@@ -662,7 +657,7 @@ function handleOsScroll(_instance: any, event: Event) {
     const scrollTop = latestScrollTop
 
     emitter.emit(OVERLAY_SCROLL_BAR_SCROLL, scrollTop)
-    if (settings.value.useOriginalBilibiliTopBar)
+    if (useOriginalBilibiliTopBar.value)
       setOriginalBilibiliTopBarScrolled(document, scrollTop > 0)
 
     // 只在滚动距离超过阈值时更新状态
@@ -1006,8 +1001,6 @@ if (settings.value.cleanUrlArgument) {
         transition: 'opacity 0.2s ease',
       }"
     >
-      <BewlyOrBiliTopBarSwitcher v-if="settings.showBewlyOrBiliTopBarSwitcher" />
-
       <TopBar
         class="top-bar-layer"
         pos="top-0 left-0" w-full
@@ -1035,7 +1028,7 @@ if (settings.value.cleanUrlArgument) {
               <div
                 p="t-[calc(var(--bew-top-bar-height)+10px)]" m-auto
                 w="lg:[calc(100%-200px)] [calc(100%-150px)]"
-                :style="settings.useOriginalBilibiliTopBar && !reachTop
+                :style="useOriginalBilibiliTopBar && !reachTop
                   ? { paddingTop: 'calc(var(--bew-top-bar-height) + 120px)' }
                   : undefined"
               >

@@ -190,8 +190,6 @@ settings:
   group_topbar: Top Bar
   topbar_logo_and_channels: Logo settings
   topbar_logo_and_channels_desc: Choose the top bar Logo style and whether to show the home button in touch mode.
-  topbar_switchers: BewlyMac/Bilibili switchers
-  topbar_switchers_desc: Control the homepage page switcher and the top bar switcher separately.
   topbar_actions: Top bar actions
   topbar_actions_desc: Set the visibility, badges, and related reminders for each action icon.
   topbar_user_menu: Top bar user menu
@@ -294,7 +292,6 @@ settings:
   open_top_bar_items_in_bewly: Open Bewly pages from top bar icons
   open_top_bar_items_in_bewly_desc: When touch screen optimization is off, the Logo, Moments, Favorites, History, and Watch Later icons follow the top bar link opening behavior and open the corresponding Dock page using its Bewly/original Bilibili setting. Unsupported icons keep their existing behavior.
   show_bewly_or_bili_page_switcher_desc: Show the Original, Bewly, and Custom page mode switcher in the floating Dock or sidebar.
-  show_bewly_or_bili_top_bar_switcher_desc: Show a switcher when hovering at the top of the page to move between the BewlyMac and original Bilibili top bars.
   hide_lv6_last_login_location_in_top_bar_user_pop: Hide LV6 last login info
   hide_lv6_last_login_location_in_top_bar_user_pop_desc: When enabled, the LV6 section in the top bar user popup will no longer show the last login time or location, and no login log request will be made.
   chk_box:
@@ -420,7 +417,6 @@ settings:
   enable_top_bar_gradient: Enable top bar gradient effect
   enable_top_bar_gradient_desc: Use a frosted glass gradient on the top bar by default; disable it to use a solid background.
   show_top_bar_theme_color_gradient: Show theme color gradient in top bar (only works in dark mode)
-  show_bewly_or_bili_top_bar_switcher: Show BewlyBewly/Bilibili top bar switcher
   show_bewly_or_bili_page_switcher: Show page mode switcher
   filter_articles_in_moments: Filter articles
   filter_articles_in_moments_desc: Hide articles from the moments feed and only show videos
@@ -506,6 +502,10 @@ settings:
   dock_position_desc: Position on screen.
   dock_content_adjustment: Dock content adjustment
   dock_content_adjustment_desc: The page of the first activated dock item will be the startup page.
+  topbar_mode: Top bar mode
+  topbar_mode_desc: All Bewly and All Original modes follow the global setting; Custom mode can choose independently.
+  topbar_mode_bewly: Bewly top bar
+  topbar_mode_bilibili: Bilibili top bar
   dock_item_open_in_new_tab: Open in new tab
   dock_item_use_original_bili_web_page: Use the original Bilibili web page
   disable_dock_glowing_effect: Disable the dock glowing effect
@@ -681,15 +681,10 @@ settings:
   home_tabs_adjustment_desc: The first activated tab is the default page.
   always_show_tabs_on_home_page: Hide home tabs while scrolling
   fixed_home_tabs_on_home_page: Fix home tabs to the top
-  topbar_visibility: BewlyBewly's top bar visibility
-  topbar_visibility_desc: >-
-    If you are using Bilibili Evolved's top bar, you can turn BewlyBewly's top
-    bar off here.
   use_original_bilibili_homepage: Use the original Bilibili homepage
   use_original_bilibili_homepage_desc: >-
     After you change it, the page will automatically refresh if you are on the
     homepage!
-  use_original_bilibili_topbar: Use the original Bilibili top bar
   adapt_to_other_page_styles: Adapt to other page styles
   adapt_to_other_page_styles_desc: Adapt to some common pages to match with the BewlyBewly theme.
   prevent_mobile_redirect: Prevent mobile redirect

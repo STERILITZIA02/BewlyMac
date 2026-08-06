@@ -273,7 +273,6 @@ export interface Settings {
   alwaysUseTransparentTopBar: boolean
   enableTopBarGradient: boolean
   showTopBarThemeColorGradient: boolean
-  showBewlyOrBiliTopBarSwitcher: boolean
   showBewlyOrBiliPageSwitcher: boolean
   topBarLogoStyle: TopBarLogoStyle
   topBarIconBadges: 'number' | 'dot' | 'none'
@@ -559,7 +558,6 @@ export const originalSettings: Settings = {
   alwaysUseTransparentTopBar: false,
   enableTopBarGradient: true,
   showTopBarThemeColorGradient: true,
-  showBewlyOrBiliTopBarSwitcher: true,
   showBewlyOrBiliPageSwitcher: true,
   topBarLogoStyle: 'icon',
   topBarIconBadges: 'number',
@@ -820,6 +818,7 @@ watch(
     Reflect.deleteProperty(record, 'detectCommentShadowBan')
     Reflect.deleteProperty(record, 'homeTabsPosition')
     Reflect.deleteProperty(record, 'enableHomeGridVirtualization')
+    Reflect.deleteProperty(record, 'showBewlyOrBiliTopBarSwitcher')
 
     // 清理已移除的音量均衡功能设置。
     for (const field of ['enableVolumeNormalization', 'targetVolume', 'normalizationStrength', 'adaptiveGainSpeed', 'voiceGateDb', 'volumeNormalizationDebug'])

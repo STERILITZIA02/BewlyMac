@@ -36,7 +36,7 @@ const nonSettingTitleKeyPatterns = [
   /^settings\.bilibili_features\./,
   /^settings\.shortcuts\.group\./,
   /^settings\.maintenance\.(title|backup_title|reset_title)$/,
-  /^settings\.topbar_(display_settings|logo_and_channels|switchers|actions|user_menu)$/,
+  /^settings\.topbar_(display_settings|logo_and_channels|actions|user_menu)$/,
 ]
 
 function isSettingTitleKey(titleKey: string) {
@@ -358,11 +358,6 @@ export const settingsSearchEntries: SettingsSearchEntry[] = [
     'settings.topbar_pinned_channels_title',
   ]),
   ...createEntries(topBarRoute, [
-    'settings.topbar_switchers',
-    'settings.show_bewly_or_bili_page_switcher',
-    'settings.show_bewly_or_bili_top_bar_switcher',
-  ]),
-  ...createEntries(topBarRoute, [
     'settings.group_search_bar',
     'settings.show_hot_search_in_top_bar',
     'settings.show_search_recommendation',
@@ -402,6 +397,8 @@ export const settingsSearchEntries: SettingsSearchEntry[] = [
     'settings.auto_hide_dock',
     'settings.half_hide_dock',
     'settings.dock_content_adjustment',
+    'settings.topbar_mode',
+    'settings.show_bewly_or_bili_page_switcher',
     'settings.disable_dock_glowing_effect',
     'settings.disable_light_dark_mode_switcher',
     'settings.back_to_top_and_refresh_buttons_are_separated',
@@ -413,6 +410,10 @@ export const settingsSearchEntries: SettingsSearchEntry[] = [
   ...createEntries(dockRoute, [
     'settings.dock_position',
   ], { keywordKeys: ['common.position.left', 'common.position.right', 'common.position.bottom'] }),
+  ...createEntries(dockRoute, [
+    'settings.topbar_mode_bewly',
+    'settings.topbar_mode_bilibili',
+  ]),
   ...createEntries(dockRoute, [
     'settings.sidebar_position',
   ], { keywordKeys: ['common.position.left', 'common.position.right'] }),
@@ -577,8 +578,6 @@ export const settingsSearchEntries: SettingsSearchEntry[] = [
   ...createEntries(compatibilityRoute, [
     'settings.menu_compatibility',
     'settings.group_common',
-    'settings.topbar_visibility',
-    'settings.use_original_bilibili_topbar',
     'settings.use_original_bilibili_homepage',
     'settings.prevent_mobile_redirect',
     'settings.group_ad_blocking',

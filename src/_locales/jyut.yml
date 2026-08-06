@@ -219,8 +219,6 @@ settings:
   group_topbar: 頂欄
   topbar_logo_and_channels: Logo 設定
   topbar_logo_and_channels_desc: 設定頂欄 Logo 樣式，同埋觸控模式下要唔要顯示首頁按鈕。
-  topbar_switchers: BewlyMac/Bilibili 切換掣
-  topbar_switchers_desc: 分別控制首頁頁面切換掣同頂欄切換掣係咪顯示。
   topbar_actions: 頂欄功能圖示
   topbar_actions_desc: 分別設定右邊功能圖示嘅顯示狀態、邊位標記同相關提醒。
   topbar_user_menu: 頂欄用戶選單
@@ -315,7 +313,6 @@ settings:
   open_top_bar_items_in_bewly: 撳頂欄圖示打開 Bewly 頁面
   open_top_bar_items_in_bewly_desc: 未開啟觸控螢幕優化嗰陣，撳 Logo、動態、收藏、歷史或者稍後再睇圖示，會跟「頂欄連結開啟行為」打開 Dock 入面對應嘅頁面，並沿用該頁面嘅 Bewly/原版 Bilibili 設定；未適配嘅圖示會維持原本行為。
   show_bewly_or_bili_page_switcher_desc: 喺浮動 Dock 或側邊欄顯示「全原版」、「全 Bewly」同「自訂」頁面模式切換掣。
-  show_bewly_or_bili_top_bar_switcher_desc: 喺頁面頂部懸停嗰陣顯示切換掣，用嚟喺 BewlyMac 頂欄同 Bilibili 原版頂欄之間切換。
   hide_lv6_last_login_location_in_top_bar_user_pop: 隱藏 LV6 等級最後登入資訊顯示
   hide_lv6_last_login_location_in_top_bar_user_pop_desc: 開咗之後，頂欄頭像彈窗入面嘅 LV6 等級資訊區域就唔會再顯示最後登入時間同地點，亦都唔會請求登入記錄。
   chk_box:
@@ -436,7 +433,6 @@ settings:
   enable_top_bar_gradient: 啟用頂欄漸變效果
   enable_top_bar_gradient_desc: 開啟後頂欄預設使用毛玻璃漸變，關閉後改為實色背景。
   show_top_bar_theme_color_gradient: 喺頂欄顯示主題色漸變（淨係喺深色模式下有效）
-  show_bewly_or_bili_top_bar_switcher: 顯示 BewlyBewly/Bilibili 頂欄切換掣
   show_bewly_or_bili_page_switcher: 顯示頁面模式切換掣
   filter_articles_in_moments: 過濾專欄
   filter_articles_in_moments_desc: 喺動態列表過濾專欄內容，只顯示影片
@@ -468,6 +464,10 @@ settings:
   dock_position_desc: 放喺螢幕邊度。
   dock_content_adjustment: Dock 內容調整
   dock_content_adjustment_desc: 第一個啓用嘅 Dock 項個頁面會係開始頁面。
+  topbar_mode: 頂欄模式
+  topbar_mode_desc: 全 Bewly 或全原版模式會跟住全域設定；自訂模式可以獨立選擇。
+  topbar_mode_bewly: Bewly 頂欄
+  topbar_mode_bilibili: Bilibili 頂欄
   dock_item_open_in_new_tab: 在新分頁度開啓
   dock_item_use_original_bili_web_page: 用返原本嘅 Bilibili 網頁
   disable_dock_glowing_effect: 熄咗 Dock 發光效果去
@@ -623,11 +623,8 @@ settings:
   home_tabs_adjustment_desc: 第一個啓用嘅分頁項目會係開始頁面。
   always_show_tabs_on_home_page: 捲動時隱藏主頁分頁欄
   fixed_home_tabs_on_home_page: 固定主頁分頁欄
-  topbar_visibility: BewlyBewly 頂欄可視性
-  topbar_visibility_desc: 若然你係用緊 Bilibili Evolved 嘅頂欄，你可以喺度閂咗 BewlyBewly 嘅頂欄去。
   use_original_bilibili_homepage: 用返原本嘅 Bilibili 主頁
   use_original_bilibili_homepage_desc: 改咗之後，如果你喺主頁，個頁面就會自動重新整理！
-  use_original_bilibili_topbar: 用返原本嘅 Bilibili 頂欄
   adapt_to_other_page_styles: 適應其他版面風格
   adapt_to_other_page_styles_desc: 執執啲常用嘅版面，襯返 BewlyBewly 主題風格。
   prevent_mobile_redirect: 防止跳轉去流動版

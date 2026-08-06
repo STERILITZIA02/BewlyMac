@@ -190,8 +190,6 @@ settings:
   group_topbar: 顶栏
   topbar_logo_and_channels: Logo 设置
   topbar_logo_and_channels_desc: 设置顶栏 Logo 样式，以及触屏模式下是否显示首页按钮。
-  topbar_switchers: BewlyMac/Bilibili 切换器
-  topbar_switchers_desc: 分别控制首页页面切换器和顶栏切换器是否显示。
   topbar_actions: 顶栏功能图标
   topbar_actions_desc: 分别设置右侧功能图标的显示状态、角标和相关提醒。
   topbar_user_menu: 顶栏用户菜单
@@ -287,7 +285,6 @@ settings:
   open_top_bar_items_in_bewly: 点击顶栏图标打开 Bewly 页面
   open_top_bar_items_in_bewly_desc: 未启用触屏优化时，点击 Logo、动态、收藏、历史或稍后再看图标，将按照“顶栏链接打开行为”打开 Dock 中对应的页面，并沿用该页面的 Bewly/原版 Bilibili 配置；尚未适配的图标保持原有行为。
   show_bewly_or_bili_page_switcher_desc: 在悬浮 Dock 或侧边栏中显示全原版、全 Bewly 与自定义页面模式切换按钮。
-  show_bewly_or_bili_top_bar_switcher_desc: 在页面顶部悬停时显示切换器，用于在 BewlyMac 顶栏和 Bilibili 原版顶栏之间切换。
   hide_lv6_last_login_location_in_top_bar_user_pop: 隐藏 LV6 等级最后登录信息显示
   hide_lv6_last_login_location_in_top_bar_user_pop_desc: 开启后，顶栏头像弹窗中的 LV6 等级信息区域将不再显示最后登录时间和地点，也不会请求登录记录。
   chk_box:
@@ -470,7 +467,6 @@ settings:
   enable_top_bar_gradient: 启用顶栏渐变效果
   enable_top_bar_gradient_desc: 开启后顶栏默认使用磨砂玻璃渐变，关闭后改为实色背景。
   show_top_bar_theme_color_gradient: 在顶栏显示主题色渐变（仅在暗色模式下有效）
-  show_bewly_or_bili_top_bar_switcher: 显示 BewlyMac/Bilibili 顶栏切换器
   show_bewly_or_bili_page_switcher: 显示页面模式切换按钮
   filter_articles_in_moments: 过滤专栏
   filter_articles_in_moments_desc: 在动态列表中过滤掉专栏内容，仅显示视频
@@ -556,6 +552,10 @@ settings:
   dock_position_desc: 在屏幕中摆放位置。
   dock_content_adjustment: Dock 内容调整
   dock_content_adjustment_desc: 第一个激活的 Dock 项的页面将会是启动页面。
+  topbar_mode: 顶栏模式
+  topbar_mode_desc: 全 Bewly 或全原版模式会跟随全局设置；自定义模式下可单独选择。
+  topbar_mode_bewly: Bewly 顶栏
+  topbar_mode_bilibili: Bilibili 顶栏
   dock_item_open_in_new_tab: 在新标签页打开
   dock_item_use_original_bili_web_page: 使用原版 Bilibili 网页
   disable_dock_glowing_effect: 关闭 Dock 栏发光效果
@@ -697,11 +697,8 @@ settings:
   home_tabs_adjustment_desc: 第一个激活的标签项是默认界面
   always_show_tabs_on_home_page: 滚动隐藏首页标签栏
   fixed_home_tabs_on_home_page: 固定首页标签栏
-  topbar_visibility: 顶栏可见性
-  topbar_visibility_desc: 如果您正在使用 Bilibili Evolved 的顶栏，您可以在这里关闭 BewlyMac 的顶栏。
   use_original_bilibili_homepage: 使用原版 Bilibili 首页
   use_original_bilibili_homepage_desc: 在您更改此设置后，如果在首页上，页面将自动刷新！
-  use_original_bilibili_topbar: 使用原版 Bilibili 顶栏
   adapt_to_other_page_styles: 适应其他页面样式
   adapt_to_other_page_styles_desc: 适应一些常见页面，以与 BewlyMac 主题相匹配。
   prevent_mobile_redirect: 防止跳转移动端

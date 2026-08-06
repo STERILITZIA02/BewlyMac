@@ -119,3 +119,9 @@ pnpm typecheck
 - 必须保护用户已有的 staged、unstaged、untracked 和 stash 内容。未经明确授权，禁止 reset、clean、删除分支或 Worktree、改写历史以及其他 destructive Git 操作。
 - 上游 PR 必须排除 BewlyMac 专用 `AGENTS.md`、品牌化 `README.md`、维护文档、构建或打包产物，以及与修复无关的格式化；只包含可独立提交给 BewlyCat 的最小修复。
 - 实际执行 commit 前必须重新运行 `pnpm lint` 和 `pnpm typecheck`；只有各命令最新一次完整运行的退出码均为 `0`，才能声明检查通过。
+
+## Bewly_Nocturne 当前维护记录
+
+- 2026-08-06：完成顶栏模式切换重构。顶栏模式现作为 `DockAndSidebar.vue` 的特殊配置项，复用既有全局模式、顶栏状态和 Bilibili Evolved 兼容逻辑；旧的搜索框下方悬浮切换器、Teleport、显隐控制、层级、设置项及废弃文案已清理。
+- 顶栏模式配置不属于 Dock 导航项，不参与拖拽排序，不显示“新标签页”选项；旧设置会迁移并继续持久化，自定义顶栏选择与全 Bewly / 全原版模式保持同步。
+- 本次变更已在独立测试 Chrome 窗口中加载开发扩展并通过 Bilibili 页面注入验收。后续涉及上游顶栏实现的更新默认不批准，必须先取得用户明确授权后再移植或合入。

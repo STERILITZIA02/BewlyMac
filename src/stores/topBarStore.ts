@@ -151,9 +151,6 @@ export const useTopBarStore = defineStore('topBar', () => {
   const topBarVisible = ref<boolean>(true)
   const searchKeyword = ref<string>('')
 
-  // TopBar switcher button visibility state
-  const isSwitcherButtonVisible = ref<boolean>(false)
-
   // 从 useTopBarReactive 整合的计算属性
   const isSearchPage = computed((): boolean => {
     return SEARCH_PAGE_URL.test(location.href)
@@ -1383,11 +1380,6 @@ export const useTopBarStore = defineStore('topBar', () => {
     topBarVisible.value = visible
   }
 
-  // 设置切换器按钮可见性状态
-  function setSwitcherButtonVisible(visible: boolean) {
-    isSwitcherButtonVisible.value = visible
-  }
-
   return {
     isLogin,
     userInfo,
@@ -1454,7 +1446,5 @@ export const useTopBarStore = defineStore('topBar', () => {
     topBarVisible,
     searchKeyword,
     setTopBarVisible,
-    isSwitcherButtonVisible,
-    setSwitcherButtonVisible,
   }
 })
