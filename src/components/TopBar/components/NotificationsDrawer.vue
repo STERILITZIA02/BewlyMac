@@ -16,7 +16,7 @@ const emit = defineEmits<{
 }>()
 
 const { mainAppRef, activeDrawer, setActiveDrawer } = useBewlyApp()
-const { isDark } = useDark()
+const { isDark, isOledDark } = useDark()
 
 const show = ref(false)
 const iframeRef = ref<HTMLIFrameElement | null>(null)
@@ -57,6 +57,7 @@ function syncIframeDarkModeState() {
       iframeRef.value.contentWindow.postMessage({
         type: IFRAME_DARK_MODE_CHANGE,
         isDark: isDark.value,
+        isOledDark: isOledDark.value,
         darkModeBaseColor: settings.value.darkModeBaseColor,
       }, '*')
     }
@@ -76,7 +77,7 @@ function handleIframeLoad() {
 }
 
 // 监听黑暗模式变化
-watch(() => isDark.value, () => {
+watch([isDark, isOledDark], () => {
   syncIframeDarkModeState()
 })
 

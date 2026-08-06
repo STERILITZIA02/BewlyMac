@@ -303,6 +303,13 @@ function changeWallpaper(url: string) {
           </div>
         </div>
       </SettingsItem>
+      <SettingsItem
+        :title="$t('settings.enable_oled_dark_mode')"
+        :desc="$t('settings.enable_oled_dark_mode_desc')"
+        right-width="auto"
+      >
+        <Radio v-model="settings.enableOledDarkMode" />
+      </SettingsItem>
 
       <SettingsItem :title="$t('settings.gradient_theme_color_background')" right-width="auto">
         <Radio v-model="settings.useLinearGradientThemeColorBackground" />

@@ -1130,6 +1130,8 @@ else if (shouldInitializeContentScript) {
     container.id = 'bewly'
     container.setAttribute('data-version', version)
     container.setAttribute('data-dev', import.meta.env.DEV ? 'true' : 'false')
+    container.classList.toggle('dark', document.documentElement.classList.contains('dark'))
+    container.classList.toggle('oled-dark', document.documentElement.classList.contains('oled-dark'))
 
     // 立即设置Shadow DOM容器的基准颜色，确保Vue组件能够访问到正确的CSS变量
     if (settings.value.darkModeBaseColor) {
@@ -1318,7 +1320,7 @@ else if (shouldInitializeContentScript) {
     if (event.source !== window.parent)
       return
 
-    const { type, isDark, darkModeBaseColor, useOriginalBilibiliTopBar } = event.data
+    const { type, isDark, isOledDark, darkModeBaseColor, useOriginalBilibiliTopBar } = event.data
 
     if (type === IFRAME_DARK_MODE_CHANGE) {
     // Check if we should apply selective dark mode (plugin UI only) on festival pages
@@ -1329,12 +1331,15 @@ else if (shouldInitializeContentScript) {
         const bewlyElement = document.querySelector('#bewly')
         if (bewlyElement) {
           bewlyElement.classList.add('dark')
+          bewlyElement.classList.toggle('oled-dark', isOledDark === true)
         }
 
         // Only apply global styles if not on festival pages
         if (!isSelectiveDark) {
           document.documentElement.classList.add('dark')
+          document.documentElement.classList.toggle('oled-dark', isOledDark === true)
           document.body?.classList.add('dark')
+          document.body?.classList.toggle('oled-dark', isOledDark === true)
         }
 
         // 如果提供了深色模式基准颜色，则应用它
@@ -1345,13 +1350,13 @@ else if (shouldInitializeContentScript) {
       else {
         const bewlyElement = document.querySelector('#bewly')
         if (bewlyElement) {
-          bewlyElement.classList.remove('dark')
+          bewlyElement.classList.remove('dark', 'oled-dark')
         }
 
         // Only remove global classes if not in selective mode
         if (!isSelectiveDark) {
-          document.documentElement.classList.remove('dark')
-          document.body?.classList.remove('dark')
+          document.documentElement.classList.remove('dark', 'oled-dark')
+          document.body?.classList.remove('dark', 'oled-dark')
         }
       }
     }

@@ -228,7 +228,7 @@ function refreshSearchContent() {
     <!-- Top bar theme color gradient -->
     <Transition name="fade">
       <div
-        v-if="settings.enableTopBarGradient && settings.showTopBarThemeColorGradient && !forceWhiteIcon && reachTop && isDark"
+        v-if="settings.enableTopBarGradient && settings.useLinearGradientThemeColorBackground && !forceWhiteIcon && reachTop && isDark"
         pos="absolute top-0 left-0" w-full h="$bew-top-bar-height" pointer-events-none
         :style="{ background: 'linear-gradient(to bottom, var(--bew-theme-color-10), transparent)' }"
       />

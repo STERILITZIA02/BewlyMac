@@ -200,7 +200,7 @@ function toggleChannel(value: string) {
         <Radio v-model="settings.enableTopBarGradient" />
       </SettingsItem>
       <SettingsItem :title="$t('settings.show_top_bar_theme_color_gradient')" right-width="auto">
-        <Radio v-model="settings.showTopBarThemeColorGradient" />
+        <Radio v-model="settings.useLinearGradientThemeColorBackground" />
       </SettingsItem>
       <SettingsItem :title="$t('settings.open_notifications_page_as_drawer')" right-width="auto">
         <Radio v-model="settings.openNotificationsPageAsDrawer" />

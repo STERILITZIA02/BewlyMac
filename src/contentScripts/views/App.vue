@@ -337,7 +337,7 @@ useEventListener(window, 'message', ({ data, source }) => {
   if (source !== window.parent)
     return
 
-  const { type, isDark, darkModeBaseColor } = data
+  const { type, isDark, isOledDark, darkModeBaseColor } = data
 
   if (type === 'iframeDarkModeChange') {
     // 在iframe环境中，只更新DOM样式，不修改用户的主题设置
@@ -349,12 +349,16 @@ useEventListener(window, 'message', ({ data, source }) => {
       // 立即更新DOM样式，不修改settings.value.theme
       if (isDark) {
         // Always apply to plugin container
-        document.querySelector('#bewly')?.classList.add('dark')
+        const bewlyContainer = document.querySelector('#bewly')
+        bewlyContainer?.classList.add('dark')
+        bewlyContainer?.classList.toggle('oled-dark', isOledDark === true)
 
         // Only apply global styles if not on festival pages
         if (!isSelectiveDark) {
           document.documentElement.classList.add('dark')
+          document.documentElement.classList.toggle('oled-dark', isOledDark === true)
           document.body?.classList.add('dark')
+          document.body?.classList.toggle('oled-dark', isOledDark === true)
         }
 
         // 如果提供了深色模式基准颜色，则应用它（仅应用到DOM，不修改设置）
@@ -369,12 +373,13 @@ useEventListener(window, 'message', ({ data, source }) => {
         }
       }
       else {
-        document.querySelector('#bewly')?.classList?.remove('dark')
+        const bewlyContainer = document.querySelector('#bewly')
+        bewlyContainer?.classList.remove('dark', 'oled-dark')
 
         // Only remove global classes if not in selective mode
         if (!isSelectiveDark) {
-          document.documentElement.classList.remove('dark')
-          document.body?.classList.remove('dark')
+          document.documentElement.classList.remove('dark', 'oled-dark')
+          document.body?.classList.remove('dark', 'oled-dark')
         }
       }
 
@@ -534,9 +539,6 @@ onMounted(() => {
   }
 
   if (isHomePage()) {
-    // Force overwrite Bilibili Evolved body tag & html tag background color
-    document.body.style.setProperty('background-color', 'unset', 'important')
-
     focusScrollViewport()
 
     // Windows/Linux: 监听 Home 键
@@ -1212,6 +1214,7 @@ if (settings.value.cleanUrlArgument) {
   min-width: 0;
   height: 100%;
   overflow: hidden;
+  background-color: var(--bew-homepage-bg);
 }
 
 .bewly-scroll-viewport {

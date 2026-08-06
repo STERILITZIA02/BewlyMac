@@ -124,6 +124,7 @@ export function useDark() {
     return settings.value.videoPageDarkMode && isVideoPlaybackPage(currentUrl.value)
   })
   const isDark = computed(() => currentAppColorScheme.value === 'dark' || isVideoPageDark.value)
+  const isOledDark = computed(() => isDark.value && settings.value.enableOledDarkMode === true)
 
   // Apply appearance only when an effective theme input changes. The settings
   // adapter replaces its object on every write, so a getter returning an array
@@ -131,6 +132,7 @@ export function useDark() {
   watch(
     [
       isDark,
+      isOledDark,
       currentAppColorScheme,
       () => settings.value.adaptToOtherPageStyles,
       currentUrl,
@@ -163,32 +165,29 @@ export function useDark() {
   function setAppAppearance() {
     // Check if we should apply selective dark mode (plugin UI only) on festival pages
     const isSelectiveDark = isFestivalPage() && settings.value.adaptToOtherPageStyles
+    const bewlyContainer = document.querySelector('#bewly')
 
-    if (isDark.value) {
-      // Always apply dark mode to plugin container
-      document.querySelector('#bewly')?.classList.add('dark')
+    bewlyContainer?.classList.toggle('dark', isDark.value)
+    bewlyContainer?.classList.toggle('oled-dark', isOledDark.value)
 
-      // Only apply global dark mode if not on festival pages
-      if (!isSelectiveDark) {
-        document.documentElement.classList.add('dark')
-        document.body?.classList.add('dark')
+    // Only apply global theme classes if not on festival pages
+    if (!isSelectiveDark) {
+      document.documentElement.classList.toggle('dark', isDark.value)
+      document.documentElement.classList.toggle('oled-dark', isOledDark.value)
+      document.body?.classList.toggle('dark', isDark.value)
+      document.body?.classList.toggle('oled-dark', isOledDark.value)
+
+      if (isDark.value) {
         // bili_dark is bilibili's official dark mode class
         document.documentElement.classList.add('bili_dark')
       }
-
-      // 确保深色模式基准颜色被正确应用
-      setDarkModeBaseColor(settings.value.darkModeBaseColor)
-    }
-    else {
-      document.querySelector('#bewly')?.classList?.remove('dark')
-
-      // Only remove global classes if we're not in selective mode or if we applied them
-      if (!isSelectiveDark) {
-        document.documentElement.classList.remove('dark')
-        document.body?.classList.remove('dark')
+      else {
         document.documentElement.classList.remove('bili_dark')
       }
     }
+
+    if (isDark.value)
+      setDarkModeBaseColor(settings.value.darkModeBaseColor)
 
     syncBilibiliTheme(isDark.value)
 
@@ -309,6 +308,7 @@ export function useDark() {
 
   return {
     isDark,
+    isOledDark,
     toggleDark,
   }
 }

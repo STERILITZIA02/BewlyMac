@@ -576,6 +576,8 @@ settings:
   video_page_dark_mode_desc: 保持全站主题设置不变，仅在视频播放页启用 BewlyMac 深色样式。
   theme_color: 主题色
   dark_mode_base_color: 深色模式基准颜色
+  enable_oled_dark_mode: OLED 纯黑模式
+  enable_oled_dark_mode_desc: 仅在实际处于深色模式时生效；网页底色变为纯黑，卡片和浮层仍保留层次。
   gradient_theme_color_background: 在暗色模式下使用渐变主题颜色作为背景
   wallpaper_mode: 背景图片模式
   wallpaper_mode_desc: '使用网址: 直接用网上图片的网址来设置背景图片。'

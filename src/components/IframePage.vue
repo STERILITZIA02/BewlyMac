@@ -9,7 +9,7 @@ const props = defineProps<{
   url: string
 }>()
 const { reachTop } = useBewlyApp()
-const { isDark } = useDark()
+const { isDark, isOledDark } = useDark()
 const settingsStore = useSettingsStore()
 const headerShow = ref(false)
 const iframeRef = ref<HTMLIFrameElement | null>(null)
@@ -112,12 +112,13 @@ function syncIframeTopBarVisibility(useOriginalBilibiliTopBar: boolean) {
   }
 }
 
-watch(() => isDark.value, (newValue) => {
+watch([isDark, isOledDark], ([newValue, newOledValue]) => {
   if (iframeRef.value?.contentWindow) {
     try {
       iframeRef.value.contentWindow.postMessage({
         type: IFRAME_DARK_MODE_CHANGE,
         isDark: newValue,
+        isOledDark: newOledValue,
       }, '*')
     }
     catch (error) {
@@ -137,6 +138,7 @@ watch(() => settings.value.darkModeBaseColor, (newColor) => {
       iframeRef.value.contentWindow.postMessage({
         type: IFRAME_DARK_MODE_CHANGE,
         isDark: isDark.value,
+        isOledDark: isOledDark.value,
         darkModeBaseColor: newColor,
       }, '*')
     }
@@ -169,6 +171,7 @@ function handleIframeLoad() {
         iframeRef.value?.contentWindow?.postMessage({
           type: IFRAME_DARK_MODE_CHANGE,
           isDark: isDark.value,
+          isOledDark: isOledDark.value,
           darkModeBaseColor: settings.value.darkModeBaseColor,
         }, '*')
         syncIframeTopBarVisibility(settingsStore.getUseOriginalBilibiliTopBar())

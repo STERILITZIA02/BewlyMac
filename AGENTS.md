@@ -125,3 +125,5 @@ pnpm typecheck
 - 2026-08-06：完成顶栏模式切换重构。顶栏模式现作为 `DockAndSidebar.vue` 的特殊配置项，复用既有全局模式、顶栏状态和 Bilibili Evolved 兼容逻辑；旧的搜索框下方悬浮切换器、Teleport、显隐控制、层级、设置项及废弃文案已清理。
 - 顶栏模式配置不属于 Dock 导航项，不参与拖拽排序，不显示“新标签页”选项；旧设置会迁移并继续持久化，自定义顶栏选择与全 Bewly / 全原版模式保持同步。
 - 本次变更已在独立测试 Chrome 窗口中加载开发扩展并通过 Bilibili 页面注入验收。后续涉及上游顶栏实现的更新默认不批准，必须先取得用户明确授权后再移植或合入。
+- 2026-08-06：深色网页背景统一使用受 OKLCH 明度/色度约束的 `--bew-dark-page-bg` 派生 token；`enableOledDarkMode` 仅在有效深色主题下通过 `oled-dark` class 生效，并同步到相关 iframe。首页不再直接覆盖 Bilibili `body` 背景，纯黑底色由插件自己的 viewport wrapper 承载，以保护原站布局和滚动层。
+- 顶栏主题色泛光与 `useLinearGradientThemeColorBackground` 共用同一持久化选择；顶栏设置页的兼容入口也绑定该共享状态，避免再维护独立开关。

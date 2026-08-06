@@ -526,6 +526,8 @@ settings:
   video_page_dark_mode_desc: Keep the global theme unchanged and enable BewlyMac dark styles only on video playback pages.
   theme_color: Theme color
   dark_mode_base_color: Dark mode base color
+  enable_oled_dark_mode: OLED pure black mode
+  enable_oled_dark_mode_desc: Only applies while the effective theme is dark; page backgrounds become pure black while cards and overlays keep their layers.
   gradient_theme_color_background: Use a gradient theme color as the background in dark mode
   wallpaper_mode: Wallpaper mode
   wallpaper_mode_desc: >

@@ -374,8 +374,11 @@
   --bew-text-3: hsl(220 13% 75% / 75%);
   --bew-text-4: hsl(220 13% 65% / 55%);
 
-  --bew-bg: color-mix(in oklab, var(--bew-dark-base-color), black 20%);
-  --bew-homepage-bg: color-mix(in oklab, var(--bew-dark-base-color), black 20%);
+  // Keep webpage backgrounds in a stable perceptual dark range while retaining
+  // only a restrained hue hint from the user's dark base color.
+  --bew-dark-page-bg: #181a1e;
+  --bew-bg: var(--bew-dark-page-bg);
+  --bew-homepage-bg: var(--bew-dark-page-bg);
   --bew-homepage-bg-mask-opacity: 0;
   --bew-homepage-bg-mask: hsl(210 8% 16% / var(--bew-homepage-bg-mask-opacity));
 
@@ -428,6 +431,22 @@
   // IP标签背景色 - 暗色模式
   --bew-ip-tag-bg: var(--bew-fill-1);
   --bew-ip-tag-text: var(--bew-text-3);
+}
+
+@supports (color: oklch(from white l c h)) {
+  :host(.dark),
+  :root.dark {
+    --bew-dark-page-bg: oklch(
+      from var(--bew-dark-base-color) clamp(0.16, l, 0.22) clamp(0.008, calc(c * 0.35), 0.04) h
+    );
+  }
+}
+
+:host(.dark.oled-dark),
+:root.dark.oled-dark {
+  --bew-bg: #000;
+  --bew-homepage-bg: #000;
+  --bew-homepage-bg-mask: rgb(0 0 0 / var(--bew-homepage-bg-mask-opacity));
 }
 
 :root.dark.bewly-design.forceDark,
@@ -1065,6 +1084,15 @@
   --Lb1_rgb: 11, 32, 42;
   --Lb5_rgb: 0, 135, 189;
   --Lb7_rgb: 88, 177, 212;
+}
+
+:root.dark.bewly-design.oled-dark {
+  --Ga0: #000;
+  --Ga0_t: #000;
+  --Ga0_rgb: 0, 0, 0;
+  --bg1: #000;
+  --bg1_rgb: 0, 0, 0;
+  --bpx-aux-content-bg: #000;
 }
 
 // #endregion

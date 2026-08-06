@@ -19,7 +19,7 @@ const emit = defineEmits<{
   (e: 'close'): void
 }>()
 
-const { isDark } = useDark()
+const { isDark, isOledDark } = useDark()
 const { activeDrawer, setActiveDrawer } = useBewlyApp()
 
 const show = ref(false)
@@ -70,12 +70,13 @@ const iframeStyles = computed(() => {
 useEventListener(window, 'popstate', updateIframeUrl)
 
 // 监听黑暗模式变化
-watch(() => isDark.value, (newValue) => {
+watch([isDark, isOledDark], ([newValue, newOledValue]) => {
   if (iframeRef.value?.contentWindow) {
     try {
       iframeRef.value.contentWindow.postMessage({
         type: IFRAME_DARK_MODE_CHANGE,
         isDark: newValue,
+        isOledDark: newOledValue,
       }, '*')
     }
     catch (error) {
@@ -91,6 +92,7 @@ watch(() => settings.value.darkModeBaseColor, (newColor) => {
       iframeRef.value.contentWindow.postMessage({
         type: IFRAME_DARK_MODE_CHANGE,
         isDark: isDark.value,
+        isOledDark: isOledDark.value,
         darkModeBaseColor: newColor,
       }, '*')
     }
@@ -108,6 +110,7 @@ watch(() => showIframe.value, (newValue) => {
         iframeRef.value?.contentWindow?.postMessage({
           type: IFRAME_DARK_MODE_CHANGE,
           isDark: isDark.value,
+          isOledDark: isOledDark.value,
           darkModeBaseColor: settings.value.darkModeBaseColor,
         }, '*')
       }
