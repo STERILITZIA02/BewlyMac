@@ -117,6 +117,7 @@ defineExpose({ refreshAnimeTimeTable })
                 place-items-center
               >
                 <i
+                  class="bew-shape-circle"
                   pos="absolute left--3"
                   w-2
                   h-2

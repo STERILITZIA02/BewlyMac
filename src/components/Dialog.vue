@@ -2,6 +2,8 @@
 import { onKeyStroke } from '@vueuse/core'
 
 import Button from '~/components/Button.vue'
+import CloseButton from '~/components/CloseButton.vue'
+import PanelTopBlur from '~/components/PanelTopBlur.vue'
 import { useBewlyApp } from '~/composables/useAppProvider'
 import { settings } from '~/logic'
 
@@ -93,7 +95,7 @@ const dialogContentHeight = computed(() => {
 const dialogContentMaxHeight = computed(() => {
   return typeof props.contentMaxHeight === 'number' ? `${props.contentMaxHeight}px` : props.contentMaxHeight || 'auto'
 })
-const frostedGlassEnabled = computed(() => settings.value.enableFrostedGlass && props.frostedGlass !== false)
+const frostedGlassEnabled = computed(() => !settings.value.disableFrostedGlass && props.frostedGlass !== false)
 const dialogPanelStyle = computed(() => {
   const topAligned = dialogTopOffset.value !== undefined
   return {
@@ -105,7 +107,10 @@ const dialogPanelStyle = computed(() => {
     transform: topAligned ? 'translateX(-50%)' : 'translate(-50%, -50%)',
     transition: 'transform 0.4s, width 0.4s, height 0.4s',
     overflow: topAligned ? 'visible' : 'hidden',
-    border: props.showBorder ? undefined : '0',
+  }
+})
+const dialogSurfaceStyle = computed(() => {
+  return {
     backdropFilter: frostedGlassEnabled.value ? 'var(--bew-filter-glass-2)' : 'none',
     WebkitBackdropFilter: frostedGlassEnabled.value ? 'var(--bew-filter-glass-2)' : 'none',
     backgroundColor: frostedGlassEnabled.value ? 'var(--bew-elevated-alt)' : 'var(--bew-elevated-alt-solid)',
@@ -187,17 +192,24 @@ function handleConfirm() {
         <slot name="floating-actions" />
         <div
           :style="dialogPanelStyle"
-          pos="absolute" rounded="$bew-modal-radius" border="1 $bew-border-color"
+          pos="absolute" rounded="$bew-modal-radius"
           z-2
           antialiased
-          class="dialog__panel"
+          class="dialog__panel bew-shape-smooth-rect"
+          :class="{ 'dialog__panel--borderless': !showBorder }"
         >
+          <div
+            class="dialog__surface"
+            :style="dialogSurfaceStyle"
+            aria-hidden="true"
+          />
+
           <!-- loading masking -->
           <Transition name="fade">
             <div
               v-if="loading"
               pos="absolute top-0 left-0" w-full h-full bg="white dark:black opacity-60 dark:opacity-60" flex="~ justify-center items-center"
-              rounded="$bew-modal-radius"
+              rounded-inherit
               z-2
             >
               <div i-svg-spinners-ring-resize text="size-$bew-icon-size-xl" />
@@ -206,6 +218,7 @@ function handleConfirm() {
 
           <header
             v-if="showHeader"
+            class="dialog__header"
             style="
               text-shadow: 0 0 10px var(--bew-elevated-solid), 0 0 15px var(--bew-elevated-solid)
             "
@@ -213,15 +226,9 @@ function handleConfirm() {
             items-center justify-between
             rounded="t-$bew-modal-radius" z-1
           >
-            <div
-              pos="absolute top-0 left-0" w-inherit h-inherit pointer-events-none
-              :style="{
-                maskImage: 'linear-gradient(to bottom, black 0%, black 60%, transparent 100%)',
-                WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 60%, transparent 100%)',
-                backdropFilter: frostedGlassEnabled ? 'blur(3px) saturate(180%)' : 'none',
-                WebkitBackdropFilter: frostedGlassEnabled ? 'blur(3px) saturate(180%)' : 'none',
-              }"
-              z--1 rounded-inherit
+            <PanelTopBlur
+              :enabled="frostedGlassEnabled"
+              style="--bew-panel-top-blur-hold: 45%;"
             />
             <div
               :style="{ textAlign: center ? 'center' : 'left' }"
@@ -239,24 +246,12 @@ function handleConfirm() {
               </p>
             </div>
 
-            <button
-              type="button"
-              aria-label="Close"
+            <CloseButton
               class="dialog__close"
-              style="
-                backdrop-filter: var(--bew-filter-glass-1);
-                box-shadow: var(--bew-shadow-edge-glow-1), var(--bew-shadow-2);
-              "
-              text="!16px hover:$bew-theme-color" w="32px" h="32px"
-              flex="~ items-center justify-center shrink-0"
-              bg="$bew-elevated dark:$bew-fill-1 hover:$bew-theme-color-30"
-              ml-8 rounded="$bew-interactive-radius" cursor="pointer" border="1 $bew-border-color"
-              box-border
-              duration-300
+              :label="$t('common.close')"
+              size="medium"
               @click="handleClose"
-            >
-              <div i-ic-baseline-clear />
-            </button>
+            />
           </header>
 
           <main
@@ -319,6 +314,37 @@ function handleConfirm() {
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
+  isolation: isolate;
+
+  &::after {
+    position: absolute;
+    z-index: 3;
+    inset: 0;
+    box-sizing: border-box;
+    border: 1px solid var(--bew-surface-border-color);
+    border-radius: inherit;
+    corner-shape: inherit;
+    content: "";
+    pointer-events: none;
+  }
+
+  &--borderless::after {
+    border: 0;
+  }
+}
+
+.dialog__surface {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  box-sizing: border-box;
+  border-radius: inherit;
+  corner-shape: inherit;
+  pointer-events: none;
+}
+
+.dialog__header {
+  isolation: isolate;
 }
 
 .dialog__title {
@@ -336,13 +362,7 @@ function handleConfirm() {
 }
 
 .dialog__close {
-  appearance: none;
-  padding: 0;
-
-  &:focus-visible {
-    outline: 2px solid var(--bew-theme-color-40);
-    outline-offset: var(--bew-space-0-5);
-  }
+  margin-left: var(--bew-space-8);
 }
 
 .moments-dialog-enter-active,

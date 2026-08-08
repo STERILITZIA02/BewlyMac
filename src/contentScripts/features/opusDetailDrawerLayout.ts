@@ -721,7 +721,9 @@ html.momentsPage.drawer.bewly-opus-layout .bewly-opus-viewer__close {
   z-index: 4 !important;
   width: 44px !important;
   height: 44px !important;
+  aspect-ratio: 1 !important;
   border-radius: 50% !important;
+  corner-shape: round !important;
   font-size: 28px !important;
   line-height: 1 !important;
 }
@@ -738,6 +740,12 @@ html.momentsPage.drawer.bewly-opus-layout .bewly-opus-viewer__nav {
 html.momentsPage.drawer.bewly-opus-layout .bewly-opus-viewer__nav > svg {
   width: 24px !important;
   height: 24px !important;
+}
+html.momentsPage.drawer.bewly-opus-layout .bewly-opus-viewer__close > svg {
+  display: block !important;
+  width: 20px !important;
+  height: 20px !important;
+  color: currentColor !important;
 }
 html.momentsPage.drawer.bewly-opus-layout .bewly-opus-viewer__nav:disabled {
   display: none !important;
@@ -758,6 +766,7 @@ html.momentsPage.drawer.bewly-opus-layout .bewly-opus-viewer__toolbar {
   gap: 6px !important;
   padding: 8px 12px !important;
   border-radius: 999px !important;
+  corner-shape: round !important;
   background: rgba(0, 0, 0, 0.55) !important;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.28) !important;
   transform: translateX(-50%) !important;
@@ -766,7 +775,9 @@ html.momentsPage.drawer.bewly-opus-layout .bewly-opus-viewer__toolbar {
 html.momentsPage.drawer.bewly-opus-layout .bewly-opus-viewer__tool {
   width: 34px !important;
   height: 34px !important;
+  aspect-ratio: 1 !important;
   border-radius: 50% !important;
+  corner-shape: round !important;
   background: transparent !important;
   font-size: 20px !important;
 }
@@ -1427,7 +1438,7 @@ function createImageGallery(rawUrls: string[]): HTMLElement {
   viewerClose.type = 'button'
   viewerClose.className = 'bewly-opus-viewer__close'
   viewerClose.setAttribute('aria-label', '关闭图片查看器')
-  viewerClose.textContent = '×'
+  mountGalleryIcon(viewerClose, 'tabler:x')
 
   const viewerPrev = document.createElement('button')
   viewerPrev.type = 'button'

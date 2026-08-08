@@ -243,7 +243,7 @@ function toggleTabContentLoading(loading: boolean) {
           class="glass-panel home-tabs-panel bew-segment-control bew-segment-control--surface"
           :class="{
             'bew-segment-control--static': !settings.enableLiquidSegmentIndicator,
-            'bew-segment-control--solid': !settings.enableFrostedGlass,
+            'bew-segment-control--solid': settings.disableFrostedGlass,
           }"
         >
           <div class="home-tabs-scroll" h-full of-x-auto of-y-hidden>
@@ -275,7 +275,7 @@ function toggleTabContentLoading(loading: boolean) {
           class="glass-panel home-grid-layout-switcher bew-segment-control bew-segment-control--surface"
           :class="{
             'bew-segment-control--static': !settings.enableLiquidSegmentIndicator,
-            'bew-segment-control--solid': !settings.enableFrostedGlass,
+            'bew-segment-control--solid': settings.disableFrostedGlass,
           }"
           flex="~ shrink-0 items-center"
           box-border

@@ -429,7 +429,7 @@ function handleFocusDrawer(e?: Event) {
                 <div
                   v-if="showEscHint"
                   pointer-events-auto
-                  bg="$bew-theme-color" text="white sm" px-3 py-2 rounded="$bew-interactive-radius"
+                  bg="$bew-theme-color" text="$bew-on-theme-color sm" px-3 py-2 rounded="$bew-interactive-radius"
                   flex="~ items-center gap-2"
                 >
                   <i i-mingcute:information-line />

@@ -26,12 +26,12 @@ const { mainAppRef } = useBewlyApp()
 <template>
   <Teleport :to="mainAppRef">
     <div
-      class="context-menu-container"
+      class="context-menu-container bew-shape-smooth-rect"
       :style="menuStyles"
       style="backdrop-filter: var(--bew-filter-glass-1); box-shadow: var(--bew-shadow-edge-glow-1), var(--bew-shadow-1); z-index: 9999;"
       p-1 bg="$bew-elevated" rounded="$bew-popover-radius"
       min-w-140px m="t-1 l-[calc(-140px+0.5rem)]"
-      border="1 $bew-border-color"
+      border="1 $bew-surface-border-color" box-border
     >
       <ul flex="~ col gap-1">
         <li

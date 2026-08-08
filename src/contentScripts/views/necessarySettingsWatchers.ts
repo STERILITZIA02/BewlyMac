@@ -12,6 +12,19 @@ function isFestivalPage(): boolean {
   return /https?:\/\/(?:www\.)?bilibili\.com\/festival\/.*/.test(location.href)
 }
 
+function getOnThemeColor(themeColor: string): '#000' | '#fff' {
+  const hex = themeColor.replace('#', '')
+  const channels = [0, 2, 4].map((offset) => {
+    const srgb = Number.parseInt(hex.slice(offset, offset + 2), 16) / 255
+    return srgb <= 0.04045 ? srgb / 12.92 : ((srgb + 0.055) / 1.055) ** 2.4
+  })
+  const luminance = channels[0] * 0.2126 + channels[1] * 0.7152 + channels[2] * 0.0722
+  const blackContrast = (luminance + 0.05) / 0.05
+  const whiteContrast = 1.05 / (luminance + 0.05)
+
+  return blackContrast >= whiteContrast ? '#000' : '#fff'
+}
+
 export function setupNecessarySettingsWatchers() {
   const { locale } = useI18n()
   const settingsStore = useSettingsStore()
@@ -36,7 +49,7 @@ export function setupNecessarySettingsWatchers() {
     if (bewlyElement)
       targets.push(bewlyElement)
 
-    if (!settings.value.enableFrostedGlass) {
+    if (settings.value.disableFrostedGlass) {
       targets.forEach((element) => {
         element.style.removeProperty('--bew-filter-glass-1')
         element.style.removeProperty('--bew-filter-glass-2')
@@ -62,7 +75,7 @@ export function setupNecessarySettingsWatchers() {
 
   const applyFrostedGlassState = () => {
     const bewlyElement = document.querySelector('#bewly') as HTMLElement | null
-    const shouldDisable = !settings.value.enableFrostedGlass
+    const shouldDisable = settings.value.disableFrostedGlass
 
     bewlyElement?.classList.toggle('disable-frosted-glass', shouldDisable)
     document.documentElement.classList.toggle('disable-frosted-glass', shouldDisable)
@@ -187,7 +200,7 @@ export function setupNecessarySettingsWatchers() {
   )
 
   watch(
-    () => settings.value.enableFrostedGlass,
+    () => settings.value.disableFrostedGlass,
     applyFrostedGlassState,
     { immediate: true },
   )
@@ -286,12 +299,14 @@ export function setupNecessarySettingsWatchers() {
   watch(
     () => settings.value.themeColor,
     () => {
-      const bewlyElement = document.querySelector('#bewly') as HTMLElement
-      if (bewlyElement) {
-        bewlyElement.style.setProperty('--bew-theme-color', settings.value.themeColor)
-      }
+      const bewlyElement = document.querySelector('#bewly') as HTMLElement | null
+      const onThemeColor = getOnThemeColor(settings.value.themeColor)
+      const targets = [document.documentElement, bewlyElement].filter((element): element is HTMLElement => Boolean(element))
 
-      document.documentElement.style.setProperty('--bew-theme-color', settings.value.themeColor)
+      targets.forEach((element) => {
+        element.style.setProperty('--bew-theme-color', settings.value.themeColor)
+        element.style.setProperty('--bew-on-theme-color', onThemeColor)
+      })
     },
     { immediate: true },
   )

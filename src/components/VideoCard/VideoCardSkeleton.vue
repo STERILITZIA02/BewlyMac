@@ -14,7 +14,11 @@ defineProps<{
     mb-3 pointer-events-none select-none
     style="aspect-ratio: 11 / 10;"
   >
-    <div aspect-video bg="$bew-skeleton" rounded="$bew-radius" style="aspect-ratio: 16 / 9;" />
+    <div
+      class="bew-surface-border"
+      aspect-video bg="$bew-skeleton" rounded="$bew-media-radius"
+      style="aspect-ratio: 16 / 9;"
+    />
     <div flex="~ col gap-2" mt-2>
       <div flex="~ gap-1 justify-between items-start" w="full">
         <div flex="~ col gap-2" w="[calc(100%-40px)]">
@@ -44,8 +48,9 @@ defineProps<{
     <!-- Cover -->
     <div
       :class="horizontal ? 'horizontal-card-cover' : 'vertical-card-cover'"
+      class="bew-surface-border"
       shrink-0 aspect-video h-fit bg="$bew-skeleton"
-      rounded="$bew-radius"
+      rounded="$bew-media-radius"
       style="aspect-ratio: 16 / 9;"
     />
     <!-- Other Information -->
@@ -71,7 +76,11 @@ defineProps<{
     mb-4 pointer-events-none select-none
     style="aspect-ratio: 10 / 11;"
   >
-    <div aspect-video bg="$bew-skeleton" rounded="$bew-radius" style="aspect-ratio: 16 / 9;" />
+    <div
+      class="bew-surface-border"
+      aspect-video bg="$bew-skeleton" rounded="$bew-media-radius"
+      style="aspect-ratio: 16 / 9;"
+    />
     <div flex mt-5>
       <div
         m="r-4" w="34px" h="34px" rounded="1/2" bg="$bew-skeleton"
@@ -106,8 +115,9 @@ defineProps<{
     <!-- Cover -->
     <div
       :class="horizontal ? 'horizontal-card-cover' : 'vertical-card-cover'"
+      class="bew-surface-border"
       shrink-0 aspect-video h-fit bg="$bew-skeleton"
-      rounded="$bew-radius"
+      rounded="$bew-media-radius"
     />
     <!-- Other Information -->
     <div

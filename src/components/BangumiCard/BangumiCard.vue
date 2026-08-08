@@ -86,9 +86,11 @@ const { isDark } = useDark()
       <div
         :style="{ width: horizontal ? '170px' : '100%' }"
         tabindex="-1" block
+        class="bangumi-card__cover bew-surface-border"
         rounded="$bew-media-radius" w-full bg="$bew-skeleton" relative shrink-0
+        overflow-hidden
       >
-        <div aspect="12/16" overflow-hidden rounded="$bew-media-radius">
+        <div aspect="12/16" rounded-inherit>
           <!-- badge -->
           <div
             v-if="bangumi.badge && bangumi.badge.text"
@@ -112,7 +114,6 @@ const { isDark } = useDark()
             text="white shadow"
             p-2 fw-bold h-150px flex items-end
             bg="gradient-to-b gradient-from-transparent gradient-to-[rgba(0,0,0,.6)]"
-            rounded-b="$bew-media-radius"
             :style="{
               '--un-text-shadow': bangumi.rank <= 3 ? '4px 4px 0 var(--bew-theme-color), 6px 6px 0 var(--bew-theme-color-60)' : '',
             }"
@@ -121,8 +122,7 @@ const { isDark } = useDark()
           </div>
 
           <div
-            overflow-hidden
-            rounded="$bew-media-radius"
+            rounded-inherit
             aspect="12/16"
             pos="relative"
           >
@@ -165,14 +165,14 @@ const { isDark } = useDark()
             <img
               :src="`${removeHttpFromUrl(bangumi.cover)}@466w_622h.webp`"
               :alt="bangumi.title"
-              rounded="$bew-media-radius" aspect="12/16" max-w-full w-full
+              rounded-inherit aspect="12/16" max-w-full w-full
             >
 
             <!-- image after hovering -->
             <div
               v-if="bangumi.coverHover"
               w-full
-              rounded="$bew-media-radius"
+              rounded-inherit
               aspect="12/16"
               transform="~ scale-110 group-hover:scale-100"
               transition="opacity duration-300, transform duration-300"

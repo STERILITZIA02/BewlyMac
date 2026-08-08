@@ -148,12 +148,14 @@ const maxDate = computed(() => formatDate(new Date()))
 
 <style scoped lang="scss">
 .filter-btn {
+  box-sizing: border-box;
   padding: 0.35rem 0.75rem;
   border-radius: var(--bew-radius-half);
+  corner-shape: var(--bew-corner-shape);
   background: var(--bew-fill-1);
   color: var(--bew-text-2);
   font-size: var(--bew-base-font-size);
-  border: 1px solid transparent;
+  border: 1px solid var(--bew-surface-border-color);
   cursor: pointer;
   transition:
     background-color 0.2s ease,
@@ -170,7 +172,7 @@ const maxDate = computed(() => formatDate(new Date()))
 
   &.active {
     background: var(--bew-theme-color);
-    color: white;
+    color: var(--bew-on-theme-color);
     border-color: var(--bew-theme-color);
   }
 

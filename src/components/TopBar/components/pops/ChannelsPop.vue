@@ -33,7 +33,7 @@ const otherLinks = computed(() => {
     shadow="[var(--bew-shadow-3),var(--bew-shadow-edge-glow-1)]"
     bg="$bew-elevated-alt"
     rounded="$bew-radius"
-    border="1 $bew-border-color"
+    border="1 $bew-surface-border-color"
     class="channels-pop bew-popover"
     data-key="channels"
   >

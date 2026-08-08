@@ -28,6 +28,7 @@ html.bewly-design > ::-webkit-scrollbar-track {
 ::-webkit-scrollbar-thumb {
   background-color: rgba(120, 120, 140, 0.44);
   border-radius: var(--bew-radius-full);
+  corner-shape: var(--bew-corner-shape-round);
 }
 
 ::-webkit-scrollbar-corner {
@@ -135,6 +136,7 @@ img {
     padding: 0 0.5em;
     margin: 0.14em 0.2em;
     border-radius: var(--bew-radius-sm);
+    corner-shape: var(--bew-corner-shape);
     font-weight: var(--bew-font-weight-semibold);
     line-height: 1.24;
   }
@@ -145,6 +147,7 @@ img {
     padding: 0 0.5em;
     margin: 0.14em 0.2em;
     border-radius: var(--bew-radius-sm);
+    corner-shape: var(--bew-corner-shape);
     box-shadow:
       0 0 0 1px var(--bew-border-color),
       0 1.4px 0 0 var(--bew-fill-2);
@@ -184,6 +187,28 @@ img {
   color: var(--bew-warning-color);
 }
 
+// Shared progressive-enhancement utilities. `border-radius` remains the
+// fallback; unsupported browsers simply ignore `corner-shape`.
+.bew-shape-smooth-rect {
+  corner-shape: var(--bew-corner-shape);
+}
+
+.bew-shape-pill {
+  border-radius: var(--bew-radius-full) !important;
+  corner-shape: round !important;
+}
+
+.bew-shape-circle {
+  aspect-ratio: 1;
+  border-radius: 50% !important;
+  corner-shape: round !important;
+}
+
+.bew-surface-border {
+  box-sizing: border-box;
+  border: 1px solid var(--bew-surface-border-color);
+}
+
 // Warning badges share one visual language across settings headings and items.
 .bew-warning-badge {
   display: inline-flex;
@@ -192,6 +217,7 @@ img {
   color: var(--bew-warning-color);
   background: color-mix(in oklab, var(--bew-warning-color), transparent 88%);
   border-radius: var(--bew-badge-radius);
+  corner-shape: var(--bew-corner-shape);
   font-size: var(--bew-font-size-caption);
   font-weight: var(--bew-font-weight-semibold);
   line-height: var(--bew-line-height-caption);
@@ -202,8 +228,9 @@ img {
   box-sizing: border-box;
   color: var(--bew-text-1);
   background: var(--bew-elevated);
-  border: 1px solid var(--bew-border-color);
+  border: 1px solid var(--bew-surface-border-color);
   border-radius: var(--bew-popover-radius);
+  corner-shape: var(--bew-corner-shape);
   box-shadow: var(--bew-shadow-2), var(--bew-shadow-edge-glow-1);
   backdrop-filter: var(--bew-filter-glass-1);
 }

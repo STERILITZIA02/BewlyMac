@@ -134,18 +134,14 @@ const changeDarkModeBaseColorThrottle = useThrottleFn((color: string) => changeD
 
     <SettingsItemGroup :title="$t('settings.group_visual_effects')">
       <SettingsItem
-        :title="$t('settings.enable_frosted_glass')"
-        :badge="$t('settings.badge_performance_impact')"
+        :title="$t('settings.disable_frosted_glass_and_top_bar_gradient')"
+        :desc="$t('settings.disable_frosted_glass_and_top_bar_gradient_desc')"
         right-width="auto"
       >
-        <template #desc>
-          <span class="bew-warning-text">{{ $t('common.performance_impact_warn') }}</span>
-        </template>
-
-        <Radio v-model="settings.enableFrostedGlass" />
+        <Radio v-model="settings.disableFrostedGlass" />
       </SettingsItem>
       <SettingsItem
-        v-if="settings.enableFrostedGlass"
+        v-if="!settings.disableFrostedGlass"
         :title="$t('settings.frosted_glass_blur_intensity')"
         right-width="auto"
       >
@@ -296,7 +292,11 @@ const changeDarkModeBaseColorThrottle = useThrottleFn((color: string) => changeD
         <Radio v-model="settings.enableOledDarkMode" />
       </SettingsItem>
 
-      <SettingsItem :title="$t('settings.gradient_theme_color_background')" right-width="auto">
+      <SettingsItem
+        :title="$t('settings.gradient_theme_color_background')"
+        :desc="$t('settings.gradient_theme_color_background_desc')"
+        right-width="auto"
+      >
         <Radio v-model="settings.useLinearGradientThemeColorBackground" />
       </SettingsItem>
       <SettingsItem
@@ -397,6 +397,7 @@ const changeDarkModeBaseColorThrottle = useThrottleFn((color: string) => changeD
   background: var(--bew-fill-1);
   border: 1px solid var(--bew-fill-3);
   border-radius: var(--bew-interactive-radius);
+  corner-shape: var(--bew-corner-shape);
   font-size: var(--bew-font-size-body);
   line-height: var(--bew-line-height-body);
   color-scheme: inherit;

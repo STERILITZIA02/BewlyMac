@@ -163,6 +163,7 @@ function handlePageMouseDown(event: MouseEvent) {
   color: var(--bew-text-1);
   text-align: left;
   border-radius: var(--bew-interactive-radius);
+  corner-shape: var(--bew-corner-shape);
   font-size: var(--bew-font-size-body);
   font-weight: var(--bew-font-weight-medium);
   line-height: var(--bew-line-height-body);

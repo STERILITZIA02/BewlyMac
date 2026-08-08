@@ -1,6 +1,10 @@
 import { defineConfig, presetAttributify, presetIcons, presetTypography, presetWind3, transformerDirectives } from 'unocss'
 
 const remRE = /(-?[.\d]+)rem/g
+const radiusPropertyRE = /^border(?:-.+)?-radius$/
+const zeroRadiusRE = /^0(?:px|rem|em|%)?$/
+const circleRadiusRE = /^50%$/
+const fullRadiusRE = /^(?:9999px|var\(--bew-radius-full\))$/
 
 export default defineConfig({
   content: {
@@ -57,6 +61,29 @@ export default defineConfig({
             })
           }
         })
+      },
+    },
+    {
+      name: 'smooth-corner-shape',
+      postprocess: (util) => {
+        const radiusEntries = util.entries.filter(([property]) => radiusPropertyRE.test(property))
+        if (radiusEntries.length === 0)
+          return
+
+        const hasSmoothRadius = radiusEntries.some(([, value]) => {
+          return typeof value === 'string'
+            && !zeroRadiusRE.test(value)
+            && !circleRadiusRE.test(value)
+            && !fullRadiusRE.test(value)
+        })
+        if (!hasSmoothRadius)
+          return
+
+        const inheritsRadius = radiusEntries.every(([, value]) => value === 'inherit')
+        util.entries.push([
+          'corner-shape',
+          inheritsRadius ? 'inherit' : 'var(--bew-corner-shape)',
+        ])
       },
     },
   ],

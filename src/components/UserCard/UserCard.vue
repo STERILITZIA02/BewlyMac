@@ -138,7 +138,7 @@ async function handleFollowClick(e: Event) {
     <ALink
       :href="`https://space.bilibili.com/${mid}`"
       type="videoCard"
-      class="user-card cursor-pointer compact"
+      class="user-card cursor-pointer compact bew-surface-border"
       relative
       flex
       align-items-center
@@ -154,7 +154,7 @@ async function handleFollowClick(e: Event) {
           <img
             :src="face"
             :alt="name"
-            class="avatar"
+            class="avatar bew-shape-circle"
             w-24 h-24
             rounded-full object-cover
           >
@@ -243,7 +243,7 @@ async function handleFollowClick(e: Event) {
   <!-- 非Compact模式布局 -->
   <template v-else>
     <div
-      class="user-card cursor-pointer"
+      class="user-card cursor-pointer bew-surface-border"
       :class="{ horizontal }"
       relative
       flex
@@ -260,7 +260,7 @@ async function handleFollowClick(e: Event) {
         <img
           :src="face"
           :alt="name"
-          class="avatar"
+          class="avatar bew-shape-circle"
           :class="horizontal ? 'w-12 h-12' : 'w-16 h-16'"
           rounded-full object-cover
         >
@@ -385,6 +385,14 @@ async function handleFollowClick(e: Event) {
   }
 }
 
+.follow-button,
+.sample-cover,
+.sample-duration,
+.sample-play,
+.follow-button-compact {
+  corner-shape: var(--bew-corner-shape);
+}
+
 .sign-compact {
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -433,7 +441,7 @@ async function handleFollowClick(e: Event) {
   padding: 0 var(--bew-space-5);
   border-radius: var(--bew-interactive-radius);
   background: var(--bew-theme-color);
-  color: white;
+  color: var(--bew-on-theme-color);
   font-size: var(--bew-font-size-control);
   font-weight: var(--bew-font-weight-semibold);
   line-height: var(--bew-line-height-control);
@@ -460,7 +468,7 @@ async function handleFollowClick(e: Event) {
   &.followed {
     background: var(--bew-fill-2);
     color: var(--bew-text-2);
-    border: 1px solid var(--bew-border-color);
+    border: 1px solid var(--bew-surface-border-color);
 
     &:hover:not(:disabled) {
       background: var(--bew-fill-3);
@@ -496,9 +504,12 @@ async function handleFollowClick(e: Event) {
   background: var(--bew-skeleton);
 
   img {
+    display: block;
     width: 100%;
     height: 100%;
     object-fit: cover;
+    border-radius: inherit;
+    corner-shape: inherit;
   }
 }
 
@@ -598,7 +609,7 @@ async function handleFollowClick(e: Event) {
   padding: 0 var(--bew-space-3);
   border-radius: var(--bew-interactive-radius);
   background: var(--bew-theme-color);
-  color: white;
+  color: var(--bew-on-theme-color);
   font-size: var(--bew-font-size-control);
   font-weight: var(--bew-font-weight-semibold);
   line-height: var(--bew-line-height-control);

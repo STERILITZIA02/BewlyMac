@@ -77,20 +77,6 @@ function updateListLayoutBreakpoint(value: string | number | undefined) {
         <Select v-model="settings.videoCardLayout" :options="videoCardLayoutOptions" w="160px" />
       </SettingsItem>
 
-      <SettingsItem
-        :title="$t('settings.release_offscreen_images')"
-        :badge="$t('settings.badge_use_with_caution')"
-        right-width="auto"
-      >
-        <template #desc>
-          <span>{{ $t('settings.release_offscreen_images_desc') }}</span>
-          <span block class="bew-warning-text">
-            {{ $t('settings.release_offscreen_images_warning') }}
-          </span>
-        </template>
-        <Radio v-model="settings.releaseOffscreenVideoCardImages" />
-      </SettingsItem>
-
       <SettingsItem :title="$t('settings.enable_video_preview')" right-width="auto">
         <Radio v-model="settings.enableVideoPreview" />
       </SettingsItem>
@@ -345,6 +331,7 @@ function updateListLayoutBreakpoint(value: string | number | undefined) {
     var(--bew-fill-2) 100%
   );
   border-radius: var(--bew-radius-full);
+  corner-shape: round;
   cursor: pointer;
   accent-color: var(--bew-theme-color);
 
@@ -355,6 +342,7 @@ function updateListLayoutBreakpoint(value: string | number | undefined) {
     background: var(--bew-theme-color);
     border: 2px solid var(--bew-elevated-solid);
     border-radius: 50%;
+    corner-shape: var(--bew-corner-shape-round);
     box-shadow: var(--bew-shadow-1);
   }
 
@@ -362,12 +350,14 @@ function updateListLayoutBreakpoint(value: string | number | undefined) {
     height: 4px;
     background: var(--bew-fill-2);
     border-radius: var(--bew-radius-full);
+    corner-shape: round;
   }
 
   &::-moz-range-progress {
     height: 4px;
     background: var(--bew-theme-color);
     border-radius: var(--bew-radius-full);
+    corner-shape: round;
   }
 
   &::-moz-range-thumb {
@@ -376,6 +366,7 @@ function updateListLayoutBreakpoint(value: string | number | undefined) {
     background: var(--bew-theme-color);
     border: 2px solid var(--bew-elevated-solid);
     border-radius: 50%;
+    corner-shape: var(--bew-corner-shape-round);
     box-shadow: var(--bew-shadow-1);
   }
 

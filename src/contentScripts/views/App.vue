@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { onKeyStroke, useEventListener, useIntersectionObserver, useThrottleFn, useToggle } from '@vueuse/core'
+import { onKeyStroke, useEventListener, useIntersectionObserver, useThrottleFn } from '@vueuse/core'
 import type { Ref } from 'vue'
 import { provide, ref, watch } from 'vue'
 
 import Button from '~/components/Button.vue'
+import CloseButton from '~/components/CloseButton.vue'
 import type { BewlyAppProvider } from '~/composables/useAppProvider'
 import { DrawerType, UndoForwardState } from '~/composables/useAppProvider'
 import { confirmDialogKey } from '~/composables/useConfirmDialog'
@@ -44,8 +45,44 @@ if (shouldUseDark) {
 else {
   isDark = ref(false)
 }
-const [showSettings, toggleSettings] = useToggle(false)
+const showSettings = ref(false)
+const settingsLaunchStyle = ref<Record<string, string>>({})
 const searchFocusOverlayActive = ref(false)
+
+function clamp(value: number, min: number, max: number) {
+  return Math.min(max, Math.max(min, value))
+}
+
+function toggleSettings(origin: DOMRect) {
+  if (showSettings.value) {
+    showSettings.value = false
+    return
+  }
+
+  const viewportWidth = window.innerWidth
+  const viewportHeight = window.innerHeight
+  const compactLayout = viewportWidth <= 1279
+  const panelWidth = compactLayout
+    ? Math.min(1072, viewportWidth - 24)
+    : Math.min(viewportWidth * 0.9, 1000)
+  const panelHeight = Math.min(viewportHeight * 0.9, 900)
+  const panelCenterX = viewportWidth / 2 + (compactLayout ? -4 : 0)
+  const panelCenterY = viewportHeight / 2
+  const sourceX = origin.left + origin.width / 2
+  const sourceY = origin.top + origin.height / 2
+  const enterX = clamp(sourceX - panelCenterX, -96, 96)
+  const enterY = clamp(sourceY - panelCenterY, -72, 72)
+
+  settingsLaunchStyle.value = {
+    '--bew-settings-origin-x': `${clamp(sourceX - (panelCenterX - panelWidth / 2), 0, panelWidth)}px`,
+    '--bew-settings-origin-y': `${clamp(sourceY - (panelCenterY - panelHeight / 2), 0, panelHeight)}px`,
+    '--bew-settings-enter-x': `${enterX}px`,
+    '--bew-settings-enter-y': `${enterY}px`,
+    '--bew-settings-leave-x': `${enterX * 0.35}px`,
+    '--bew-settings-leave-y': `${enterY * 0.35}px`,
+  }
+  showSettings.value = true
+}
 
 interface ConfirmDialogRequest {
   id: number
@@ -958,9 +995,16 @@ if (settings.value.cleanUrlArgument) {
     </template>
 
     <!-- Settings -->
-    <KeepAlive>
-      <Settings v-if="showSettings" z-10002 @close="showSettings = false" />
-    </KeepAlive>
+    <Transition name="settings-launch">
+      <KeepAlive>
+        <Settings
+          v-if="showSettings"
+          z-10002
+          :style="settingsLaunchStyle"
+          @close="showSettings = false"
+        />
+      </KeepAlive>
+    </Transition>
 
     <!-- Dock & RightSideButtons -->
     <div
@@ -1072,14 +1116,12 @@ if (settings.value.cleanUrlArgument) {
           <p class="bew-confirm-dialog__title">
             {{ $t('common.operation.confirm') }}
           </p>
-          <button
-            type="button"
+          <CloseButton
             class="bew-confirm-dialog__close"
-            :aria-label="$t('common.operation.cancel')"
+            :label="$t('common.close')"
+            size="medium"
             @click="finishConfirmDialog(false)"
-          >
-            <div i-ic-baseline-clear />
-          </button>
+          />
         </header>
         <div class="bew-confirm-dialog__body">
           <p class="bew-confirm-dialog__message">
@@ -1127,8 +1169,10 @@ if (settings.value.cleanUrlArgument) {
   max-width: calc(100vw - 32px);
   overflow: hidden;
   background: var(--bew-elevated-alt-solid);
-  border: 1px solid var(--bew-border-color);
+  box-sizing: border-box;
+  border: 1px solid var(--bew-surface-border-color);
   border-radius: var(--bew-modal-radius);
+  corner-shape: var(--bew-corner-shape);
   box-shadow: var(--bew-shadow-4), var(--bew-shadow-edge-glow-2);
   transform: translate(-50%, -50%);
 }
@@ -1147,33 +1191,6 @@ if (settings.value.cleanUrlArgument) {
   font-size: var(--bew-font-size-title);
   font-weight: var(--bew-font-weight-semibold);
   line-height: var(--bew-line-height-title);
-}
-
-.bew-confirm-dialog__close {
-  display: flex;
-  flex-shrink: 0;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  padding: 0;
-  appearance: none;
-  color: inherit;
-  cursor: pointer;
-  background: var(--bew-elevated);
-  border: 1px solid var(--bew-border-color);
-  border-radius: var(--bew-interactive-radius);
-  box-shadow: var(--bew-shadow-edge-glow-1), var(--bew-shadow-2);
-
-  &:hover {
-    color: var(--bew-theme-color);
-    background: var(--bew-theme-color-30);
-  }
-
-  &:focus-visible {
-    outline: 2px solid var(--bew-theme-color-40);
-    outline-offset: var(--bew-space-0-5);
-  }
 }
 
 .bew-confirm-dialog__body {

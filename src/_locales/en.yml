@@ -3,6 +3,7 @@ common:
   play_all: Play ALL
   loading: Loading...
   search: Search
+  close: Close
   undo: UNDO
   days: days
   view: no view | {count} view | {count} views
@@ -45,6 +46,8 @@ common:
     import: Import
     export: Export
     undo_refresh: Undo Refresh
+    forward_refresh: Redo Refresh
+    back_to_top: Back to top
     remove: Remove
   table:
     index: Index
@@ -93,6 +96,7 @@ settings:
   category_shortcuts_desc: Enable, customize, or restore BewlyMac and player shortcuts.
   breadcrumb: Settings location
   group_interaction_layout: Interaction & Layout
+  group_memory_saving: Memory Saving
   category_browsing_home_desc: Configure home recommendations, content filters, following, and home tabs.
   category_browsing_video_card_desc: Configure video card layout, previews, metadata, and link behavior.
   category_browsing_favorites_desc: Configure how favorite content is displayed and opened.
@@ -326,7 +330,8 @@ settings:
     By default, Bilibili will specifically handle Chinese punctuation to achieve
     left alignment. If you are using a custom font, it is recommended to remove
     the indent.
-  enable_frosted_glass: Enable frosted glass effect
+  disable_frosted_glass_and_top_bar_gradient: Disable frosted glass and top bar gradient
+  disable_frosted_glass_and_top_bar_gradient_desc: Turn this on to use solid surfaces without frosted glass or the top bar gradient. Both effects are enabled by default.
   frosted_glass_blur_intensity: Frosted glass blur intensity
   enable_liquid_segment_indicator: Enable liquid segment indicator
   enable_liquid_segment_indicator_desc: >
@@ -408,10 +413,6 @@ settings:
     alwaysHide: Always hide
     showOnMouse: On hover
     showOnScroll: On scroll
-  always_use_transparent_top_bar: Always use transparent (legacy) style for top bar
-  enable_top_bar_gradient: Enable top bar gradient effect
-  enable_top_bar_gradient_desc: Use a frosted glass gradient on the top bar by default; disable it to use a solid background.
-  show_top_bar_theme_color_gradient: Show theme color gradient in top bar (only works in dark mode)
   show_bewly_or_bili_page_switcher: Show page mode switcher
   filter_articles_in_moments: Filter articles
   filter_articles_in_moments_desc: Hide articles from the moments feed and only show videos
@@ -523,7 +524,8 @@ settings:
   dark_mode_base_color: Dark mode base color
   enable_oled_dark_mode: OLED pure black mode
   enable_oled_dark_mode_desc: Only applies while the effective theme is dark; page backgrounds become pure black while cards and overlays keep their layers.
-  gradient_theme_color_background: Use a gradient theme color as the background in dark mode
+  gradient_theme_color_background: Use theme color gradient in dark mode
+  gradient_theme_color_background_desc: Apply it to both the page background and top bar.
   customize_css: Customize CSS
   customize_css_desc: >-
     If you are unfamiliar with CSS, please DO NOT modify CSS. Doing so may cause

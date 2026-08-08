@@ -417,8 +417,10 @@ const weekDays = ['日', '一', '二', '三', '四', '五', '六']
   min-height: 28px;
   padding: 0 var(--bew-space-6) 0 var(--bew-space-2);
   background: var(--bew-fill-1);
-  border: 1px solid transparent;
+  box-sizing: border-box;
+  border: 1px solid var(--bew-surface-border-color);
   border-radius: var(--bew-interactive-radius);
+  corner-shape: var(--bew-corner-shape);
   color: var(--bew-text-3);
   font-size: var(--bew-font-size-control);
   font-weight: var(--bew-font-weight-regular);
@@ -521,6 +523,7 @@ const weekDays = ['日', '一', '二', '三', '四', '五', '六']
   background: transparent;
   border: none;
   border-radius: var(--bew-interactive-radius);
+  corner-shape: var(--bew-corner-shape);
   color: var(--bew-text-2);
   cursor: pointer;
   transition:
@@ -572,6 +575,7 @@ const weekDays = ['日', '一', '二', '三', '四', '五', '六']
   background: transparent;
   border: none;
   border-radius: var(--bew-interactive-radius);
+  corner-shape: var(--bew-corner-shape);
   color: var(--bew-text-1);
   font-size: var(--bew-font-size-body);
   cursor: pointer;
@@ -603,7 +607,7 @@ const weekDays = ['日', '一', '二', '三', '四', '五', '六']
 
   &.selected {
     background: var(--bew-theme-color);
-    color: white;
+    color: var(--bew-on-theme-color);
     font-weight: var(--bew-font-weight-semibold);
 
     &:hover {
@@ -629,6 +633,7 @@ const weekDays = ['日', '一', '二', '三', '四', '五', '六']
   background: transparent;
   border: none;
   border-radius: var(--bew-interactive-radius);
+  corner-shape: var(--bew-corner-shape);
   font-size: var(--bew-font-size-control);
   font-weight: var(--bew-font-weight-medium);
   line-height: var(--bew-line-height-control);

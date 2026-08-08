@@ -10,9 +10,24 @@ export type MessageHandler<T = any, R = any> = (
   sender?: browser.Runtime.MessageSender,
 ) => R | Promise<R>
 
+const EXTENSION_CONTEXT_INVALIDATED_MESSAGE = 'Extension context invalidated.'
+
 export function isExtensionContextInvalidatedError(error: unknown): boolean {
-  const message = error instanceof Error ? error.message : String(error)
-  return message.toLowerCase().includes('extension context invalidated')
+  const message = (error instanceof Error ? error.message : String(error)).toLowerCase()
+  return message.includes('extension context invalidated')
+    || message.includes('cannot read properties of undefined (reading \'sendmessage\')')
+    || message.includes('message channel closed before a response was received')
+    || message.includes('message port closed before a response was received')
+    || message.includes('receiving end does not exist')
+}
+
+function getRuntime(): typeof browser.runtime | undefined {
+  try {
+    return browser.runtime
+  }
+  catch {
+    return undefined
+  }
 }
 
 /**
@@ -20,7 +35,18 @@ export function isExtensionContextInvalidatedError(error: unknown): boolean {
  */
 export async function sendMessage<T = any, R = any>(type: string, data?: T): Promise<R> {
   const message: Message<T> = { type, data: data as T }
-  return browser.runtime.sendMessage(message)
+  const runtime = getRuntime()
+  if (!runtime?.sendMessage)
+    throw new Error(EXTENSION_CONTEXT_INVALIDATED_MESSAGE)
+
+  try {
+    return await runtime.sendMessage(message)
+  }
+  catch (error) {
+    if (isExtensionContextInvalidatedError(error))
+      throw new Error(EXTENSION_CONTEXT_INVALIDATED_MESSAGE)
+    throw error
+  }
 }
 
 /**
@@ -30,14 +56,13 @@ export function onMessage<T = any, R = any>(
   type: string,
   handler: MessageHandler<T, R>,
 ): void {
-  browser.runtime.onMessage.addListener((message: any, sender) => {
+  const runtime = getRuntime()
+  if (!runtime?.onMessage)
+    return
+
+  runtime.onMessage.addListener((message: any, sender) => {
     if (message?.type === type) {
-      const result = handler(message.data, sender)
-      // 如果返回 Promise，需要返回 true 表示异步响应
-      if (result instanceof Promise) {
-        return result
-      }
-      return Promise.resolve(result)
+      return handler(message.data, sender)
     }
     // 返回 false 或 undefined 表示不处理此消息
     return false

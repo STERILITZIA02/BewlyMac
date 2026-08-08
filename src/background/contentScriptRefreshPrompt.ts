@@ -156,10 +156,12 @@ function showRefreshPrompt(...args: unknown[]): void {
     '--bew-theme-color',
     '--bew-theme-color-80',
     '--bew-theme-color-40',
+    '--bew-on-theme-color',
     '--bew-dark-base-color',
     '--bew-text-1',
     '--bew-text-2',
     '--bew-border-color',
+    '--bew-surface-border-color',
     '--bew-elevated',
     '--bew-elevated-solid',
     '--bew-elevated-solid-hover',
@@ -220,7 +222,7 @@ function showRefreshPrompt(...args: unknown[]): void {
       color: var(--bew-text-1, #18191c);
       background: var(--bew-elevated-solid, rgb(255 255 255 / 96%));
       background: color-mix(in oklab, var(--bew-elevated-solid, white) 90%, transparent);
-      border: 1px solid var(--bew-border-color, rgb(0 0 0 / 10%));
+      border: 1px solid var(--bew-surface-border-color, rgb(0 0 0 / 10%));
       border-radius: var(--bew-panel-radius, var(--bew-radius, 12px));
       box-shadow: var(--bew-shadow-edge-glow-1, 0 0 0 transparent), var(--bew-shadow-3, 0 8px 30px rgb(0 0 0 / 18%));
       backdrop-filter: var(--bew-filter-glass-1, blur(12px));
@@ -284,11 +286,11 @@ function showRefreshPrompt(...args: unknown[]): void {
       outline-offset: 2px;
     }
     .primary {
-      color: white;
+      color: var(--bew-on-theme-color, white);
       background: var(--bew-theme-color, #00aeec);
     }
     .primary:hover {
-      color: white;
+      color: var(--bew-on-theme-color, white);
       background: var(--bew-theme-color-80, var(--bew-theme-color, #00aeec));
     }
     :host([data-theme="dark"]) .prompt {
@@ -307,7 +309,7 @@ function showRefreshPrompt(...args: unknown[]): void {
     }
     :host([data-theme="dark"]) .primary,
     :host([data-theme="dark"]) .primary:hover {
-      color: white;
+      color: var(--bew-on-theme-color, white);
     }
     :host([data-theme="dark"]) .primary {
       background: var(--bew-theme-color, #00aeec);

@@ -42,9 +42,9 @@ const metaText = computed(() => {
   <ALink
     :href="media.url"
     type="videoCard"
-    class="movie-card"
+    class="movie-card bew-shape-smooth-rect bew-surface-border"
   >
-    <div class="poster">
+    <div class="poster bew-shape-smooth-rect bew-surface-border">
       <img
         v-if="posterUrl"
         :src="posterUrl"
@@ -91,6 +91,7 @@ const metaText = computed(() => {
   padding: var(--bew-space-4);
   background: var(--bew-elevated);
   border-radius: var(--bew-card-radius);
+  corner-shape: var(--bew-corner-shape);
   transition:
     transform 0.2s ease,
     background-color 0.2s ease;
@@ -106,16 +107,31 @@ const metaText = computed(() => {
   position: relative;
   width: 100%;
   border-radius: var(--bew-media-radius);
+  corner-shape: var(--bew-corner-shape);
   overflow: hidden;
   background: var(--bew-skeleton);
   aspect-ratio: 2 / 3;
 
+  img {
+    border-radius: inherit;
+    corner-shape: inherit;
+  }
+
   img,
   .poster-fallback {
+    display: block;
     width: 100%;
     height: 100%;
     object-fit: cover;
+    border-radius: inherit;
+    corner-shape: inherit;
   }
+}
+
+.score-chip,
+.type-chip,
+.tags span {
+  corner-shape: var(--bew-corner-shape);
 }
 
 .score-chip {

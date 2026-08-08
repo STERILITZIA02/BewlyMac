@@ -3,6 +3,7 @@ common:
   play_all: 全部播放
   loading: 載入中...
   search: 搜尋
+  close: 關閉
   undo: 復原
   days: 天
   view: '{count}次'
@@ -45,6 +46,8 @@ common:
     import: 匯入
     export: 匯出
     undo_refresh: 撤銷更新
+    forward_refresh: 前進更新
+    back_to_top: 回到頂部
     remove: 移除
   table:
     index: 索引
@@ -93,6 +96,7 @@ settings:
   category_shortcuts_desc: 啟用、修改或還原 BewlyMac 與播放器快速鍵。
   breadcrumb: 設定位置
   group_interaction_layout: 互動與版面
+  group_memory_saving: 記憶體節省
   category_browsing_home_desc: 設定首頁推薦、內容過濾、關注頁和首頁分頁。
   category_browsing_video_card_desc: 設定影片卡片的版面、預覽、資訊顯示與開啟方式。
   category_browsing_favorites_desc: 設定收藏內容的顯示與互動方式。
@@ -312,7 +316,8 @@ settings:
   remove_the_indent_from_chinese_punctuation: 移除中文標點符號的縮排
   remove_the_indent_from_chinese_punctuation_desc: |
     Bilibili 預設會特別處理中文標點符號以達到左對齊。 如果你正在使用自訂字型，建議移除縮排。
-  enable_frosted_glass: 啟用毛玻璃效果
+  disable_frosted_glass_and_top_bar_gradient: 關閉毛玻璃與頂部列漸變
+  disable_frosted_glass_and_top_bar_gradient_desc: 開啟後關閉全域毛玻璃和頂部列漸變，並使用實色表面；兩種效果預設開啟。
   frosted_glass_blur_intensity: 毛玻璃模糊強度
   enable_liquid_segment_indicator: 啟用液態分段指示器
   enable_liquid_segment_indicator_desc: |
@@ -432,10 +437,6 @@ settings:
     alwaysHide: 總是隱藏
     showOnMouse: 滑鼠顯示
     showOnScroll: 滾動顯示
-  always_use_transparent_top_bar: 頂部列始終使用透明(舊版)樣式
-  enable_top_bar_gradient: 啟用頂部列漸變效果
-  enable_top_bar_gradient_desc: 開啟後頂部列預設使用毛玻璃漸變，關閉後改為實色背景。
-  show_top_bar_theme_color_gradient: 在頂部列顯示主題色漸變（僅在深色模式下有效）
   show_bewly_or_bili_page_switcher: 顯示頁面模式切換按鈕
   filter_articles_in_moments: 過濾專欄
   filter_articles_in_moments_desc: 在動態列表中過濾專欄內容，僅顯示影片
@@ -487,7 +488,8 @@ settings:
   dark_mode_base_color: 深色模式基準顏色
   enable_oled_dark_mode: OLED 純黑模式
   enable_oled_dark_mode_desc: 僅在實際處於深色模式時生效；網頁底色會變為純黑，卡片和浮層仍保留層次。
-  gradient_theme_color_background: 在深色模式下使用漸層主題色作為背景
+  gradient_theme_color_background: 在深色模式下使用主題色漸變
+  gradient_theme_color_background_desc: 同時套用於網頁背景和頂部列。
   customize_css: 自訂 CSS
   customize_css_desc: |-
     如果你不熟悉 CSS，請不要修改 CSS。否則可能會導致意外的顯示問題。

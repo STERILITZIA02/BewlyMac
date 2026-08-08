@@ -178,7 +178,7 @@ function arraysEqual<T>(a: T[], b: T[]): boolean {
     class="pinned-channels bew-segment-control bew-segment-control--surface"
     :class="{
       'white-theme': props.forceWhiteIcon,
-      'bew-segment-control--solid': !settings.enableFrostedGlass,
+      'bew-segment-control--solid': settings.disableFrostedGlass,
     }"
   >
     <div ref="listRef" class="pinned-channels__list">
@@ -253,6 +253,7 @@ function arraysEqual<T>(a: T[], b: T[]): boolean {
     min-width: var(--bew-control-item-height);
     padding: 0 8px;
     border-radius: var(--bew-control-item-radius);
+    corner-shape: var(--bew-corner-shape);
     background: transparent;
     color: var(--bew-text-2);
     font-size: var(--bew-control-label-size);

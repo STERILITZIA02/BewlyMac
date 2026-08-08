@@ -1163,6 +1163,7 @@ defineExpose({ initData })
               @click="selectUploader(null)"
             >
               <div
+                class="bew-shape-circle"
                 w-30px h-30px rounded-full
                 bg="$bew-fill-2" flex="~ items-center justify-center"
                 shrink-0
@@ -1193,6 +1194,7 @@ defineExpose({ initData })
               <div pos="relative" shrink-0>
                 <img
                   :src="`${uploader.face}@50w_50h`"
+                  class="bew-shape-circle"
                   w-30px h-30px rounded-full object-cover
                   loading="lazy"
                   alt="Avatar"
@@ -1201,6 +1203,7 @@ defineExpose({ initData })
                 <div
                   v-if="uploader.hasUpdate"
                   pos="absolute top-0 right-0"
+                  class="bew-shape-circle"
                   w-8px h-8px rounded-full
                   bg="red-500" border="2 $bew-elevated"
                 />

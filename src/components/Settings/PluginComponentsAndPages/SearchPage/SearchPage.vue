@@ -21,7 +21,7 @@ function changeSearchBarFocusCharacter(url: string) {
             text-center rounded="$bew-radius"
             :style="{
               background: settings.searchPageLogoColor === 'themeColor' || !settings.searchPageLogoColor ? 'var(--bew-theme-color)' : '',
-              color: settings.searchPageLogoColor === 'themeColor' || !settings.searchPageLogoColor ? 'white' : '',
+              color: settings.searchPageLogoColor === 'themeColor' || !settings.searchPageLogoColor ? 'var(--bew-on-theme-color)' : '',
             }"
             @click="settings.searchPageLogoColor = 'themeColor'"
           >
@@ -33,7 +33,7 @@ function changeSearchBarFocusCharacter(url: string) {
             text-center rounded="$bew-radius"
             :style="{
               background: settings.searchPageLogoColor === 'white' ? 'var(--bew-theme-color)' : '',
-              color: settings.searchPageLogoColor === 'white' ? 'white' : '',
+              color: settings.searchPageLogoColor === 'white' ? 'var(--bew-on-theme-color)' : '',
             }"
             @click="settings.searchPageLogoColor = 'white'"
           >
@@ -139,7 +139,7 @@ function changeSearchBarFocusCharacter(url: string) {
             text-center rounded="$bew-radius"
             :style="{
               background: settings.searchResultsPaginationMode === 'scroll' ? 'var(--bew-theme-color)' : '',
-              color: settings.searchResultsPaginationMode === 'scroll' ? 'white' : '',
+              color: settings.searchResultsPaginationMode === 'scroll' ? 'var(--bew-on-theme-color)' : '',
             }"
             @click="settings.searchResultsPaginationMode = 'scroll'"
           >
@@ -151,7 +151,7 @@ function changeSearchBarFocusCharacter(url: string) {
             text-center rounded="$bew-radius"
             :style="{
               background: settings.searchResultsPaginationMode === 'pagination' ? 'var(--bew-theme-color)' : '',
-              color: settings.searchResultsPaginationMode === 'pagination' ? 'white' : '',
+              color: settings.searchResultsPaginationMode === 'pagination' ? 'var(--bew-on-theme-color)' : '',
             }"
             @click="settings.searchResultsPaginationMode = 'pagination'"
           >

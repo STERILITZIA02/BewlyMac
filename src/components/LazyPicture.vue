@@ -357,15 +357,15 @@ watch(
   <picture
     ref="imgRef"
     w-full max-w-full align-middle
-    rounded="$bew-radius"
-    style="aspect-ratio: 16 / 9; display: block; position: relative; overflow: hidden; contain: layout style;"
+    rounded-inherit
+    style="aspect-ratio: 16 / 9; display: block; position: relative; contain: layout style;"
   >
     <div
       v-if="showSkeleton && !isLoaded"
       aria-hidden="true"
       w-full h-full
       bg="$bew-skeleton"
-      rounded="$bew-radius"
+      rounded-inherit
       class="lazy-picture-skeleton"
     />
 

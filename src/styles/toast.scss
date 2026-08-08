@@ -28,8 +28,10 @@
   color: var(--bew-text-1);
   background: var(--bew-elevated-solid);
   background: color-mix(in oklab, var(--bew-elevated-solid) 90%, transparent);
-  border: 1px solid var(--bew-border-color);
+  box-sizing: border-box;
+  border: 1px solid var(--bew-surface-border-color);
   border-radius: var(--bew-panel-radius, 12px);
+  corner-shape: var(--bew-corner-shape);
   box-shadow: var(--bew-shadow-edge-glow-1), var(--bew-shadow-3);
   backdrop-filter: var(--bew-filter-glass-1);
   font-family: inherit;
@@ -92,6 +94,7 @@
     display: inline-flex;
     width: 24px;
     height: 24px;
+    aspect-ratio: 1;
     flex: 0 0 24px;
     align-items: center;
     justify-content: center;
@@ -100,7 +103,8 @@
     color: var(--bew-text-2);
     background: var(--bew-fill-1);
     border: 0;
-    border-radius: var(--bew-radius-half, 6px);
+    border-radius: 50%;
+    corner-shape: var(--bew-corner-shape-round);
     font-size: var(--bew-font-size-heading);
     font-weight: var(--bew-font-weight-regular);
     line-height: 1;

@@ -111,10 +111,11 @@ function acknowledgeCurrentVersion() {
   align-items: center;
   min-height: 42px;
   padding: var(--bew-space-2) var(--bew-space-3);
-  color: white;
+  color: var(--bew-on-theme-color);
   background: var(--bew-theme-color);
   border: 1px solid var(--bew-theme-color);
   border-radius: var(--bew-panel-radius);
+  corner-shape: var(--bew-corner-shape);
   box-shadow: var(--bew-shadow-2);
   cursor: pointer;
   transition:
@@ -126,7 +127,7 @@ function acknowledgeCurrentVersion() {
 }
 
 .version-reminder-trigger:hover {
-  color: white;
+  color: var(--bew-on-theme-color);
   background: var(--bew-theme-color-80);
   border-color: var(--bew-theme-color-80);
   box-shadow: var(--bew-shadow-4);
@@ -144,7 +145,7 @@ function acknowledgeCurrentVersion() {
 .version-reminder-trigger__icon {
   width: 20px;
   height: 20px;
-  color: white;
+  color: var(--bew-on-theme-color);
 }
 
 .version-reminder-trigger__text {
@@ -163,7 +164,7 @@ function acknowledgeCurrentVersion() {
   margin-top: var(--bew-space-0-5);
   font-size: var(--bew-font-size-caption);
   line-height: var(--bew-line-height-caption);
-  color: rgb(255 255 255 / 78%);
+  color: var(--bew-on-theme-color);
 }
 
 .version-reminder-dialog {
@@ -194,8 +195,10 @@ function acknowledgeCurrentVersion() {
   padding: var(--bew-space-3);
   color: var(--bew-text-1);
   background: var(--bew-fill-1);
-  border: 1px solid var(--bew-border-color);
+  box-sizing: border-box;
+  border: 1px solid var(--bew-surface-border-color);
   border-radius: var(--bew-card-radius);
+  corner-shape: var(--bew-corner-shape);
   transition:
     color 160ms ease,
     background-color 160ms ease,
@@ -214,6 +217,7 @@ function acknowledgeCurrentVersion() {
   padding: 8px;
   background: currentColor;
   border-radius: var(--bew-interactive-radius);
+  corner-shape: var(--bew-corner-shape);
 }
 
 .version-reminder-dialog__link-icon--github {

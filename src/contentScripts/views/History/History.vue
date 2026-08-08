@@ -325,7 +325,7 @@ function jumpToLoginPage() {
                 v-if="historyItem.history.business !== HistoryBusiness.ARCHIVE"
                 pos="absolute right-0 top-0"
                 bg="$bew-theme-color"
-                text="xs white"
+                text="xs $bew-on-theme-color"
                 p="x-2 y-1"
                 m-1
                 rounded="$bew-radius-half"

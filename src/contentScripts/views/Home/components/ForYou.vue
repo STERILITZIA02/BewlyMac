@@ -16,6 +16,7 @@ import { useForYouStore } from '~/stores/forYouStore'
 import api from '~/utils/api'
 import { TVAppKey } from '~/utils/authProvider'
 import { decodeHtmlEntities } from '~/utils/htmlDecode'
+import { isExtensionContextInvalidatedError } from '~/utils/messaging'
 import { isVerticalVideo } from '~/utils/uriParse'
 
 const { gridLayout } = defineProps<{
@@ -640,6 +641,9 @@ async function getData(webRequestType: WebRecommendRequestType = 'refresh') {
         await getAppRecommendVideos(version, webRequestType)
       }
       catch (error) {
+        if (isExtensionContextInvalidatedError(error))
+          return
+
         if (version !== requestVersion || settings.value.recommendationMode !== 'app')
           return
 
@@ -658,8 +662,8 @@ async function getData(webRequestType: WebRecommendRequestType = 'refresh') {
       }
     }
   }
-  catch {
-    if (version === requestVersion)
+  catch (error) {
+    if (version === requestVersion && !isExtensionContextInvalidatedError(error))
       requestFailed.value = true
   }
   finally {
@@ -880,7 +884,8 @@ async function getRecommendVideos(version = requestVersion, requestType: WebReco
       })
     }
     catch (error) {
-      logRecommendRequestFailure(requestLog, { error })
+      if (!isExtensionContextInvalidatedError(error))
+        logRecommendRequestFailure(requestLog, { error })
       throw error
     }
 
@@ -1112,7 +1117,8 @@ async function getAppRecommendVideos(
         })
       }
       catch (error) {
-        logRecommendRequestFailure(requestLog, { error })
+        if (!isExtensionContextInvalidatedError(error))
+          logRecommendRequestFailure(requestLog, { error })
         throw error
       }
 

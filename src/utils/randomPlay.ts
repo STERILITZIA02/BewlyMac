@@ -702,6 +702,8 @@ export function createRandomPlayUI(): HTMLElement | null {
     background: var(--bew-switch-bg);
     border: 0;
     border-radius: 10px;
+    corner-shape: round;
+    overflow: hidden;
     transition: background-color 0.3s;
     cursor: pointer;
   `
@@ -714,8 +716,10 @@ export function createRandomPlayUI(): HTMLElement | null {
     left: 2px;
     width: 16px;
     height: 16px;
+    aspect-ratio: 1;
     background: white;
     border-radius: 50%;
+    corner-shape: round;
     transition: transform 0.3s;
   `
 

@@ -137,6 +137,7 @@ const channels = setupTopBarItemHoverEvent('channels')
   padding: 0;
   border: 0;
   border-radius: var(--bew-top-bar-primary-control-radius);
+  corner-shape: var(--bew-corner-shape-round);
   background: transparent;
   color: var(--bew-theme-color);
   transition:
@@ -145,13 +146,14 @@ const channels = setupTopBarItemHoverEvent('channels')
 
   &:hover {
     background: var(--bew-theme-color);
-    color: white;
+    color: var(--bew-on-theme-color);
   }
 
   &--brand {
     display: inline-flex;
     width: auto;
     padding-inline: var(--bew-space-2);
+    corner-shape: var(--bew-corner-shape);
   }
 
   &--white {
@@ -166,10 +168,10 @@ const channels = setupTopBarItemHoverEvent('channels')
 
   &.activated {
     background-color: var(--bew-theme-color);
-    color: white;
+    color: var(--bew-on-theme-color);
 
     svg {
-      fill: white !important;
+      fill: currentColor !important;
       filter: none !important;
     }
   }
@@ -202,7 +204,7 @@ const channels = setupTopBarItemHoverEvent('channels')
   }
 
   &:hover .home-icon {
-    color: white !important;
+    color: var(--bew-on-theme-color) !important;
     filter: none !important;
   }
 }

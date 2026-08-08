@@ -43,6 +43,8 @@
   --bew-radius-xl: 16px;
   --bew-radius-2xl: 24px;
   --bew-radius-full: 9999px;
+  --bew-corner-shape: superellipse(1.7);
+  --bew-corner-shape-round: round;
   --bew-radius: var(--bew-radius-lg);
   --bew-card-radius: var(--bew-radius-lg);
   --bew-media-radius: var(--bew-radius-lg);
@@ -197,6 +199,7 @@
   --bew-theme-color-auto: var(--bew-text-1);
 
   --bew-theme-color: hsl(195 100% 42%);
+  --bew-on-theme-color: white;
   --bew-theme-color-10: color-mix(in oklab, var(--bew-theme-color), transparent 90%);
   --bew-theme-color-20: color-mix(in oklab, var(--bew-theme-color), transparent 80%);
   --bew-theme-color-30: color-mix(in oklab, var(--bew-theme-color), transparent 70%);
@@ -328,6 +331,7 @@
   // #endregion
 
   --bew-border-color: rgb(131 131 145 / 18%);
+  --bew-surface-border-color: #d1d2d4;
 
   // Threaded comments use this subtle rail to keep nested reply ancestry visible.
   --bew-comment-tree-line-color: rgb(131 131 145 / 30%);
@@ -400,8 +404,8 @@
   --bew-elevated-hover: rgb(
     from color-mix(in oklab, var(--bew-dark-base-color), white 11%) r g b / var(--bew-content-opacity)
   );
-  --bew-elevated-alt: var(--bew-elevated);
-  --bew-elevated-alt-hover: var(--bew-elevated-hover);
+  --bew-elevated-alt: rgb(from color-mix(in oklab, #08090b 82%, var(--bew-dark-base-color) 18%) r g b / 42%);
+  --bew-elevated-alt-hover: rgb(from color-mix(in oklab, #08090b 78%, var(--bew-dark-base-color) 22%) r g b / 52%);
 
   --bew-elevated-solid: color-mix(in oklab, var(--bew-dark-base-color), white 6%);
   --bew-elevated-solid-hover: color-mix(in oklab, var(--bew-dark-base-color), white 11%);
@@ -415,6 +419,7 @@
   --bew-fill-alt: var(--bew-fill-1);
 
   --bew-border-color: rgb(131 131 145 / 16%);
+  --bew-surface-border-color: #4b4c4e;
 
   // Blend a white-majority tone with the dark base, then soften it to 35% alpha for reply rails.
   --bew-comment-tree-line-color: rgb(
@@ -442,6 +447,7 @@
 :root.dark.oled-dark {
   --bew-bg: #000;
   --bew-homepage-bg: #000;
+  --bew-surface-border-color: #4b4c4e;
 }
 
 :root.dark.bewly-design.forceDark,
@@ -452,6 +458,8 @@
 :host(.disable-frosted-glass),
 :root.disable-frosted-glass {
   --bew-content-opacity: 1;
+  --bew-elevated-alt: var(--bew-elevated-alt-solid);
+  --bew-elevated-alt-hover: var(--bew-elevated-alt-solid-hover);
   --bew-filter-glass-1: none;
   --bew-filter-glass-2: none;
   --bew-shadow-edge-glow-1: 0 0 0 transparent;

@@ -280,7 +280,7 @@ const content = computed(() => {
           <div
             v-if="moreBtn"
             ref="moreBtnRef"
-            class="video-card__more-btn"
+            class="video-card__more-btn bew-shape-circle"
             :class="[
               { 'more-active': showVideoOptions },
               content.isModernLayout ? 'overflow-hidden rounded-full' : '',

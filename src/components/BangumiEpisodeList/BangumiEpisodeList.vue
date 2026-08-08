@@ -188,6 +188,7 @@ function createEpisodeEntry(number: number): EpisodeEntry {
   height: 32px;
   padding: 0 var(--bew-space-3);
   border-radius: var(--bew-interactive-radius);
+  corner-shape: var(--bew-corner-shape);
   background: var(--bew-fill-1);
   color: var(--bew-text-1);
   text-decoration: none;

@@ -37,6 +37,8 @@ const tooltipRef = ref(null)
     --uno: "absolute px-2 rounded-$bew-radius-half pointer-events-none opacity-0 duration-300 shadow-$bew-shadow-2 whitespace-nowrap z-9999";
 
     padding-block: var(--bew-space-1);
+    box-sizing: border-box;
+    border: 1px solid var(--bew-surface-border-color);
     font-size: var(--bew-font-size-control);
     font-weight: var(--bew-font-weight-medium);
     line-height: var(--bew-line-height-control);

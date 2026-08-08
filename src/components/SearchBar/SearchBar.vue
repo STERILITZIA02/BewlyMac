@@ -13,6 +13,7 @@ import { isHomePage } from '~/utils/main'
 import { buildKeywordSearchUrl } from '~/utils/searchNavigation'
 import { openLinkInBackground } from '~/utils/tabs'
 
+import TagRemoveButton from '../TagRemoveButton.vue'
 import type { HistoryItem, SuggestionItem, SuggestionResponse } from './searchHistoryProvider'
 import {
   addSearchHistory,
@@ -616,7 +617,7 @@ function handleClearKeyword() {
         h-inherit
         spellcheck="false"
         text="$b-search-bar-normal-text-color group-focus-within:$b-search-bar-focus-text-color group-hover:$b-search-bar-hover-text-color"
-        un-border="1 solid $bew-border-color"
+        un-border="1 solid $bew-surface-border-color"
         @focus="isFocus = true"
         @input="handleNativeInput"
         @keydown.enter.stop="handleKeyEnter"
@@ -635,7 +636,7 @@ function handleClearKeyword() {
       </button>
 
       <button
-        class="search-submit-btn"
+        class="search-submit-btn bew-shape-circle"
         p-2
         rounded-full
         text="lg leading-0"
@@ -728,15 +729,12 @@ function handleClearKeyword() {
               @click="handleKeywordLinkClick(item.value, $event)"
             >
               <span> {{ item.value }}</span>
-              <button
-                rounded-full duration-300 pointer-events-auto cursor-pointer p-1
-                text="xs $bew-text-2 hover:white" leading-0 bg="$bew-fill-2 hover:$bew-theme-color"
-                pos="absolute top-0 right-0" scale-80 opacity-0 group-hover:opacity-100
+              <TagRemoveButton
+                class="history-item__remove"
+                :label="$t('common.operation.remove')"
                 @mousedown.prevent
                 @click.stop.prevent="handleDelete(item.value)"
-              >
-                <div i-ic-baseline-clear />
-              </button>
+              />
             </ALink>
           </div>
         </div>
@@ -825,7 +823,7 @@ function handleClearKeyword() {
   --b-search-bar-focus-text-color: var(--bew-text-1);
 
   @mixin card-content {
-    --uno: "text-base outline-none w-full bg-$b-search-bar-normal-color border-1 border-$bew-border-color";
+    --uno: "text-base outline-none w-full bg-$b-search-bar-normal-color border-1 border-$bew-surface-border-color";
     --uno: "shadow-[var(--bew-shadow-2),var(--bew-shadow-edge-glow-1)]";
     backdrop-filter: var(--bew-filter-glass-1);
   }
@@ -850,6 +848,7 @@ function handleClearKeyword() {
         --b-search-bar-radius,
         calc(var(--b-search-bar-height, var(--bew-top-bar-primary-control-height, 46px)) / 2)
       );
+      corner-shape: var(--bew-corner-shape);
       transition:
         background-color var(--bew-duration-normal) var(--bew-ease-standard),
         color var(--bew-duration-normal) var(--bew-ease-standard),
@@ -943,6 +942,7 @@ function handleClearKeyword() {
         .hot-search-item {
           --uno: "relative cursor-pointer duration-300";
           border-radius: var(--bew-interactive-radius);
+          corner-shape: var(--bew-corner-shape);
           transition: background-color var(--bew-duration-normal) var(--bew-ease-standard);
 
           .hot-search-icon {
@@ -1002,6 +1002,21 @@ function handleClearKeyword() {
         .history-item {
           --uno: "relative cursor-pointer duration-300";
           --uno: "py-2 px-6 bg-$bew-fill-1 hover:bg-$bew-theme-color-20 hover:text-$bew-theme-color rounded-$bew-radius-half";
+
+          .history-item__remove {
+            position: absolute;
+            top: 0;
+            right: 0;
+            margin-left: 0;
+            opacity: 0;
+            transform: scale(0.8);
+          }
+
+          &:hover .history-item__remove,
+          &:focus-within .history-item__remove {
+            opacity: 1;
+            transform: scale(1);
+          }
 
           &.active {
             --uno: "bg-$bew-fill-2 text-$bew-theme-color shadow-[var(--bew-shadow-1),var(--bew-shadow-edge-glow-1)]";

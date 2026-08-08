@@ -42,7 +42,7 @@ const list = computed(() => {
     p="4"
     min-w="120px"
     shadow="[var(--bew-shadow-edge-glow-1),var(--bew-shadow-3)]"
-    border="1 $bew-border-color"
+    border="1 $bew-surface-border-color"
     flex="~ col"
     class="upload-pop bew-popover"
     data-key="upload"

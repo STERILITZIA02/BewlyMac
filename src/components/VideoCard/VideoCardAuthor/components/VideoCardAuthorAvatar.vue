@@ -99,7 +99,7 @@ const isKetang = computed(() => {
         rounded="1/2"
         grid place-items-center
       >
-        <div color-white text-sm class="i-mingcute:check-fill w-8px h-8px" />
+        <div color="$bew-on-theme-color" text-sm class="i-mingcute:check-fill w-8px h-8px" />
       </div>
       <div
         v-else-if="isLive"
@@ -108,7 +108,7 @@ const isKetang = computed(() => {
         bg="$bew-theme-color"
         rounded="1/2" grid place-items-center
       >
-        <div color-white text-sm class="i-svg-spinners:pulse-3 w-12px h-12px" />
+        <div color="$bew-on-theme-color" text-sm class="i-svg-spinners:pulse-3 w-12px h-12px" />
       </div>
     </a>
 

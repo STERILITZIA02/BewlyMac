@@ -223,7 +223,7 @@ export interface Settings {
   overrideDanmakuFont: boolean
   removeTheIndentFromChinesePunctuation: boolean
 
-  enableFrostedGlass: boolean
+  disableFrostedGlass: boolean
   frostedGlassBlurIntensity: number
   /** 分段控件液态滑动指示器；默认关闭以降低切换动画合成成本 */
   enableLiquidSegmentIndicator: boolean
@@ -266,9 +266,6 @@ export interface Settings {
   // Desktop & Dock
   autoHideTopBar: boolean
   videoPageTopBarConfig: VideoPageTopBarConfig
-  alwaysUseTransparentTopBar: boolean
-  enableTopBarGradient: boolean
-  showTopBarThemeColorGradient: boolean
   showBewlyOrBiliPageSwitcher: boolean
   topBarLogoStyle: TopBarLogoStyle
   topBarIconBadges: 'number' | 'dot' | 'none'
@@ -496,7 +493,7 @@ export const originalSettings: Settings = {
   overrideDanmakuFont: true,
   removeTheIndentFromChinesePunctuation: false,
 
-  enableFrostedGlass: false,
+  disableFrostedGlass: false,
   frostedGlassBlurIntensity: 20,
   enableLiquidSegmentIndicator: false,
   disableShadow: false,
@@ -537,9 +534,6 @@ export const originalSettings: Settings = {
   // Desktop & Dock
   autoHideTopBar: false,
   videoPageTopBarConfig: VideoPageTopBarConfig.ShowOnScroll,
-  alwaysUseTransparentTopBar: false,
-  enableTopBarGradient: true,
-  showTopBarThemeColorGradient: true,
   showBewlyOrBiliPageSwitcher: true,
   topBarLogoStyle: 'icon',
   topBarIconBadges: 'number',
@@ -788,6 +782,10 @@ watch(
     Reflect.deleteProperty(record, 'homeTabsPosition')
     Reflect.deleteProperty(record, 'enableHomeGridVirtualization')
     Reflect.deleteProperty(record, 'showBewlyOrBiliTopBarSwitcher')
+    Reflect.deleteProperty(record, 'enableFrostedGlass')
+    Reflect.deleteProperty(record, 'alwaysUseTransparentTopBar')
+    Reflect.deleteProperty(record, 'enableTopBarGradient')
+    Reflect.deleteProperty(record, 'showTopBarThemeColorGradient')
 
     // 清理已移除的音量均衡功能设置。
     for (const field of ['enableVolumeNormalization', 'targetVolume', 'normalizationStrength', 'adaptiveGainSpeed', 'voiceGateDb', 'volumeNormalizationDebug'])
@@ -968,14 +966,6 @@ watch(
 
     // 清理已移除的 NVIDIA RTX 视频增强兼容设置
     Reflect.deleteProperty(record, 'nvidiaRtxVideoEnhancementCompatibility')
-
-    // 迁移旧的 disableFrostedGlass 到 enableFrostedGlass
-    if ('disableFrostedGlass' in record) {
-      record.enableFrostedGlass = !record.disableFrostedGlass
-
-      // 清理旧的字段
-      Reflect.deleteProperty(record, 'disableFrostedGlass')
-    }
 
     // 迁移旧的 customizeCSS/customizeCSSContent 到 localSettings
     if ('customizeCSS' in record || 'customizeCSSContent' in record) {

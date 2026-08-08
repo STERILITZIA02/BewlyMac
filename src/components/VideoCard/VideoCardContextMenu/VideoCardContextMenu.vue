@@ -474,7 +474,7 @@ async function unfollowUser() {
         style="backdrop-filter: var(--bew-filter-glass-1); box-shadow: var(--bew-shadow-edge-glow-1), var(--bew-shadow-1);"
         :style="contextMenuStyles"
         p-1 bg="$bew-elevated" rounded="$bew-radius"
-        border="1 $bew-border-color"
+        border="1 $bew-surface-border-color"
         class="context-menu-container"
       >
         <!-- 顶部滚动指示器 -->

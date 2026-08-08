@@ -1425,8 +1425,10 @@ function transformFavoriteArticle(item: FavoriteArticle) {
 
           <Button
             v-else-if="favoriteView !== 'article'"
+            class="favorites-play-all"
             color="rgba(255,255,255,.35)"
             block
+            size="medium"
             text-color="white"
             strong
             :disabled="searchScope === 'all' || isResolvingSeasonPlayAll"
@@ -1591,6 +1593,7 @@ function transformFavoriteArticle(item: FavoriteArticle) {
   margin: var(--bew-space-10) 0;
   overflow: hidden;
   border-radius: var(--bew-panel-radius);
+  corner-shape: var(--bew-corner-shape);
 }
 
 .favorites-sidebar-background {
@@ -1637,14 +1640,18 @@ function transformFavoriteArticle(item: FavoriteArticle) {
   color: rgba(255, 255, 255, 0.72);
   background: var(--bew-skeleton);
   border-radius: var(--bew-media-radius);
+  corner-shape: var(--bew-corner-shape);
   box-shadow: 0 16px 24px -12px rgba(0, 0, 0, 0.36);
   aspect-ratio: 16 / 9;
 }
 
 .favorites-sidebar-cover img {
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
+  border-radius: inherit;
+  corner-shape: inherit;
 }
 
 .favorites-sidebar-cover span {
@@ -1657,6 +1664,15 @@ function transformFavoriteArticle(item: FavoriteArticle) {
   margin: 0;
   color: #fff;
   text-shadow: 0 0 12px rgba(0, 0, 0, 0.3);
+}
+
+.favorites-play-all {
+  --b-button-height: var(--bew-control-height);
+
+  height: var(--bew-control-height);
+  min-height: var(--bew-control-height);
+  padding-block: 0;
+  box-sizing: border-box;
 }
 
 .favorites-sidebar-title p {
@@ -1807,6 +1823,17 @@ function transformFavoriteArticle(item: FavoriteArticle) {
   padding: 0;
   overflow: auto;
   list-style: none;
+}
+
+.sidebar-manage-toggle,
+.sidebar-manage-action,
+.category-item,
+.item-more-btn,
+.category-nav-item,
+.article-nav-item,
+.favorite-card-action,
+.batch-target-folder {
+  corner-shape: var(--bew-corner-shape);
 }
 
 .category-item {
@@ -2032,14 +2059,17 @@ function transformFavoriteArticle(item: FavoriteArticle) {
 }
 
 .favorite-card-action:hover {
+  color: var(--bew-on-theme-color);
   background: var(--bew-theme-color);
 }
 
 .favorite-card-action.selected {
+  color: var(--bew-on-theme-color);
   background: var(--bew-theme-color);
 }
 
 .favorite-card-action.danger:hover {
+  color: #fff;
   background: var(--bew-error-color);
 }
 

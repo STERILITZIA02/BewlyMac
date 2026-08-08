@@ -1170,13 +1170,15 @@ export const useTopBarStore = defineStore('topBar', () => {
       )
     }
     catch (error) {
-      await sendMessage<TopBarStateRelease>(
-        TOP_BAR_STATE_MESSAGE.RELEASE_REFRESH,
-        {
-          accountId,
-          refreshId,
-        },
-      )
+      if (!isExtensionContextInvalidatedError(error)) {
+        await sendMessage<TopBarStateRelease>(
+          TOP_BAR_STATE_MESSAGE.RELEASE_REFRESH,
+          {
+            accountId,
+            refreshId,
+          },
+        )
+      }
       throw error
     }
   }

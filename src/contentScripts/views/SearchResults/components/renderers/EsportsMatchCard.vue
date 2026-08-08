@@ -85,7 +85,7 @@ const awayScore = computed(() => {
   <a
     :href="matchUrl"
     target="_blank"
-    class="esports-match-card"
+    class="esports-match-card bew-surface-border"
     :style="cardStyle"
     rounded="$bew-card-radius"
     block
@@ -199,6 +199,7 @@ const awayScore = computed(() => {
 .status-badge {
   padding: 0.125rem 0.5rem;
   border-radius: var(--bew-radius-sm);
+  corner-shape: var(--bew-corner-shape);
   font-size: var(--bew-font-size-control);
   font-weight: var(--bew-font-weight-medium);
   line-height: var(--bew-line-height-control);
@@ -260,6 +261,7 @@ const awayScore = computed(() => {
   max-width: 4rem;
   aspect-ratio: 1;
   border-radius: var(--bew-media-radius);
+  corner-shape: var(--bew-corner-shape);
   object-fit: cover;
   margin-bottom: 0.375rem;
 }
@@ -314,6 +316,7 @@ const awayScore = computed(() => {
   padding: 0.25rem 0.5rem;
   background: var(--bew-fill-2);
   border-radius: var(--bew-badge-radius);
+  corner-shape: var(--bew-corner-shape);
   text-align: center;
 }
 </style>

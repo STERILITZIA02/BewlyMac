@@ -260,8 +260,9 @@ function removeUser(mid: string) {
   flex: 1;
   height: 40px;
   padding: 0 12px;
-  border: 1px solid var(--bew-border-color);
+  border: 1px solid var(--bew-surface-border-color);
   border-radius: var(--bew-interactive-radius);
+  corner-shape: var(--bew-corner-shape);
   outline: none;
   color: var(--bew-text-1);
   background: var(--bew-fill-1);
@@ -279,7 +280,8 @@ function removeUser(mid: string) {
   min-width: 78px;
   border: 0;
   border-radius: var(--bew-interactive-radius);
-  color: #fff;
+  corner-shape: var(--bew-corner-shape);
+  color: var(--bew-on-theme-color);
   background: var(--bew-theme-color);
   cursor: pointer;
   font-size: var(--bew-font-size-control);
@@ -315,6 +317,7 @@ function removeUser(mid: string) {
   padding: 8px;
   border: 1px solid transparent;
   border-radius: var(--bew-interactive-radius);
+  corner-shape: var(--bew-corner-shape);
   color: inherit;
   background: var(--bew-fill-1);
   text-align: left;
@@ -375,6 +378,7 @@ function removeUser(mid: string) {
   min-width: 0;
   padding: 8px;
   border-radius: var(--bew-interactive-radius);
+  corner-shape: var(--bew-corner-shape);
   background: var(--bew-fill-1);
 }
 .wanted-users-manager__list img {
@@ -413,6 +417,7 @@ function removeUser(mid: string) {
   height: 32px;
   border: 0;
   border-radius: var(--bew-interactive-radius);
+  corner-shape: var(--bew-corner-shape);
   color: var(--bew-text-3);
   background: transparent;
   place-items: center;
