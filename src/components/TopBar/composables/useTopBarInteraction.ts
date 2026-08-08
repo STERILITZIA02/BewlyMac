@@ -62,34 +62,6 @@ export function useTopBarInteraction() {
 
     if (!isHomePage())
       return false
-
-    // 确保 activatedPage.value 存在
-    if (!activatedPage?.value)
-      return false
-
-    if (activatedPage.value === AppPage.Search) {
-      if (settings.value.individuallySetSearchPageWallpaper) {
-        if (settings.value.searchPageWallpaper)
-          return true
-        return false
-      }
-      return !!settings.value.wallpaper
-    }
-    else if (activatedPage.value === AppPage.SearchResults) {
-      // 搜索结果页使用全局壁纸设置
-      return !!settings.value.wallpaper
-    }
-    else {
-      if (settings.value.wallpaper)
-        return true
-
-      if (settings.value.useSearchPageModeOnHomePage) {
-        if (settings.value.individuallySetSearchPageWallpaper && !!settings.value.searchPageWallpaper)
-          return true
-        else if (settings.value.wallpaper)
-          return true
-      }
-    }
     return false
   })
 

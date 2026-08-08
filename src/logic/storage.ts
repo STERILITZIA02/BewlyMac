@@ -3,7 +3,6 @@ import browser from 'webextension-polyfill'
 
 import { useSettingsStorage } from '~/composables/useSettingsStorage'
 import { useStorageLocal } from '~/composables/useStorageLocal'
-import type { wallpaperItem } from '~/constants/imgs'
 import { DEFAULT_SEARCH_BAR_CHARACTER } from '~/constants/imgs'
 import type { HomeSubPage } from '~/contentScripts/views/Home/types'
 import type { AppPage } from '~/enums/appEnums'
@@ -131,9 +130,6 @@ export interface ShadowCurvePoint {
 
 // 本地存储配置接口（不同步到云端的配置）
 export interface LocalSettings {
-  // 壁纸相关
-  locallyUploadedWallpaper: wallpaperItem | null
-
   // 自定义CSS
   customizeCSS: boolean
   customizeCSSContent: string
@@ -342,12 +338,6 @@ export interface Settings {
   darkModeBaseColor: string // 深色模式基准颜色
   enableOledDarkMode: boolean
   useLinearGradientThemeColorBackground: boolean
-  wallpaperMode: 'buildIn' | 'byUrl'
-  wallpaper: string
-  enableWallpaperMasking: boolean
-  wallpaperMaskOpacity: number
-  wallpaperBlurIntensity: number
-  wallpaperCacheTime: number // URL壁纸缓存时间(小时), 0表示不缓存
 
   searchPageDarkenOnSearchFocus: boolean
   searchPageBlurredOnSearchFocus: boolean
@@ -355,13 +345,6 @@ export interface Settings {
   searchPageLogoGlow: boolean
   searchPageShowLogo: boolean
   searchPageSearchBarFocusCharacter: string
-  individuallySetSearchPageWallpaper: boolean
-  searchPageWallpaperMode: 'buildIn' | 'byUrl'
-  searchPageWallpaper: string
-  searchPageEnableWallpaperMasking: boolean
-  searchPageWallpaperMaskOpacity: number
-  searchPageWallpaperBlurIntensity: number
-  searchPageWallpaperCacheTime: number // URL壁纸缓存时间(小时), 0表示不缓存
 
   // 热搜功能设置（统一在搜索框聚焦时显示）
   showHotSearchInTopBar: boolean
@@ -425,7 +408,6 @@ export interface Settings {
   videoCardShadowCurve: ShadowCurvePoint[]
   videoCardShadowHeight: number // 1.0-3.0
   useSearchPageModeOnHomePage: boolean
-  searchPageModeWallpaperFixed: boolean
   preserveForYouState: boolean
   rememberNoCookieRecommendationState: boolean
 
@@ -482,7 +464,6 @@ export interface Settings {
 
 // 本地存储配置默认值
 export const originalLocalSettings: LocalSettings = {
-  locallyUploadedWallpaper: null,
   customizeCSS: false,
   customizeCSSContent: '',
 }
@@ -629,12 +610,6 @@ export const originalSettings: Settings = {
   darkModeBaseColor: '#2a2d32', // 默认深色模式基准颜色
   enableOledDarkMode: false,
   useLinearGradientThemeColorBackground: false,
-  wallpaperMode: 'buildIn',
-  wallpaper: '',
-  enableWallpaperMasking: false,
-  wallpaperMaskOpacity: 80,
-  wallpaperBlurIntensity: 0,
-  wallpaperCacheTime: 0, // 默认缓存24小时
 
   searchPageDarkenOnSearchFocus: true,
   searchPageBlurredOnSearchFocus: false,
@@ -642,13 +617,6 @@ export const originalSettings: Settings = {
   searchPageLogoGlow: true,
   searchPageShowLogo: true,
   searchPageSearchBarFocusCharacter: DEFAULT_SEARCH_BAR_CHARACTER,
-  individuallySetSearchPageWallpaper: false,
-  searchPageWallpaperMode: 'buildIn',
-  searchPageWallpaper: '',
-  searchPageEnableWallpaperMasking: false,
-  searchPageWallpaperMaskOpacity: 80,
-  searchPageWallpaperBlurIntensity: 0,
-  searchPageWallpaperCacheTime: 0, // 默认缓存24小时
 
   // 热搜功能设置（统一在搜索框聚焦时显示）
   showHotSearchInTopBar: true,
@@ -709,7 +677,6 @@ export const originalSettings: Settings = {
   ],
   videoCardShadowHeight: 1.0,
   useSearchPageModeOnHomePage: false,
-  searchPageModeWallpaperFixed: false,
   preserveForYouState: false,
   rememberNoCookieRecommendationState: true,
 
@@ -1010,15 +977,13 @@ watch(
       Reflect.deleteProperty(record, 'disableFrostedGlass')
     }
 
-    // 迁移旧的 locallyUploadedWallpaper/customizeCSS/customizeCSSContent 到 localSettings
-    if ('locallyUploadedWallpaper' in record || 'customizeCSS' in record || 'customizeCSSContent' in record) {
+    // 迁移旧的 customizeCSS/customizeCSSContent 到 localSettings
+    if ('customizeCSS' in record || 'customizeCSSContent' in record) {
       localSettings.value = {
-        locallyUploadedWallpaper: record.locallyUploadedWallpaper ?? localSettings.value.locallyUploadedWallpaper,
         customizeCSS: record.customizeCSS ?? localSettings.value.customizeCSS,
         customizeCSSContent: record.customizeCSSContent ?? localSettings.value.customizeCSSContent,
       }
 
-      Reflect.deleteProperty(record, 'locallyUploadedWallpaper')
       Reflect.deleteProperty(record, 'customizeCSS')
       Reflect.deleteProperty(record, 'customizeCSSContent')
     }

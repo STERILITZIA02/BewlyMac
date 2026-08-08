@@ -72,7 +72,6 @@ const blurLayers = Array.from({ length: BLUR_LAYER_COUNT }, (_, index) => {
 
 // 雾化层只改清晰度，还需要一层雾色叠上去才有"雾"的质感。
 const tintBackground = computed(() => {
-  // 壁纸模式下方是图片，压黑雾才压得住
   if (forceWhiteIcon.value)
     return fogGradient('0 0 0', 42)
 

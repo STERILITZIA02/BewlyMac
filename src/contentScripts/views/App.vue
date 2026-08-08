@@ -952,9 +952,9 @@ if (settings.value.cleanUrlArgument) {
     }"
     text="$bew-text-1 size-$bew-base-font-size"
   >
-    <!-- Background -->
+    <!-- Theme color gradient -->
     <template v-if="showBewlyPage">
-      <AppBackground :activated-page="activatedPage" />
+      <AppGradientBackground :activated-page="activatedPage" />
     </template>
 
     <!-- Settings -->

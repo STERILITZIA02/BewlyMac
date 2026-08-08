@@ -89,7 +89,7 @@ settings:
     no_results: No matching settings
     located: Setting located
   category_general_desc: Configure language, interaction, and drawer behavior.
-  category_appearance_desc: Configure frosted glass, theme colors, wallpaper, fonts, custom styles, and page style adaptation.
+  category_appearance_desc: Configure frosted glass, theme colors, fonts, custom styles, and page style adaptation.
   category_shortcuts_desc: Enable, customize, or restore BewlyMac and player shortcuts.
   breadcrumb: Settings location
   group_interaction_layout: Interaction & Layout
@@ -203,7 +203,6 @@ settings:
     typically includes a light/dark mode toggle button and settings button.
   group_color: Color
   group_page_style: Page Style
-  group_wallpaper: Wallpaper
   group_logo: LOGO
   group_search_bar: Search Bar
   group_hot_search: Hot Search
@@ -314,11 +313,7 @@ settings:
     recommend: Recommend
     custom: Custom
   customize_font_desc: >-
-    For users who favor the old form of Chinese characters, we recommend <a
-    class="link" href="https://github.com/GuiWonder/Shanggu"
-    target="_blank">Shanggu Fonts (尚古字型)</a> and <a class="link"
-    href="https://github.com/ayaka14732/FanWunHak" target="_blank">Fan Wun Hak
-    (繁媛黑體)</a>.
+    For users who favor the old form of Chinese characters, we recommend {shanggu} and {fanwunhak}.
 
     These fonts also possess the capability to convert simplified Chinese into
     traditional characters.
@@ -529,26 +524,6 @@ settings:
   enable_oled_dark_mode: OLED pure black mode
   enable_oled_dark_mode_desc: Only applies while the effective theme is dark; page backgrounds become pure black while cards and overlays keep their layers.
   gradient_theme_color_background: Use a gradient theme color as the background in dark mode
-  wallpaper_mode: Wallpaper mode
-  wallpaper_mode_desc: >
-    By URL: Choose an image from the Internet and use its URL to set it as the
-    wallpaper.
-  wallpaper_mode_opt:
-    build_in: Built-in
-    by_url: By URL
-  choose_ur_wallpaper: Choose your wallpaper
-  image_url: Image URL
-  image_url_hint: >-
-    URL examples:
-    https://cdn.jsdelivr.net/gh/BewlyBewly/Imgs/wallpapers/rocky-mountain-cloudscape.jpg
-
-    https://cdn.jsdelivr.net/gh/BewlyBewly/Imgs/wallpapers/green-white-mountains.jpg
-  enable_wallpaper_masking: Enable wallpaper masking
-  wallpaper_cache_time: Wallpaper cache time
-  wallpaper_cache_time_desc: Set the cache time (hours) for URL wallpapers. 0 means no caching, reload every time. Locally uploaded images are not affected by this setting.
-  no_cache: No cache
-  wallpaper_mask_opacity: Wallpaper masking opacity
-  wallpaper_blur_intensity: Wallpaper blur intensity
   customize_css: Customize CSS
   customize_css_desc: >-
     If you are unfamiliar with CSS, please DO NOT modify CSS. Doing so may cause
@@ -582,7 +557,6 @@ settings:
   depersonalize_search_results_desc: When enabled, search result requests are sent without login cookies.
   search_results_pagination_mode: Search results pagination mode
   search_results_pagination_mode_desc: 'Choose how search results are displayed: infinite scroll or page-based navigation'
-  individually_set_search_page_wallpaper: Individually set search page wallpaper
   recommendation_mode: Recommendation mode
   recommendation_mode_desc: >
     Web: normal web recommendation mode. No Cookie: request homepage
@@ -625,34 +599,15 @@ settings:
   filter_by_title: Filter by title
   filter_by_title_desc: >-
     Filtered out the videos that contain the titles you set (case-insensitive).
-
-    Alternatively, use regex, such as <code>/abc&#124;\d+/</code>, wrapped in
-    <code>/</code>.
-
-    <br/>
-
-    In the table below, you can press the <kbd>Enter</kbd> key to add a new
-    filter or confirm a modification.
-
-    Press the <kbd>Esc</kbd> key to cancel the modification.
-
-    Double-click the column to edit the current column.
+    Alternatively, use regex, such as {regex}, wrapped in {slash}.{lineBreak}
+    In the table below, you can press the {enter} key to add a new filter or confirm a modification.
+    Press the {esc} key to cancel the modification. Double-click the column to edit the current column.
   filter_by_user: Filter by user
   filter_by_user_desc: >-
-    Filtered out the videos that are uploaded by the username (full name,
-    case-insensitive) or MID you set.
-
-    Alternatively, use regex, such as <code>/abc&#124;\d+/</code>, wrapped in
-    <code>/</code>.
-
-    <br/>
-
-    In the table below, you can press the <kbd>Enter</kbd> key to add a new
-    filter or confirm a modification.
-
-    Press the <kbd>Esc</kbd> key to cancel the modification.
-
-    Double-click the column to edit the current column.
+    Filtered out the videos that are uploaded by the username (full name, case-insensitive) or MID you set.
+    Alternatively, use regex, such as {regex}, wrapped in {slash}.{lineBreak}
+    In the table below, you can press the {enter} key to add a new filter or confirm a modification.
+    Press the {esc} key to cancel the modification. Double-click the column to edit the current column.
   filter_by_user_table:
     username_or_mid: Username / MID
   following_tab_show_livestreaming_videos: Show Live-streaming videos in the "Following" tab
@@ -678,7 +633,6 @@ settings:
   use_search_page_mode: Use search page mode on homepage
   settings_shared_with_the_search_page: Settings shared with the search page
   settings_shared_with_the_search_page_desc: Those settings are used in common with the search page.
-  search_page_mode_wallpaper_fixed: Make the wallpaper of the search page mode fixed
   home_tabs_adjustment: Tabs adjustment
   home_tabs_adjustment_desc: The first activated tab is the default page.
   always_show_tabs_on_home_page: Hide home tabs while scrolling
@@ -711,9 +665,8 @@ settings:
   contributors_image_failed: Contributor image failed to load
   enable_settings_sync: Allow syncing settings
   enable_settings_sync_desc: >-
-    Save settings locally and to browser cloud storage. Wallpaper/background
-    settings and per-device playback state are not synced (requires signing in
-    to the browser account).
+    Save settings locally and to browser cloud storage. Per-device playback
+    state is not synced (requires signing in to the browser account).
   disable_auto_play_collection: Auto disable collection autoplay
   disable_auto_play_collection_desc: Automatically turn off the autoplay feature for video collections
   keep_collection_video_default_mode: Keep collection videos in default mode

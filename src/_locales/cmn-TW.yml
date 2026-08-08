@@ -89,7 +89,7 @@ settings:
     no_results: 找不到相關設定
     located: 已定位到此設定
   category_general_desc: 設定語言、互動版面與抽屜行為。
-  category_appearance_desc: 設定毛玻璃、主題顏色、桌布、字型、自訂樣式與其他頁面的適配。
+  category_appearance_desc: 設定毛玻璃、主題顏色、字型、自訂樣式與其他頁面的適配。
   category_shortcuts_desc: 啟用、修改或還原 BewlyMac 與播放器快速鍵。
   breadcrumb: 設定位置
   group_interaction_layout: 互動與版面
@@ -201,7 +201,6 @@ settings:
   group_sidebar_desc: 位於首頁以外的頁面右側或左側，通常有淺/深色模式切換按鈕和設定按鈕。
   group_color: 顏色
   group_page_style: 頁面樣式
-  group_wallpaper: 背景圖片
   group_logo: LOGO
   group_search_bar: 搜尋列
   group_hot_search: 熱門搜尋
@@ -303,11 +302,8 @@ settings:
     default: Bilibili 預設
     recommend: 推介
     custom: 自訂
-  customize_font_desc: >
-    對於喜歡舊字形的使用者，我們推薦 <a class="link" href="https://github.com/GuiWonder/Shanggu"
-    target="_blank">Shanggu Fonts (尚古字型)</a> 和 <a class="link"
-    href="https://github.com/ayaka14732/FanWunHak" target="_blank">Fan Wun Hak
-    (繁媛黑體)</a>。
+  customize_font_desc: >-
+    對於喜歡舊字形的使用者，我們推薦 {shanggu} 和 {fanwunhak}。
 
     這些字型還具有將簡體中文轉換為繁體/繁體中文的能力。
   override_danmaku_font: 覆蓋彈幕字型
@@ -492,24 +488,6 @@ settings:
   enable_oled_dark_mode: OLED 純黑模式
   enable_oled_dark_mode_desc: 僅在實際處於深色模式時生效；網頁底色會變為純黑，卡片和浮層仍保留層次。
   gradient_theme_color_background: 在深色模式下使用漸層主題色作為背景
-  wallpaper_mode: 背景圖片模式
-  wallpaper_mode_desc: '使用網址: 直接使用網路圖片的網址來設定背景圖片。'
-  wallpaper_mode_opt:
-    build_in: 內建
-    by_url: 使用網址
-  choose_ur_wallpaper: 選擇你的背景
-  image_url: 圖片網址
-  image_url_hint: >
-    網址範例:
-    https://cdn.jsdelivr.net/gh/BewlyBewly/Imgs/wallpapers/rocky-mountain-cloudscape.jpg
-
-    https://cdn.jsdelivr.net/gh/BewlyBewly/Imgs/wallpapers/green-white-mountains.jpg
-  enable_wallpaper_masking: 啟用背景遮蔽效果
-  wallpaper_cache_time: 背景圖片快取時間
-  wallpaper_cache_time_desc: 設定 URL 背景圖的快取時間(小時)。0表示不快取，每次都重新載入。本地上傳的圖片不受此設定影響。
-  no_cache: 不快取
-  wallpaper_mask_opacity: 背景遮蔽透明度調節
-  wallpaper_blur_intensity: 背景模糊強度調節
   customize_css: 自訂 CSS
   customize_css_desc: |-
     如果你不熟悉 CSS，請不要修改 CSS。否則可能會導致意外的顯示問題。
@@ -536,7 +514,6 @@ settings:
   enable_search_history_desc: 啟用後，搜尋欄將記錄和顯示您的搜尋歷史記錄。關閉後將清除所有歷史記錄
   depersonalize_search_results: 去除個人化搜尋
   depersonalize_search_results_desc: 啟用後，搜尋結果請求不攜帶登入 Cookie。
-  individually_set_search_page_wallpaper: 單獨設定搜尋頁背景
   recommendation_mode: 推薦模式
   recommendation_mode_desc: |
     Web：普通網頁端推薦模式。無 Cookie：請求首頁推薦時不攜帶 Cookie。App：手機端推薦模式，需先授權 access key。
@@ -570,29 +547,13 @@ settings:
   filter_by_publish_time_unit: 天
   filter_item_already_exist: 這個篩選項目已經存在！
   filter_by_title: 依標題篩選
-  filter_by_title_desc: >
-    依標題篩選掉包含你設定的字串的影片（不區分大小寫），或使用正規表示式，如 <code>/abc&#124;\d+/</code>，用
-    <code>/</code> 包裡。
-
-    <br/>
-
-    在下面的表格中，你可以按 <kbd>Enter</kbd> 鍵新增新的篩選條件或確認變更。
-
-    按 <kbd>Esc</kbd> 鍵取消變更。
-
-    按兩下欄位以編輯目前欄位。
+  filter_by_title_desc: >-
+    依標題篩選掉包含你設定的字串的影片（不區分大小寫），或使用正規表示式，如 {regex}，用 {slash} 包裡。{lineBreak}
+    在下面的表格中，你可以按 {enter} 鍵新增新的篩選條件或確認變更。按 {esc} 鍵取消變更。按兩下欄位以編輯目前欄位。
   filter_by_user: 按使用者篩選
-  filter_by_user_desc: >
-    篩選掉包含你設定的使用者名稱（全名，不區分大小寫）或 MID 所上傳的影片，或使用正規表示式，如
-    <code>/abc&#124;\d+/</code>，用 <code>/</code> 包裏。
-
-    <br/>
-
-    在下面的表格中，你可以按 <kbd>Enter</kbd> 鍵建立新的篩選條件或確認變更。
-
-    按 <kbd>Esc</kbd> 鍵取消變更。
-
-    按兩下欄位以編輯目前欄位。
+  filter_by_user_desc: >-
+    篩選掉包含你設定的使用者名稱（全名，不區分大小寫）或 MID 所上傳的影片，或使用正規表示式，如 {regex}，用 {slash} 包裏。{lineBreak}
+    在下面的表格中，你可以按 {enter} 鍵建立新的篩選條件或確認變更。按 {esc} 鍵取消變更。按兩下欄位以編輯目前欄位。
   filter_by_user_table:
     username_or_mid: 使用者名稱 / MID
   following_tab_show_livestreaming_videos: 在「正在跟隨」中顯示實況直播
@@ -618,7 +579,6 @@ settings:
   use_search_page_mode: 首頁使用搜尋頁模式
   settings_shared_with_the_search_page: 與搜尋頁共用的設定
   settings_shared_with_the_search_page_desc: 這些設定都與搜尋頁共用。
-  search_page_mode_wallpaper_fixed: 將搜尋頁模式的背景固定
   home_tabs_adjustment: 標籤列調整
   home_tabs_adjustment_desc: 第一個啟用的標籤項目調整頁面將是起始頁面。
   always_show_tabs_on_home_page: 捲動時隱藏首頁標籤列
@@ -642,7 +602,7 @@ settings:
   current_contributors: BewlyMac（含 BewlyBewly）貢獻者
   contributors_image_failed: 貢獻者圖片載入失敗
   enable_settings_sync: 允許同步設定
-  enable_settings_sync_desc: 開啟後同時儲存到本機與瀏覽器雲端；桌布背景與裝置播放狀態不會同步（需要登入瀏覽器帳號）
+  enable_settings_sync_desc: 開啟後同時儲存到本機與瀏覽器雲端；裝置播放狀態不會同步（需要登入瀏覽器帳號）
   keep_collection_video_default_mode: 合集影片保持預設模式
   keep_collection_video_default_mode_desc: 當啟用時，合集影片將始終使用預設播放器模式，不會套用寬螢幕或全螢幕設定
   keep_watch_later_video_default_mode: 稍後觀看保持預設模式

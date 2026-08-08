@@ -140,17 +140,6 @@ const compatibilityRoute: SearchRoute = {
 const shortcutsRoute: SearchRoute = { menu: MenuType.Shortcuts }
 const aboutRoute: SearchRoute = { menu: MenuType.About }
 
-const wallpaperTitleKeys = [
-  'settings.group_wallpaper',
-  'settings.wallpaper_mode',
-  'settings.wallpaper_cache_time',
-  'settings.choose_ur_wallpaper',
-  'settings.image_url',
-  'settings.enable_wallpaper_masking',
-  'settings.wallpaper_mask_opacity',
-  'settings.wallpaper_blur_intensity',
-]
-
 const linkOpeningOptionKeys = [
   'settings.link_opening_behavior_opt.current_tab',
   'settings.link_opening_behavior_opt.current_tab_if_not_homepage',
@@ -240,7 +229,6 @@ export const settingsSearchEntries: SettingsSearchEntry[] = [
     'settings.group_search_page_mode',
     'settings.use_search_page_mode',
     'settings.settings_shared_with_the_search_page',
-    'settings.search_page_mode_wallpaper_fixed',
   ]),
   ...createEntries(homeRoute, [
     'settings.recommendation_mode',
@@ -436,8 +424,6 @@ export const settingsSearchEntries: SettingsSearchEntry[] = [
     'settings.use_plugin_search_results_page',
     'settings.depersonalize_search_results',
     'settings.search_results_pagination_mode',
-    'settings.individually_set_search_page_wallpaper',
-    ...wallpaperTitleKeys,
   ]),
 
   ...createEntries(playerRoute, [
@@ -542,6 +528,7 @@ export const settingsSearchEntries: SettingsSearchEntry[] = [
     'settings.video_page_dark_mode',
     'settings.theme_color',
     'settings.dark_mode_base_color',
+    'settings.enable_oled_dark_mode',
     'settings.gradient_theme_color_background',
     'settings.follow_bilibili_evolved_color',
     'settings.group_fonts',
@@ -549,7 +536,6 @@ export const settingsSearchEntries: SettingsSearchEntry[] = [
     'settings.remove_the_indent_from_chinese_punctuation',
     'settings.override_danmaku_font',
     'settings.customize_css',
-    ...wallpaperTitleKeys,
   ]),
 
   ...createEntries(playerRoute, [

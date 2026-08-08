@@ -21,26 +21,7 @@ export interface SettingsCloudSyncEntry {
 
 const BLOCKED_FIELDS = new Set(['__proto__', 'constructor', 'prototype'])
 
-// Wallpaper data and its rendering configuration stay device-local. Uploaded
-// files and caches already use separate local-only storage keys.
-const LOCAL_ONLY_WALLPAPER_FIELDS = new Set([
-  'wallpaperMode',
-  'wallpaper',
-  'enableWallpaperMasking',
-  'wallpaperMaskOpacity',
-  'wallpaperBlurIntensity',
-  'wallpaperCacheTime',
-  'individuallySetSearchPageWallpaper',
-  'searchPageWallpaperMode',
-  'searchPageWallpaper',
-  'searchPageEnableWallpaperMasking',
-  'searchPageWallpaperMaskOpacity',
-  'searchPageWallpaperBlurIntensity',
-  'searchPageWallpaperCacheTime',
-  'searchPageModeWallpaperFixed',
-  // Legacy fields are denied as a final guard if an old settings object has
-  // not completed its local-only migration yet.
-  'locallyUploadedWallpaper',
+const LOCAL_ONLY_SETTINGS_FIELDS = new Set([
   'customizeCSS',
   'customizeCSSContent',
 ])
@@ -69,7 +50,7 @@ export function isSettingsCloudSyncField(field: string) {
   return field.length > 0
     && field.length <= 200
     && !BLOCKED_FIELDS.has(field)
-    && !LOCAL_ONLY_WALLPAPER_FIELDS.has(field)
+    && !LOCAL_ONLY_SETTINGS_FIELDS.has(field)
     && !LOCAL_ONLY_RUNTIME_FIELDS.has(field)
 }
 

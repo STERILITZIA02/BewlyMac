@@ -89,7 +89,7 @@ settings:
     no_results: 搵唔到相關設定
     located: 已定位到呢個設定
   category_general_desc: 設定語言、互動版面同抽屜行為。
-  category_appearance_desc: 設定毛玻璃、主題顏色、桌布、字型、自訂樣式同其他頁面嘅適配。
+  category_appearance_desc: 設定毛玻璃、主題顏色、字型、自訂樣式同其他頁面嘅適配。
   category_shortcuts_desc: 啟用、修改或者還原 BewlyMac 同播放器快捷鍵。
   breadcrumb: 設定位置
   group_interaction_layout: 互動同版面
@@ -230,7 +230,6 @@ settings:
   group_sidebar_desc: 喺主頁以外嘅頁面嘅右邊或左邊，通常有淺/深色模式切換掣同設定掣。
   group_color: 顏色
   group_page_style: 頁面樣式
-  group_wallpaper: 背景圖片
   group_logo: LOGO
   group_search_bar: 搜尋欄
   group_hot_search: 熱搜
@@ -332,11 +331,8 @@ settings:
     default: Bilibili 預設
     recommend: 推介
     custom: 自訂
-  customize_font_desc: >
-    對於舊字形嘅用戶，我哋推介 <a class="link" href="https://github.com/GuiWonder/Shanggu"
-    target="_blank">Shanggu Fonts (尚古字型)</a> 同 <a class="link"
-    href="https://github.com/ayaka14732/FanWunHak" target="_blank">Fan Wun Hak
-    (繁媛黑體)</a>。
+  customize_font_desc: >-
+    對於舊字形嘅用戶，我哋推介 {shanggu} 同 {fanwunhak}。
 
     呢啲字型仲可以將簡體中文轉做繁體/繁體中文。
   override_danmaku_font: 覆蓋彈幕字型
@@ -490,24 +486,6 @@ settings:
   enable_oled_dark_mode: OLED 純黑模式
   enable_oled_dark_mode_desc: 淨係喺實際使用深色模式時生效；網頁底色會變成純黑，但卡片同浮層仍然保留層次。
   gradient_theme_color_background: 使用漸層主題色作爲深色模式嘅背景
-  wallpaper_mode: 背景圖片模式
-  wallpaper_mode_desc: '使用網址: 直接用網上圖片嘅網址嚟到設定背景圖片。'
-  wallpaper_mode_opt:
-    build_in: 內建
-    by_url: 使用網址
-  choose_ur_wallpaper: 揀張背景
-  image_url: 圖片網址
-  image_url_hint: >
-    網址範例:
-    https://cdn.jsdelivr.net/gh/BewlyBewly/Imgs/wallpapers/rocky-mountain-cloudscape.jpg
-
-    https://cdn.jsdelivr.net/gh/BewlyBewly/Imgs/wallpapers/green-white-mountains.jpg
-  enable_wallpaper_masking: 使用背景遮蔽效果
-  wallpaper_cache_time: 背景圖片快取時間
-  wallpaper_cache_time_desc: 設定URL壁紙嘅快取時間(鐘頭)。0表示唔快取,每次都重新載入。本地上傳嘅圖片唔受呢個設定影響。
-  no_cache: 唔快取
-  wallpaper_mask_opacity: 背景遮蔽透明度調節
-  wallpaper_blur_intensity: 背景模糊強度調節
   customize_css: 自訂 CSS
   customize_css_desc: |-
     若然你唔係幾識 CSS，請唔好立亂去改 CSS。唔係嘅話可能會搞到個頁面亂晒。
@@ -538,7 +516,6 @@ settings:
   depersonalize_search_results_desc: 開啟後，搜尋結果請求唔會帶登入 Cookie。
   search_results_pagination_mode: 搜尋結果分頁模式
   search_results_pagination_mode_desc: 揀搜尋結果顯示方式：捲動自動加載或者翻頁
-  individually_set_search_page_wallpaper: 單獨設定搵嘢頁背景
   recommendation_mode: 推介模式
   recommendation_mode_desc: |
     Web：普通網頁版推介模式。無 Cookie：請求首頁推介時唔帶 Cookie。App：手機版推介模式，要先授權 access key。
@@ -572,29 +549,13 @@ settings:
   filter_by_publish_time_unit: 日
   filter_item_already_exist: 呢個篩選條件已經有咗喇！
   filter_by_title: 根據標題篩選
-  filter_by_title_desc: >
-    避開啲標題係你指定嘅字嘅片（唔理大細楷），抑或用正則表達式，好似 <code>/abc&#124;\d+/</code> 噉，用兩個
-    <code>/</code> 包住。
-
-    <br/>
-
-    喺下低個表度，撳 <kbd>Enter</kbd> 就可以加新嘅篩選條件，抑或確定你上先改咗嘅嘢。
-
-    撳 <kbd>Esc</kbd> 就取消你改咗嘅嘢。
-
-    撳兩吓欄位就可以改返入邊嘅嘢。
+  filter_by_title_desc: >-
+    避開啲標題係你指定嘅字嘅片（唔理大細楷），抑或用正則表達式，好似 {regex} 噉，用 {slash} 包住。{lineBreak}
+    喺下低個表度，撳 {enter} 就可以加新嘅篩選條件，抑或確定你上先改咗嘅嘢。撳 {esc} 就取消你改咗嘅嘢。撳兩吓欄位就可以改返入邊嘅嘢。
   filter_by_user: 根據用戶篩選
-  filter_by_user_desc: >
-    避開啲 po 片嗰位係你指定嘅用戶名（全名，唔理大細楷）抑或 MID 嘅片，抑或用正則表達式，好似
-    <code>/abc&#124;\d+/</code> 噉，用兩個 <code>/</code> 包住。
-
-    <br/>
-
-    喺下低個表度，撳 <kbd>Enter</kbd> 就可以加新嘅篩選條件，抑或確定你上先改咗嘅嘢。
-
-    撳 <kbd>Esc</kbd> 就取消你改咗嘅嘢。
-
-    撳兩吓欄位就可以改返入邊嘅嘢。
+  filter_by_user_desc: >-
+    避開啲 po 片嗰位係你指定嘅用戶名（全名，唔理大細楷）抑或 MID 嘅片，抑或用正則表達式，好似 {regex} 噉，用兩個 {slash} 包住。{lineBreak}
+    喺下低個表度，撳 {enter} 就可以加新嘅篩選條件，抑或確定你上先改咗嘅嘢。撳 {esc} 就取消你改咗嘅嘢。撳兩吓欄位就可以改返入邊嘅嘢。
   filter_by_user_table:
     username_or_mid: 用戶名 / MID
   following_tab_show_livestreaming_videos: 喺「跟緊啲人」入邊顯示實況直播
@@ -620,7 +581,6 @@ settings:
   use_search_page_mode: 主頁使用搵嘢頁模式
   settings_shared_with_the_search_page: 同搵嘢頁共用嘅設定
   settings_shared_with_the_search_page_desc: 呢啲設定同搵嘢頁嗰度共用。
-  search_page_mode_wallpaper_fixed: 定住搵嘢頁模式嘅背景
   home_tabs_adjustment: 分頁欄調整
   home_tabs_adjustment_desc: 第一個啓用嘅分頁項目會係開始頁面。
   always_show_tabs_on_home_page: 捲動時隱藏主頁分頁欄

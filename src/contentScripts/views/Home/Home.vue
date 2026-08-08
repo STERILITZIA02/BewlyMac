@@ -204,46 +204,6 @@ function toggleTabContentLoading(loading: boolean) {
 
 <template>
   <div pos="relative">
-    <!-- Home search page mode background -->
-    <Transition name="bg">
-      <div
-        v-if="settings.useSearchPageModeOnHomePage && settings.individuallySetSearchPageWallpaper"
-        pos="absolute" w-screen h-580px z-0
-        :style="{
-          left: '50%',
-          transform: 'translateX(-50%)',
-          top: 'calc(-1 * (var(--bew-top-bar-height) + 10px))',
-        }"
-      >
-        <div
-          pos="absolute left-0 top-0" w-full h-inherit bg="cover center" z-1
-          pointer-events-none
-          :style="{
-            backgroundImage: `url('${settings.searchPageWallpaper}')`,
-            backgroundAttachment: settings.searchPageModeWallpaperFixed ? 'fixed' : 'unset',
-          }"
-        />
-        <!-- background mask -->
-        <Transition name="fade">
-          <div
-            v-if="(!settings.individuallySetSearchPageWallpaper && settings.enableWallpaperMasking) || (settings.searchPageEnableWallpaperMasking)"
-            pos="relative left-0 top-0" w-full h-inherit pointer-events-none
-            z-1
-            :style="{
-              backdropFilter: `blur(${settings.individuallySetSearchPageWallpaper ? settings.searchPageWallpaperBlurIntensity : settings.wallpaperBlurIntensity}px)`,
-            }"
-          >
-            <div
-              bg="$bew-homepage-bg" pos="absolute top-0 left-0" w-full h-full
-              :style="{
-                opacity: `${settings.searchPageWallpaperMaskOpacity}%`,
-              }"
-            />
-          </div>
-        </Transition>
-      </div>
-    </Transition>
-
     <main>
       <!-- Home search page mode content -->
       <Transition name="content">
@@ -368,18 +328,6 @@ function toggleTabContentLoading(loading: boolean) {
 </template>
 
 <style scoped lang="scss">
-.bg-enter-active,
-.bg-leave-active {
-  --uno: "duration-500 ease-in-out";
-}
-.bg-enter-from,
-.bg-leave-to {
-  --uno: "h-100vh";
-}
-.bg-leave-to {
-  --uno: "hidden";
-}
-
 .content-enter-active,
 .content-leave-active {
   --uno: "duration-500 ease-in-out";
