@@ -604,7 +604,7 @@ onBeforeUnmount(() => {
 
 <template>
   <div
-    class="group/cover"
+    class="video-card-cover group/cover bew-shape-smooth-rect bew-surface-border"
     shrink-0
     relative bg="$bew-skeleton" rounded="$bew-media-radius"
     overflow-hidden
@@ -617,7 +617,7 @@ onBeforeUnmount(() => {
     <!-- Skeleton mode -->
     <div
       v-if="skeleton"
-      w-full h-full bg="$bew-skeleton" rounded="$bew-media-radius"
+      w-full h-full bg="$bew-skeleton" rounded-inherit
       style="aspect-ratio: 16 / 9;"
     />
 
@@ -636,7 +636,7 @@ onBeforeUnmount(() => {
       <div
         v-if="removed"
         pos="absolute top-0 left-0" w-full h-fit aspect-video flex="~ col gap-2 items-center justify-center"
-        bg="$bew-fill-4" backdrop-blur-20px mix-blend-luminosity rounded="$bew-media-radius" z-2
+        bg="$bew-fill-4" backdrop-blur-20px mix-blend-luminosity rounded-inherit z-2
       >
         <p mb-2 color-white text-lg>
           {{ $t('video_card.video_removed') }}
@@ -658,7 +658,7 @@ onBeforeUnmount(() => {
           v-if="previewVideoUrl && (isHover || isPreviewFullscreen)"
           class="video-card-preview"
           :class="{ 'video-card-preview--scrubbable': shouldEnableSwipeSeek }"
-          pos="absolute top-0 left-0" w-full aspect-video rounded="$bew-media-radius" bg-black
+          pos="absolute top-0 left-0" w-full aspect-video rounded-inherit bg-black
           v-on="previewInteractionEvents"
         >
           <video
@@ -667,6 +667,7 @@ onBeforeUnmount(() => {
             :draggable="false"
             :controls="showVideoControls"
             w-full h-full
+            class="video-card-preview__video"
           />
 
           <div
@@ -688,6 +689,7 @@ onBeforeUnmount(() => {
               w-full h-full
               flex="~ items-center justify-center"
               bg="black/50"
+              rounded-inherit
               pointer-events-none
             >
               <div class="loading-spinner" />
@@ -707,10 +709,10 @@ onBeforeUnmount(() => {
         <div
           v-if="Number(video?.rank) <= 3"
           bg="$bew-theme-color" text-center lh-0 h-30px w-30px
-          text-white rounded="1/2" shadow="$bew-shadow-1"
+          text="$bew-on-theme-color xl" rounded="1/2" shadow="$bew-shadow-1"
           border="1 $bew-theme-color"
           grid="~ place-content-center"
-          text="xl" fw-bold
+          fw-bold
         >
           {{ video?.rank }}
         </div>
@@ -755,7 +757,7 @@ onBeforeUnmount(() => {
           v-if="video?.liveStatus === 1"
           class="video-card-overlay-transition"
           :class="layout !== 'old' ? 'group-hover:opacity-0' : { 'opacity-0': shouldHideOverlayElements }"
-          pos="absolute left-0 top-0" bg="$bew-theme-color" text="xs white" fw-bold
+          pos="absolute left-0 top-0" bg="$bew-theme-color" text="xs $bew-on-theme-color" fw-bold
           p="x-2 y-1" m-1 inline-block rounded="$bew-radius"
         >
           LIVE
@@ -770,7 +772,7 @@ onBeforeUnmount(() => {
             backgroundColor: video?.badge?.bgColor,
             color: video?.badge?.color,
           }"
-          pos="absolute right-0 top-0" bg="$bew-theme-color" text="xs white"
+          pos="absolute right-0 top-0" bg="$bew-theme-color" text="xs $bew-on-theme-color"
           p="x-2 y-1" m-1 inline-block rounded="$bew-radius"
         >
           {{ video?.badge?.text }}
@@ -870,6 +872,15 @@ onBeforeUnmount(() => {
   -webkit-user-drag: none;
 }
 
+.video-card-preview__video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: inherit;
+  corner-shape: inherit;
+}
+
 .video-card-preview__scrub-progress {
   position: absolute;
   right: 0.5rem;
@@ -879,6 +890,7 @@ onBeforeUnmount(() => {
   height: 0.25rem;
   overflow: hidden;
   border-radius: var(--bew-radius-full);
+  corner-shape: round;
   background: rgb(255 255 255 / 35%);
   pointer-events: none;
 }
@@ -887,6 +899,7 @@ onBeforeUnmount(() => {
   width: 100%;
   height: 100%;
   border-radius: inherit;
+  corner-shape: inherit;
   background: var(--bew-theme-color);
   transform-origin: left center;
   will-change: transform;
@@ -911,6 +924,7 @@ onBeforeUnmount(() => {
   /* 只让下面两个角继承圆角，上面保持直线 */
   border-bottom-left-radius: inherit;
   border-bottom-right-radius: inherit;
+  corner-shape: inherit;
   /* 确保容器不会溢出 */
   overflow: hidden;
 }
@@ -929,6 +943,7 @@ onBeforeUnmount(() => {
   height: var(--bew-video-card-shadow-height-multiplier, calc(var(--video-card-stats-overlay-scale, 1.4) * 100%));
   border-bottom-left-radius: inherit;
   border-bottom-right-radius: inherit;
+  corner-shape: inherit;
   pointer-events: none;
 }
 

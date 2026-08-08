@@ -2,6 +2,7 @@
 // import { onKeyStroke } from '@vueuse/core'
 
 import { useDark } from '~/composables/useDark'
+import { settings } from '~/logic'
 
 const props = defineProps<{
   url: string
@@ -15,7 +16,19 @@ const pipWindowRef = ref<HTMLElement | null>(null)
 const pipWindowEl = ref<any | null>(null)
 const iframeRef = ref<HTMLIFrameElement | null>(null)
 const currentUrl = ref<string>(props.url)
-const { isDark } = useDark()
+const { isDark, isOledDark } = useDark()
+
+function applyPipTheme() {
+  const documentElement = pipWindowEl.value?.document?.documentElement
+  if (!documentElement)
+    return
+
+  documentElement.classList.toggle('dark', isDark.value)
+  documentElement.classList.toggle('oled-dark', isOledDark.value)
+  documentElement.style.background = isOledDark.value ? '#000' : 'var(--bew-bg)'
+}
+
+watch([isDark, isOledDark, () => settings.value.darkModeBaseColor], applyPipTheme)
 
 onMounted(() => {
   openPipWindow()
@@ -35,11 +48,7 @@ async function openPipWindow() {
     pipWindowEl.value.document.body.style.padding = '0'
     pipWindowEl.value.document.body.style.margin = '0'
 
-    if (isDark.value) {
-      // 爲 documentElement 添加主題色防止關閉時顏色白色切換
-      pipWindowEl.value.document.documentElement.style.background = 'var(--bew-bg)'
-      pipWindowEl.value.document.documentElement.classList.add('dark')
-    }
+    applyPipTheme()
 
     pipWindowEl.value.document.body.append(pipWindowRef.value)
 

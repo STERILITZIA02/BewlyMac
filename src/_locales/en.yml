@@ -3,6 +3,7 @@ common:
   play_all: Play ALL
   loading: Loading...
   search: Search
+  close: Close
   undo: UNDO
   days: days
   view: no view | {count} view | {count} views
@@ -45,6 +46,8 @@ common:
     import: Import
     export: Export
     undo_refresh: Undo Refresh
+    forward_refresh: Redo Refresh
+    back_to_top: Back to top
     remove: Remove
   table:
     index: Index
@@ -89,10 +92,11 @@ settings:
     no_results: No matching settings
     located: Setting located
   category_general_desc: Configure language, interaction, and drawer behavior.
-  category_appearance_desc: Configure frosted glass, theme colors, wallpaper, fonts, custom styles, and page style adaptation.
+  category_appearance_desc: Configure frosted glass, theme colors, fonts, custom styles, and page style adaptation.
   category_shortcuts_desc: Enable, customize, or restore BewlyMac and player shortcuts.
   breadcrumb: Settings location
   group_interaction_layout: Interaction & Layout
+  group_memory_saving: Memory Saving
   category_browsing_home_desc: Configure home recommendations, content filters, following, and home tabs.
   category_browsing_video_card_desc: Configure video card layout, previews, metadata, and link behavior.
   category_browsing_favorites_desc: Configure how favorite content is displayed and opened.
@@ -190,8 +194,6 @@ settings:
   group_topbar: Top Bar
   topbar_logo_and_channels: Logo settings
   topbar_logo_and_channels_desc: Choose the top bar Logo style and whether to show the home button in touch mode.
-  topbar_switchers: BewlyMac/Bilibili switchers
-  topbar_switchers_desc: Control the homepage page switcher and the top bar switcher separately.
   topbar_actions: Top bar actions
   topbar_actions_desc: Set the visibility, badges, and related reminders for each action icon.
   topbar_user_menu: Top bar user menu
@@ -205,7 +207,6 @@ settings:
     typically includes a light/dark mode toggle button and settings button.
   group_color: Color
   group_page_style: Page Style
-  group_wallpaper: Wallpaper
   group_logo: LOGO
   group_search_bar: Search Bar
   group_hot_search: Hot Search
@@ -294,7 +295,6 @@ settings:
   open_top_bar_items_in_bewly: Open Bewly pages from top bar icons
   open_top_bar_items_in_bewly_desc: When touch screen optimization is off, the Logo, Moments, Favorites, History, and Watch Later icons follow the top bar link opening behavior and open the corresponding Dock page using its Bewly/original Bilibili setting. Unsupported icons keep their existing behavior.
   show_bewly_or_bili_page_switcher_desc: Show the Original, Bewly, and Custom page mode switcher in the floating Dock or sidebar.
-  show_bewly_or_bili_top_bar_switcher_desc: Show a switcher when hovering at the top of the page to move between the BewlyMac and original Bilibili top bars.
   hide_lv6_last_login_location_in_top_bar_user_pop: Hide LV6 last login info
   hide_lv6_last_login_location_in_top_bar_user_pop_desc: When enabled, the LV6 section in the top bar user popup will no longer show the last login time or location, and no login log request will be made.
   chk_box:
@@ -317,11 +317,7 @@ settings:
     recommend: Recommend
     custom: Custom
   customize_font_desc: >-
-    For users who favor the old form of Chinese characters, we recommend <a
-    class="link" href="https://github.com/GuiWonder/Shanggu"
-    target="_blank">Shanggu Fonts (尚古字型)</a> and <a class="link"
-    href="https://github.com/ayaka14732/FanWunHak" target="_blank">Fan Wun Hak
-    (繁媛黑體)</a>.
+    For users who favor the old form of Chinese characters, we recommend {shanggu} and {fanwunhak}.
 
     These fonts also possess the capability to convert simplified Chinese into
     traditional characters.
@@ -334,7 +330,8 @@ settings:
     By default, Bilibili will specifically handle Chinese punctuation to achieve
     left alignment. If you are using a custom font, it is recommended to remove
     the indent.
-  enable_frosted_glass: Enable frosted glass effect
+  disable_frosted_glass_and_top_bar_gradient: Disable frosted glass and top bar gradient
+  disable_frosted_glass_and_top_bar_gradient_desc: Turn this on to use solid surfaces without frosted glass or the top bar gradient. Both effects are enabled by default.
   frosted_glass_blur_intensity: Frosted glass blur intensity
   enable_liquid_segment_indicator: Enable liquid segment indicator
   enable_liquid_segment_indicator_desc: >
@@ -416,11 +413,6 @@ settings:
     alwaysHide: Always hide
     showOnMouse: On hover
     showOnScroll: On scroll
-  always_use_transparent_top_bar: Always use transparent (legacy) style for top bar
-  enable_top_bar_gradient: Enable top bar gradient effect
-  enable_top_bar_gradient_desc: Use a frosted glass gradient on the top bar by default; disable it to use a solid background.
-  show_top_bar_theme_color_gradient: Show theme color gradient in top bar (only works in dark mode)
-  show_bewly_or_bili_top_bar_switcher: Show BewlyBewly/Bilibili top bar switcher
   show_bewly_or_bili_page_switcher: Show page mode switcher
   filter_articles_in_moments: Filter articles
   filter_articles_in_moments_desc: Hide articles from the moments feed and only show videos
@@ -506,6 +498,10 @@ settings:
   dock_position_desc: Position on screen.
   dock_content_adjustment: Dock content adjustment
   dock_content_adjustment_desc: The page of the first activated dock item will be the startup page.
+  topbar_mode: Top bar mode
+  topbar_mode_desc: All Bewly and All Original modes follow the global setting; Custom mode can choose independently.
+  topbar_mode_bewly: Bewly top bar
+  topbar_mode_bilibili: Bilibili top bar
   dock_item_open_in_new_tab: Open in new tab
   dock_item_use_original_bili_web_page: Use the original Bilibili web page
   disable_dock_glowing_effect: Disable the dock glowing effect
@@ -526,27 +522,10 @@ settings:
   video_page_dark_mode_desc: Keep the global theme unchanged and enable BewlyMac dark styles only on video playback pages.
   theme_color: Theme color
   dark_mode_base_color: Dark mode base color
-  gradient_theme_color_background: Use a gradient theme color as the background in dark mode
-  wallpaper_mode: Wallpaper mode
-  wallpaper_mode_desc: >
-    By URL: Choose an image from the Internet and use its URL to set it as the
-    wallpaper.
-  wallpaper_mode_opt:
-    build_in: Built-in
-    by_url: By URL
-  choose_ur_wallpaper: Choose your wallpaper
-  image_url: Image URL
-  image_url_hint: >-
-    URL examples:
-    https://cdn.jsdelivr.net/gh/BewlyBewly/Imgs/wallpapers/rocky-mountain-cloudscape.jpg
-
-    https://cdn.jsdelivr.net/gh/BewlyBewly/Imgs/wallpapers/green-white-mountains.jpg
-  enable_wallpaper_masking: Enable wallpaper masking
-  wallpaper_cache_time: Wallpaper cache time
-  wallpaper_cache_time_desc: Set the cache time (hours) for URL wallpapers. 0 means no caching, reload every time. Locally uploaded images are not affected by this setting.
-  no_cache: No cache
-  wallpaper_mask_opacity: Wallpaper masking opacity
-  wallpaper_blur_intensity: Wallpaper blur intensity
+  enable_oled_dark_mode: OLED pure black mode
+  enable_oled_dark_mode_desc: Only applies while the effective theme is dark; page backgrounds become pure black while cards and overlays keep their layers.
+  gradient_theme_color_background: Use theme color gradient in dark mode
+  gradient_theme_color_background_desc: Apply it to both the page background and top bar.
   customize_css: Customize CSS
   customize_css_desc: >-
     If you are unfamiliar with CSS, please DO NOT modify CSS. Doing so may cause
@@ -580,7 +559,6 @@ settings:
   depersonalize_search_results_desc: When enabled, search result requests are sent without login cookies.
   search_results_pagination_mode: Search results pagination mode
   search_results_pagination_mode_desc: 'Choose how search results are displayed: infinite scroll or page-based navigation'
-  individually_set_search_page_wallpaper: Individually set search page wallpaper
   recommendation_mode: Recommendation mode
   recommendation_mode_desc: >
     Web: normal web recommendation mode. No Cookie: request homepage
@@ -623,34 +601,15 @@ settings:
   filter_by_title: Filter by title
   filter_by_title_desc: >-
     Filtered out the videos that contain the titles you set (case-insensitive).
-
-    Alternatively, use regex, such as <code>/abc&#124;\d+/</code>, wrapped in
-    <code>/</code>.
-
-    <br/>
-
-    In the table below, you can press the <kbd>Enter</kbd> key to add a new
-    filter or confirm a modification.
-
-    Press the <kbd>Esc</kbd> key to cancel the modification.
-
-    Double-click the column to edit the current column.
+    Alternatively, use regex, such as {regex}, wrapped in {slash}.{lineBreak}
+    In the table below, you can press the {enter} key to add a new filter or confirm a modification.
+    Press the {esc} key to cancel the modification. Double-click the column to edit the current column.
   filter_by_user: Filter by user
   filter_by_user_desc: >-
-    Filtered out the videos that are uploaded by the username (full name,
-    case-insensitive) or MID you set.
-
-    Alternatively, use regex, such as <code>/abc&#124;\d+/</code>, wrapped in
-    <code>/</code>.
-
-    <br/>
-
-    In the table below, you can press the <kbd>Enter</kbd> key to add a new
-    filter or confirm a modification.
-
-    Press the <kbd>Esc</kbd> key to cancel the modification.
-
-    Double-click the column to edit the current column.
+    Filtered out the videos that are uploaded by the username (full name, case-insensitive) or MID you set.
+    Alternatively, use regex, such as {regex}, wrapped in {slash}.{lineBreak}
+    In the table below, you can press the {enter} key to add a new filter or confirm a modification.
+    Press the {esc} key to cancel the modification. Double-click the column to edit the current column.
   filter_by_user_table:
     username_or_mid: Username / MID
   following_tab_show_livestreaming_videos: Show Live-streaming videos in the "Following" tab
@@ -676,20 +635,14 @@ settings:
   use_search_page_mode: Use search page mode on homepage
   settings_shared_with_the_search_page: Settings shared with the search page
   settings_shared_with_the_search_page_desc: Those settings are used in common with the search page.
-  search_page_mode_wallpaper_fixed: Make the wallpaper of the search page mode fixed
   home_tabs_adjustment: Tabs adjustment
   home_tabs_adjustment_desc: The first activated tab is the default page.
   always_show_tabs_on_home_page: Hide home tabs while scrolling
   fixed_home_tabs_on_home_page: Fix home tabs to the top
-  topbar_visibility: BewlyBewly's top bar visibility
-  topbar_visibility_desc: >-
-    If you are using Bilibili Evolved's top bar, you can turn BewlyBewly's top
-    bar off here.
   use_original_bilibili_homepage: Use the original Bilibili homepage
   use_original_bilibili_homepage_desc: >-
     After you change it, the page will automatically refresh if you are on the
     homepage!
-  use_original_bilibili_topbar: Use the original Bilibili top bar
   adapt_to_other_page_styles: Adapt to other page styles
   adapt_to_other_page_styles_desc: Adapt to some common pages to match with the BewlyBewly theme.
   prevent_mobile_redirect: Prevent mobile redirect
@@ -714,9 +667,8 @@ settings:
   contributors_image_failed: Contributor image failed to load
   enable_settings_sync: Allow syncing settings
   enable_settings_sync_desc: >-
-    Save settings locally and to browser cloud storage. Wallpaper/background
-    settings and per-device playback state are not synced (requires signing in
-    to the browser account).
+    Save settings locally and to browser cloud storage. Per-device playback
+    state is not synced (requires signing in to the browser account).
   disable_auto_play_collection: Auto disable collection autoplay
   disable_auto_play_collection_desc: Automatically turn off the autoplay feature for video collections
   keep_collection_video_default_mode: Keep collection videos in default mode

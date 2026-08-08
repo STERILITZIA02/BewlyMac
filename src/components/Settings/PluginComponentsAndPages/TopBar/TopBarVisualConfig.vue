@@ -189,19 +189,6 @@ function toggleChannel(value: string) {
       >
         <Select v-model="settings.videoPageTopBarConfig" :options="videoPageTopBarConfigOptions" w="160px" />
       </SettingsItem>
-      <SettingsItem :title="$t('settings.always_use_transparent_top_bar')" right-width="auto">
-        <Radio v-model="settings.alwaysUseTransparentTopBar" />
-      </SettingsItem>
-      <SettingsItem
-        :title="$t('settings.enable_top_bar_gradient')"
-        :desc="$t('settings.enable_top_bar_gradient_desc')"
-        right-width="auto"
-      >
-        <Radio v-model="settings.enableTopBarGradient" />
-      </SettingsItem>
-      <SettingsItem :title="$t('settings.show_top_bar_theme_color_gradient')" right-width="auto">
-        <Radio v-model="settings.showTopBarThemeColorGradient" />
-      </SettingsItem>
       <SettingsItem :title="$t('settings.open_notifications_page_as_drawer')" right-width="auto">
         <Radio v-model="settings.openNotificationsPageAsDrawer" />
       </SettingsItem>
@@ -316,19 +303,6 @@ function toggleChannel(value: string) {
             {{ pinnedChannelKeys.length ? $t('settings.topbar_pinned_channels_order_tip') : $t('settings.topbar_pinned_channels_empty') }}
           </div>
         </template>
-      </SettingsItem>
-    </SettingsItemGroup>
-
-    <SettingsItemGroup
-      :title="$t('settings.topbar_switchers')"
-      :desc="$t('settings.topbar_switchers_desc')"
-    >
-      <SettingsItem
-        :title="$t('settings.show_bewly_or_bili_top_bar_switcher')"
-        :desc="$t('settings.show_bewly_or_bili_top_bar_switcher_desc')"
-        right-width="auto"
-      >
-        <Radio v-model="settings.showBewlyOrBiliTopBarSwitcher" />
       </SettingsItem>
     </SettingsItemGroup>
 
@@ -528,6 +502,7 @@ function toggleChannel(value: string) {
   padding: var(--bew-space-3);
   border: 1px solid transparent;
   border-radius: var(--bew-interactive-radius);
+  corner-shape: var(--bew-corner-shape);
   background: var(--bew-fill-1);
   color: var(--bew-text-1);
   cursor: pointer;
@@ -562,12 +537,14 @@ function toggleChannel(value: string) {
 
 .channel-grid__icon {
   display: grid;
+  box-sizing: border-box;
   width: var(--bew-icon-size-xl);
   height: var(--bew-icon-size-xl);
   flex: 0 0 auto;
   place-items: center;
-  border: 1px solid color-mix(in oklab, var(--bew-border-color), transparent 30%);
+  border: 1px solid var(--bew-surface-border-color);
   border-radius: var(--bew-interactive-radius);
+  corner-shape: var(--bew-corner-shape);
   background: color-mix(in oklab, white, transparent 20%);
 
   svg {
@@ -597,9 +574,10 @@ function toggleChannel(value: string) {
   height: var(--bew-icon-size-md);
   flex: 0 0 auto;
   place-items: center;
-  border-radius: var(--bew-badge-radius);
+  border-radius: 50%;
+  corner-shape: var(--bew-corner-shape-round);
   background: var(--bew-theme-color);
-  color: var(--bew-text-auto);
+  color: var(--bew-on-theme-color);
   font-size: var(--bew-font-size-control);
   font-weight: var(--bew-font-weight-semibold);
   line-height: var(--bew-line-height-control);

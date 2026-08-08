@@ -164,7 +164,8 @@ onKeyStroke((e: KeyboardEvent) => {
       >
         <div flex="~ gap-2">
           <div
-            bg="$bew-theme-color" color-white w-20px h-20px rounded-10
+            class="bew-shape-circle"
+            bg="$bew-theme-color" color="$bew-on-theme-color" w-20px h-20px rounded-10
             flex="~ justify-center items-center"
           >
             {{ index + 1 }}
@@ -190,7 +191,8 @@ onKeyStroke((e: KeyboardEvent) => {
         >
           <div flex="~ gap-2">
             <div
-              bg="$bew-theme-color" color-white w-20px h-20px rounded-10
+              class="bew-shape-circle"
+              bg="$bew-theme-color" color="$bew-on-theme-color" w-20px h-20px rounded-10
               flex="~ justify-center items-center"
             >
               {{ dislikeReasons.length + index + 1 }}

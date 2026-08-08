@@ -13,7 +13,8 @@ defineProps<{
     mb-6
   >
     <div
-      rounded="$bew-radius" aspect="12/16" overflow-hidden mb-4 bg="$bew-skeleton"
+      rounded="$bew-media-radius" aspect="12/16" overflow-hidden mb-4 bg="$bew-skeleton"
+      class="bew-surface-border"
       shrink-0
       :style="{ width: horizontal ? '170px' : '100%' }"
     />

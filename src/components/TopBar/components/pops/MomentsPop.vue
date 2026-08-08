@@ -129,7 +129,7 @@ defineExpose({
     rounded="$bew-radius"
     pos="relative"
     shadow="[var(--bew-shadow-edge-glow-1),var(--bew-shadow-3)]"
-    border="1 $bew-border-color"
+    border="1 $bew-surface-border-color"
     class="moments-pop bew-popover"
     data-key="moments"
     flex="~ col"
@@ -211,6 +211,7 @@ defineExpose({
           <!-- new moment dot -->
           <div
             v-if="topBarStore.isNewMoment(index) && selectedMomentTab.type === 'video'"
+            class="bew-shape-circle"
             rounded="full"
             w="8px"
             h="8px"

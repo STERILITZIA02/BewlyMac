@@ -5,7 +5,6 @@ import { useI18n } from 'vue-i18n'
 import Select from '~/components/Select.vue'
 import { FROSTED_GLASS_BLUR_MAX_PX, FROSTED_GLASS_BLUR_MIN_PX, localSettings, settings } from '~/logic'
 
-import ChangeWallpaper from '../components/ChangeWallpaper.vue'
 import SettingsItem from '../components/SettingsItem.vue'
 import SettingsItemGroup from '../components/SettingsItemGroup.vue'
 import SettingsSectionHeading from '../components/SettingsSectionHeading.vue'
@@ -114,10 +113,6 @@ const themeOptions = computed<Array<{ value: string, label: string }>>(() => {
   ]
 })
 
-watch(() => settings.value.wallpaper, (newValue) => {
-  changeWallpaper(newValue)
-})
-
 function changeThemeColor(color: string) {
   settings.value.themeColor = color
 }
@@ -127,16 +122,6 @@ function changeDarkModeBaseColor(color: string) {
   settings.value.darkModeBaseColor = color
 }
 const changeDarkModeBaseColorThrottle = useThrottleFn((color: string) => changeDarkModeBaseColor(color), 100)
-
-function changeWallpaper(url: string) {
-  // If you had already set the wallpaper, it enables the wallpaper masking to prevent text hard to see
-  if (url)
-    settings.value.enableWallpaperMasking = true
-  else
-    settings.value.enableWallpaperMasking = false
-
-  settings.value.wallpaper = url
-}
 </script>
 
 <template>
@@ -149,18 +134,14 @@ function changeWallpaper(url: string) {
 
     <SettingsItemGroup :title="$t('settings.group_visual_effects')">
       <SettingsItem
-        :title="$t('settings.enable_frosted_glass')"
-        :badge="$t('settings.badge_performance_impact')"
+        :title="$t('settings.disable_frosted_glass_and_top_bar_gradient')"
+        :desc="$t('settings.disable_frosted_glass_and_top_bar_gradient_desc')"
         right-width="auto"
       >
-        <template #desc>
-          <span class="bew-warning-text">{{ $t('common.performance_impact_warn') }}</span>
-        </template>
-
-        <Radio v-model="settings.enableFrostedGlass" />
+        <Radio v-model="settings.disableFrostedGlass" />
       </SettingsItem>
       <SettingsItem
-        v-if="settings.enableFrostedGlass"
+        v-if="!settings.disableFrostedGlass"
         :title="$t('settings.frosted_glass_blur_intensity')"
         right-width="auto"
       >
@@ -303,8 +284,19 @@ function changeWallpaper(url: string) {
           </div>
         </div>
       </SettingsItem>
+      <SettingsItem
+        :title="$t('settings.enable_oled_dark_mode')"
+        :desc="$t('settings.enable_oled_dark_mode_desc')"
+        right-width="auto"
+      >
+        <Radio v-model="settings.enableOledDarkMode" />
+      </SettingsItem>
 
-      <SettingsItem :title="$t('settings.gradient_theme_color_background')" right-width="auto">
+      <SettingsItem
+        :title="$t('settings.gradient_theme_color_background')"
+        :desc="$t('settings.gradient_theme_color_background_desc')"
+        right-width="auto"
+      >
         <Radio v-model="settings.useLinearGradientThemeColorBackground" />
       </SettingsItem>
       <SettingsItem
@@ -327,8 +319,6 @@ function changeWallpaper(url: string) {
       </SettingsItem>
     </SettingsItemGroup>
 
-    <ChangeWallpaper type="global" />
-
     <SettingsItemGroup :title="$t('settings.group_fonts')">
       <SettingsItem :title="$t('settings.customize_font')" right-width="auto">
         <Select
@@ -338,7 +328,14 @@ function changeWallpaper(url: string) {
         />
         <template v-if="settings.customizeFont === 'custom'" #bottom>
           <Input v-model="settings.fontFamily" @keydown.stop.passive="() => {}" />
-          <div text="sm $bew-text-2" mt-1 v-html="t('settings.customize_font_desc')" />
+          <i18n-t keypath="settings.customize_font_desc" tag="div" text="sm $bew-text-2" mt-1>
+            <template #shanggu>
+              <a class="link" href="https://github.com/GuiWonder/Shanggu" target="_blank">Shanggu Fonts (尚古字型)</a>
+            </template>
+            <template #fanwunhak>
+              <a class="link" href="https://github.com/ayaka14732/FanWunHak" target="_blank">Fan Wun Hak (繁媛黑體)</a>
+            </template>
+          </i18n-t>
         </template>
       </SettingsItem>
       <SettingsItem :title="$t('settings.remove_the_indent_from_chinese_punctuation')" :desc="$t('settings.remove_the_indent_from_chinese_punctuation_desc')" right-width="auto">
@@ -400,6 +397,7 @@ function changeWallpaper(url: string) {
   background: var(--bew-fill-1);
   border: 1px solid var(--bew-fill-3);
   border-radius: var(--bew-interactive-radius);
+  corner-shape: var(--bew-corner-shape);
   font-size: var(--bew-font-size-body);
   line-height: var(--bew-line-height-body);
   color-scheme: inherit;

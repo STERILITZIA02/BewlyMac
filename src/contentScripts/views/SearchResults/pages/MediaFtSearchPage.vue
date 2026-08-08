@@ -353,11 +353,14 @@ defineExpose({
 }
 
 .media-ft-highlight-card {
+  box-sizing: border-box;
   display: flex;
   gap: 1rem;
   padding: 1rem;
   background: var(--bew-elevated);
   border-radius: var(--bew-card-radius);
+  border: 1px solid var(--bew-surface-border-color);
+  corner-shape: var(--bew-corner-shape);
 }
 
 .media-ft-highlight-cover {
@@ -366,13 +369,18 @@ defineExpose({
   min-width: 160px;
   aspect-ratio: 3 / 4;
   border-radius: var(--bew-media-radius);
+  border: 1px solid var(--bew-surface-border-color);
+  corner-shape: var(--bew-corner-shape);
   overflow: hidden;
   position: relative;
 
   img {
+    display: block;
     width: 100%;
     height: 100%;
     object-fit: cover;
+    border-radius: inherit;
+    corner-shape: inherit;
   }
 }
 
@@ -382,6 +390,7 @@ defineExpose({
   left: 0.75rem;
   padding: 0.25rem 0.5rem;
   border-radius: var(--bew-badge-radius);
+  corner-shape: var(--bew-corner-shape);
   background: rgba(0, 0, 0, 0.65);
   color: #fff;
   font-size: var(--bew-font-size-control);
@@ -418,8 +427,9 @@ defineExpose({
   padding: 0.5rem 1.25rem;
   min-height: var(--bew-control-height);
   border-radius: var(--bew-interactive-radius);
+  corner-shape: var(--bew-corner-shape);
   background: var(--bew-theme-color);
-  color: #fff;
+  color: var(--bew-on-theme-color);
   font-size: var(--bew-font-size-control);
   font-weight: var(--bew-font-weight-semibold);
   text-decoration: none;

@@ -2,16 +2,8 @@
 import { SEARCH_BAR_CHARACTERS } from '~/constants/imgs'
 import { settings } from '~/logic'
 
-import ChangeWallpaper from '../../components/ChangeWallpaper.vue'
 import SettingsItem from '../../components/SettingsItem.vue'
 import SettingsItemGroup from '../../components/SettingsItemGroup.vue'
-
-watch(() => settings.value.individuallySetSearchPageWallpaper, (newValue) => {
-  if (newValue)
-    document.documentElement.style.backgroundImage = `url(${settings.value.searchPageWallpaper})`
-  else
-    document.documentElement.style.backgroundImage = `url(${settings.value.wallpaper})`
-})
 
 function changeSearchBarFocusCharacter(url: string) {
   settings.value.searchPageSearchBarFocusCharacter = url
@@ -29,7 +21,7 @@ function changeSearchBarFocusCharacter(url: string) {
             text-center rounded="$bew-radius"
             :style="{
               background: settings.searchPageLogoColor === 'themeColor' || !settings.searchPageLogoColor ? 'var(--bew-theme-color)' : '',
-              color: settings.searchPageLogoColor === 'themeColor' || !settings.searchPageLogoColor ? 'white' : '',
+              color: settings.searchPageLogoColor === 'themeColor' || !settings.searchPageLogoColor ? 'var(--bew-on-theme-color)' : '',
             }"
             @click="settings.searchPageLogoColor = 'themeColor'"
           >
@@ -41,7 +33,7 @@ function changeSearchBarFocusCharacter(url: string) {
             text-center rounded="$bew-radius"
             :style="{
               background: settings.searchPageLogoColor === 'white' ? 'var(--bew-theme-color)' : '',
-              color: settings.searchPageLogoColor === 'white' ? 'white' : '',
+              color: settings.searchPageLogoColor === 'white' ? 'var(--bew-on-theme-color)' : '',
             }"
             @click="settings.searchPageLogoColor = 'white'"
           >
@@ -88,7 +80,7 @@ function changeSearchBarFocusCharacter(url: string) {
               aspect-square bg="$bew-fill-1" rounded="$bew-radius" overflow-hidden
               un-border="4 transparent" cursor-pointer
               grid place-items-center
-              :class="{ 'selected-wallpaper': settings.searchPageSearchBarFocusCharacter === '' }"
+              :class="{ 'selected-character': settings.searchPageSearchBarFocusCharacter === '' }"
               @click="changeSearchBarFocusCharacter('')"
             >
               <div i-tabler:photo-off text="size-$bew-icon-size-xl $bew-text-3" />
@@ -98,7 +90,7 @@ function changeSearchBarFocusCharacter(url: string) {
                 class="bew-settings-option--lift"
                 aspect-square bg="$bew-fill-1" rounded="$bew-radius" overflow-hidden
                 un-border="4 transparent" w-full
-                :class="{ 'selected-wallpaper': settings.searchPageSearchBarFocusCharacter === item.url }"
+                :class="{ 'selected-character': settings.searchPageSearchBarFocusCharacter === item.url }"
                 @click="changeSearchBarFocusCharacter(item.url)"
               >
                 <img
@@ -147,7 +139,7 @@ function changeSearchBarFocusCharacter(url: string) {
             text-center rounded="$bew-radius"
             :style="{
               background: settings.searchResultsPaginationMode === 'scroll' ? 'var(--bew-theme-color)' : '',
-              color: settings.searchResultsPaginationMode === 'scroll' ? 'white' : '',
+              color: settings.searchResultsPaginationMode === 'scroll' ? 'var(--bew-on-theme-color)' : '',
             }"
             @click="settings.searchResultsPaginationMode = 'scroll'"
           >
@@ -159,7 +151,7 @@ function changeSearchBarFocusCharacter(url: string) {
             text-center rounded="$bew-radius"
             :style="{
               background: settings.searchResultsPaginationMode === 'pagination' ? 'var(--bew-theme-color)' : '',
-              color: settings.searchResultsPaginationMode === 'pagination' ? 'white' : '',
+              color: settings.searchResultsPaginationMode === 'pagination' ? 'var(--bew-on-theme-color)' : '',
             }"
             @click="settings.searchResultsPaginationMode = 'pagination'"
           >
@@ -168,8 +160,6 @@ function changeSearchBarFocusCharacter(url: string) {
         </div>
       </SettingsItem>
     </SettingsItemGroup>
-
-    <ChangeWallpaper type="searchPage" />
   </div>
 </template>
 
@@ -185,7 +175,7 @@ function changeSearchBarFocusCharacter(url: string) {
   box-shadow: inset 0 0 0 1px var(--bew-border-color);
 }
 
-.selected-wallpaper {
+.selected-character {
   --uno: "border-$bew-theme-color-60";
 }
 </style>

@@ -3,9 +3,10 @@ import { useEventListener } from '@vueuse/core'
 import type { CSSProperties } from 'vue'
 import { useI18n } from 'vue-i18n'
 
+import CloseButton from '~/components/CloseButton.vue'
+import PanelTopBlur from '~/components/PanelTopBlur.vue'
 import { useBewlyApp } from '~/composables/useAppProvider'
 import { settings } from '~/logic'
-import { createTransformer } from '~/utils/transformer'
 
 import type { SettingsSearchEntry } from './searchCatalog'
 import { settingsSearchEntries } from './searchCatalog'
@@ -97,6 +98,7 @@ const activatedMenuItem = ref<MenuType>(
     : MenuType.General,
 )
 const settingsWindow = ref<HTMLDivElement>()
+const isPrimaryNavigationExpanded = ref(false)
 const settingsSearchRef = ref<HTMLElement>()
 const searchInputRef = ref<HTMLInputElement>()
 const searchPopoverStyle = ref<CSSProperties>({})
@@ -145,15 +147,6 @@ function focusSettingsSearch(event: MouseEvent) {
 }
 
 useEventListener(window, 'resize', () => {
-  createTransformer(settingsWindow, {
-    x: '50%',
-    y: '50%',
-    notrigger: true,
-    centerTarget: {
-      x: true,
-      y: true,
-    },
-  })
   nextTick(updateSearchPopoverBounds)
 })
 
@@ -436,9 +429,9 @@ function changeMenuItem(menuItem: MenuType) {
 </script>
 
 <template>
-  <div class="fixed w-full h-full top-0 left-0">
+  <div class="settings-layer fixed w-full h-full top-0 left-0">
     <div
-      class="fixed w-full h-full top-0 left-0"
+      class="settings-backdrop fixed w-full h-full top-0 left-0"
       @click="handleClose"
     />
     <div
@@ -450,8 +443,11 @@ function changeMenuItem(menuItem: MenuType) {
     >
       <aside
         class="settings-primary-navigation group"
+        :data-expanded="isPrimaryNavigationExpanded"
         shrink-0 p="x-4"
         pos="absolute xl:left--84px left--44px" z-2
+        @mouseenter="isPrimaryNavigationExpanded = true"
+        @mouseleave="isPrimaryNavigationExpanded = false"
       >
         <ul
           class="settings-primary-navigation__list"
@@ -459,7 +455,6 @@ function changeMenuItem(menuItem: MenuType) {
             box-shadow: var(--bew-shadow-4);
           "
           relative
-          bg="$bew-content-alt group-hover:$bew-elevated dark:$bew-elevated dark-group-hover:$bew-elevated"
           overflow-hidden antialiased
         >
           <!-- frosted glass background -->
@@ -467,10 +462,11 @@ function changeMenuItem(menuItem: MenuType) {
           <div
             class="settings-primary-navigation__surface"
             :style="{
-              // 对齐 1.6.9：侧栏固定用 dialog 级 glass-2
-              backdropFilter: settings.enableFrostedGlass ? 'var(--bew-filter-glass-2)' : 'none',
+              backgroundColor: settings.disableFrostedGlass ? 'var(--bew-elevated-alt-solid)' : 'var(--bew-elevated-alt)',
+              backdropFilter: settings.disableFrostedGlass ? 'none' : 'var(--bew-filter-glass-1)',
+              WebkitBackdropFilter: settings.disableFrostedGlass ? 'none' : 'var(--bew-filter-glass-1)',
             }"
-            z--1 pointer-events-none rounded-inherit
+            pointer-events-none rounded-inherit
           />
 
           <li
@@ -516,16 +512,23 @@ function changeMenuItem(menuItem: MenuType) {
       </aside>
 
       <div
-        class="settings-content"
+        class="settings-content bew-shape-smooth-rect"
         :style="{
           '--un-shadow': 'var(--bew-shadow-4), var(--bew-shadow-edge-glow-2)',
-          'backdropFilter': settings.enableFrostedGlass ? 'var(--bew-filter-glass-1)' : 'none',
         }"
-        relative overflow-hidden flex-1 min-w-0
+        relative flex-1 min-w-0 box-border
         h-full
-        bg="$bew-elevated-alt"
-        shadow rounded="$bew-modal-radius" border="1 $bew-border-color"
+        shadow rounded="$bew-modal-radius"
       >
+        <div
+          class="settings-content__surface"
+          :style="{
+            backgroundColor: settings.disableFrostedGlass ? 'var(--bew-elevated-alt-solid)' : 'var(--bew-elevated-alt)',
+            backdropFilter: settings.disableFrostedGlass ? 'none' : 'var(--bew-filter-glass-1)',
+            WebkitBackdropFilter: settings.disableFrostedGlass ? 'none' : 'var(--bew-filter-glass-1)',
+          }"
+          aria-hidden="true"
+        />
         <header
           class="settings-header"
           flex justify-between items-center w-full h-92px
@@ -535,22 +538,7 @@ function changeMenuItem(menuItem: MenuType) {
             text-shadow: 0 0 10px var(--bew-elevated-solid), 0 0 15px var(--bew-elevated-solid)
           "
         >
-          <!-- Mask -->
-          <div
-            pos="absolute top-0 left-0" w-inherit h-inherit pointer-events-none
-            :style="{
-              maskImage: settings.enableFrostedGlass
-                ? 'linear-gradient(to bottom, black 0%, black 60%, transparent 100%)'
-                : 'none',
-              WebkitMaskImage: settings.enableFrostedGlass
-                ? 'linear-gradient(to bottom, black 0%, black 60%, transparent 100%)'
-                : 'none',
-              backgroundColor: settings.enableFrostedGlass ? 'transparent' : 'var(--bew-elevated-alt-solid)',
-              backdropFilter: settings.enableFrostedGlass ? 'blur(3px) saturate(180%)' : 'none',
-              WebkitBackdropFilter: settings.enableFrostedGlass ? 'blur(3px) saturate(180%)' : 'none',
-            }"
-            z--1 rounded-inherit
-          />
+          <PanelTopBlur :enabled="!settings.disableFrostedGlass" />
           <nav class="settings-breadcrumb" :aria-label="$t('settings.breadcrumb')">
             <span>{{ $t('settings.title') }}</span>
             <i i-mingcute:right-line />
@@ -562,10 +550,10 @@ function changeMenuItem(menuItem: MenuType) {
           </nav>
           <div
             ref="settingsSearchRef"
-            class="settings-search"
+            class="settings-search bew-shape-smooth-rect"
             :class="{ 'has-query': Boolean(searchQuery) }"
             :style="{
-              backgroundColor: settings.enableFrostedGlass ? 'var(--bew-content)' : 'var(--bew-content-solid)',
+              backgroundColor: settings.disableFrostedGlass ? 'var(--bew-content-solid)' : 'var(--bew-content)',
             }"
             @click="focusSettingsSearch"
           >
@@ -588,28 +576,18 @@ function changeMenuItem(menuItem: MenuType) {
               @blur="handleSearchBlur"
             >
           </div>
-          <div
-            style="
-              box-shadow: var(--bew-shadow-edge-glow-1), var(--bew-shadow-2);
-            "
-            :style="{
-              backdropFilter: settings.enableFrostedGlass ? 'var(--bew-filter-glass-1)' : 'none',
-            }"
-            text="!16px hover:$bew-theme-color" w="32px" h="32px"
-            flex="~ items-center justify-center shrink-0"
-            bg="$bew-elevated dark:$bew-fill-1 hover:$bew-theme-color-30"
-            rounded-8 cursor="pointer" border="1 $bew-border-color" box-border
-            duration-300
+          <CloseButton
+            :label="$t('common.close')"
+            size="medium"
             @click="handleClose"
-          >
-            <div i-ic-baseline-clear />
-          </div>
+          />
         </header>
         <div
           ref="scrollViewportRef"
+          class="settings-content__scroll"
           :style="{
-            maskImage: settings.enableFrostedGlass ? 'linear-gradient(to bottom, transparent 0%, black 92px 30%)' : 'none',
-            WebkitMaskImage: settings.enableFrostedGlass ? 'linear-gradient(to bottom, transparent 0%, black 92px 30%)' : 'none',
+            maskImage: settings.disableFrostedGlass ? 'none' : 'linear-gradient(to bottom, transparent 0%, black 92px 30%)',
+            WebkitMaskImage: settings.disableFrostedGlass ? 'none' : 'linear-gradient(to bottom, transparent 0%, black 92px 30%)',
             scrollbarGutter: 'stable',
             overflowAnchor: 'none',
             overscrollBehavior: 'contain',
@@ -643,7 +621,7 @@ function changeMenuItem(menuItem: MenuType) {
           :style="[
             searchPopoverStyle,
             {
-              backgroundColor: settings.enableFrostedGlass ? 'var(--bew-elevated-alt)' : 'var(--bew-elevated-alt-solid)',
+              backgroundColor: settings.disableFrostedGlass ? 'var(--bew-elevated-alt-solid)' : 'var(--bew-elevated-alt)',
               zIndex: 10010,
             },
           ]"
@@ -674,26 +652,28 @@ function changeMenuItem(menuItem: MenuType) {
 <style lang="scss" scoped>
 .menu-item-activated {
   --uno: "text-$bew-text-auto bg-$bew-theme-color-auto";
+  color: var(--bew-on-theme-color);
 }
 
-// Animate from the capsule's real geometric radius instead of `radius-full`.
-// Interpolating from 9999px stays visually clamped until the final frames and
-// makes the corners appear to snap when the rail expands.
 .settings-primary-navigation__list {
   --settings-primary-nav-inset: var(--bew-space-2);
   --settings-primary-nav-item-size: 40px;
   --settings-primary-nav-expanded-item-width: 190px;
-
-  display: flex;
-  box-sizing: border-box;
-  width: calc(
+  --settings-primary-nav-collapsed-width: calc(
     var(--settings-primary-nav-item-size) + var(--settings-primary-nav-inset) + var(--settings-primary-nav-inset)
   );
+  --settings-primary-nav-collapsed-radius: calc(var(--settings-primary-nav-collapsed-width) / 2);
+
+  display: flex;
+  isolation: isolate;
+  box-sizing: border-box;
+  width: var(--settings-primary-nav-collapsed-width);
   padding: var(--settings-primary-nav-inset);
   flex-direction: column;
   align-items: stretch;
   gap: var(--bew-space-2);
-  border-radius: 28px; // 40px item + 8px padding on each side, divided by two.
+  border-radius: var(--settings-primary-nav-collapsed-radius);
+  corner-shape: round;
   transition:
     width var(--bew-duration-moderate) var(--bew-ease-standard),
     border-radius var(--bew-duration-moderate) var(--bew-ease-standard),
@@ -708,9 +688,12 @@ function changeMenuItem(menuItem: MenuType) {
 
 .settings-primary-navigation__surface {
   position: absolute;
+  z-index: 0;
   inset: 0;
   box-sizing: border-box;
-  border: 1px solid var(--bew-border-color);
+  border: 1px solid var(--bew-surface-border-color);
+  border-radius: inherit;
+  corner-shape: inherit;
   box-shadow: none;
   transition: box-shadow var(--bew-duration-moderate) var(--bew-ease-standard);
 }
@@ -723,7 +706,8 @@ function changeMenuItem(menuItem: MenuType) {
   height: var(--settings-primary-nav-item-size);
   align-items: center;
   overflow-x: hidden;
-  border-radius: var(--bew-space-5); // Half of the collapsed 40px item.
+  border-radius: calc(var(--settings-primary-nav-item-size) / 2);
+  corner-shape: round;
   transition:
     border-radius var(--bew-duration-moderate) var(--bew-ease-standard),
     color var(--bew-duration-moderate) var(--bew-ease-standard),
@@ -739,19 +723,63 @@ function changeMenuItem(menuItem: MenuType) {
   }
 }
 
-.settings-primary-navigation:hover {
+.settings-primary-navigation[data-expanded="true"] {
   .settings-primary-navigation__list {
     width: calc(
       var(--settings-primary-nav-expanded-item-width) + var(--settings-primary-nav-inset) +
         var(--settings-primary-nav-inset)
     );
-    border-radius: var(--bew-radius-2xl);
+    border-radius: var(--bew-modal-radius);
+    corner-shape: var(--bew-corner-shape);
     transform: scale(1.05);
+  }
+
+  .settings-primary-navigation__item {
+    border-radius: var(--bew-modal-radius);
+    corner-shape: var(--bew-corner-shape);
   }
 
   .settings-primary-navigation__surface {
     box-shadow: var(--bew-shadow-edge-glow-2);
   }
+}
+
+.settings-content {
+  isolation: isolate;
+
+  &::after {
+    position: absolute;
+    z-index: 3;
+    inset: 0;
+    box-sizing: border-box;
+    border: 1px solid var(--bew-surface-border-color);
+    border-radius: inherit;
+    corner-shape: inherit;
+    content: "";
+    pointer-events: none;
+  }
+}
+
+.settings-content__surface {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  box-sizing: border-box;
+  border-radius: inherit;
+  corner-shape: inherit;
+  pointer-events: none;
+}
+
+.settings-header {
+  z-index: 2;
+  isolation: isolate;
+}
+
+.settings-content__scroll {
+  position: relative;
+  z-index: 1;
+  border-radius: inherit;
+  corner-shape: inherit;
 }
 
 .settings-breadcrumb {
@@ -801,7 +829,7 @@ function changeMenuItem(menuItem: MenuType) {
   padding: 0 var(--bew-space-3);
   color: var(--bew-text-1);
   background: var(--bew-content);
-  border: 1px solid var(--bew-border-color);
+  border: 1px solid var(--bew-surface-border-color);
   border-radius: calc(var(--bew-control-height) / 2);
   box-shadow: var(--bew-shadow-edge-glow-1);
   transition:
@@ -867,6 +895,7 @@ function changeMenuItem(menuItem: MenuType) {
     padding: var(--bew-space-2) var(--bew-space-4);
     text-align: left;
     border-radius: var(--bew-radius);
+    corner-shape: var(--bew-corner-shape);
     transition: background-color var(--bew-duration-normal) var(--bew-ease-standard);
 
     &:hover {
@@ -931,6 +960,7 @@ function changeMenuItem(menuItem: MenuType) {
   z-index: 2;
   isolation: isolate;
   border-radius: var(--bew-panel-radius);
+  corner-shape: var(--bew-corner-shape);
 }
 
 :deep(.settings-search-target > *) {
@@ -944,6 +974,7 @@ function changeMenuItem(menuItem: MenuType) {
   z-index: 0;
   background: var(--bew-theme-color);
   border-radius: var(--bew-panel-radius);
+  corner-shape: inherit;
   content: "";
   opacity: 0;
   pointer-events: none;
@@ -956,9 +987,10 @@ function changeMenuItem(menuItem: MenuType) {
   right: 12px;
   z-index: 3;
   padding: var(--bew-space-1) var(--bew-space-2);
-  color: white;
+  color: var(--bew-on-theme-color);
   background: var(--bew-theme-color);
   border-radius: var(--bew-badge-radius);
+  corner-shape: var(--bew-corner-shape);
   box-shadow: var(--bew-shadow-2);
   content: attr(data-settings-search-highlight);
   font-size: var(--bew-font-size-control);
@@ -1049,16 +1081,17 @@ function changeMenuItem(menuItem: MenuType) {
       flex: 0 0 40px;
     }
 
-    &:hover {
+    &[data-expanded="true"] {
       .settings-primary-navigation__list {
-        width: calc(
-          var(--settings-primary-nav-item-size) + var(--settings-primary-nav-inset) + var(--settings-primary-nav-inset)
-        );
-        border-radius: 28px;
+        width: var(--settings-primary-nav-collapsed-width);
+        border-radius: var(--settings-primary-nav-collapsed-radius);
+        corner-shape: round;
+        transform: none;
       }
 
       .settings-primary-navigation__item {
-        border-radius: var(--bew-space-5);
+        border-radius: calc(var(--settings-primary-nav-item-size) / 2);
+        corner-shape: round;
       }
     }
   }
@@ -1109,6 +1142,62 @@ function changeMenuItem(menuItem: MenuType) {
     height: 1px;
     background: var(--bew-border-color);
     content: "";
+  }
+}
+
+.settings-launch-enter-active #settings-window {
+  animation: settings-launch-in 380ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  transform-origin: var(--bew-settings-origin-x) var(--bew-settings-origin-y);
+  will-change: opacity, transform;
+}
+
+.settings-launch-leave-active #settings-window {
+  animation: settings-launch-out 200ms cubic-bezier(0.4, 0, 1, 1) both;
+  transform-origin: var(--bew-settings-origin-x) var(--bew-settings-origin-y);
+  will-change: opacity, transform;
+}
+
+.settings-launch-enter-active .settings-backdrop {
+  transition: opacity 240ms var(--bew-ease-standard);
+}
+
+.settings-launch-leave-active .settings-backdrop {
+  transition: opacity 180ms var(--bew-ease-standard);
+}
+
+.settings-launch-enter-from .settings-backdrop,
+.settings-launch-leave-to .settings-backdrop {
+  opacity: 0;
+}
+
+@keyframes settings-launch-in {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) translate3d(var(--bew-settings-enter-x), var(--bew-settings-enter-y), 0)
+      scale(0.94);
+  }
+
+  72% {
+    opacity: 1;
+    transform: translate(-50%, -50%) translate3d(0, 0, 0) scale(1.006);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes settings-launch-out {
+  from {
+    opacity: 1;
+    transform: translate(-50%, -50%) translate3d(0, 0, 0) scale(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: translate(-50%, -50%) translate3d(var(--bew-settings-leave-x), var(--bew-settings-leave-y), 0)
+      scale(0.98);
   }
 }
 </style>

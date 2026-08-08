@@ -153,6 +153,8 @@ function onMouseEnter() {
       p="x-4 y-2"
       bg="$bew-fill-1"
       rounded="$bew-interactive-radius"
+      border="1 $bew-surface-border-color"
+      box-border
       text="center $bew-text-1"
       cursor="pointer"
       flex="~"

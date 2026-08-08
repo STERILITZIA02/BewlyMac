@@ -140,8 +140,10 @@ function goToNextPage() {
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid var(--bew-border-color);
+  box-sizing: border-box;
+  border: 1px solid var(--bew-surface-border-color);
   border-radius: var(--bew-interactive-radius);
+  corner-shape: var(--bew-corner-shape);
   background-color: var(--bew-elevated-1);
   color: var(--bew-text-1);
   font-size: var(--bew-font-size-body);
@@ -162,7 +164,7 @@ function goToNextPage() {
 
   &.active {
     background-color: var(--bew-theme-color);
-    color: white;
+    color: var(--bew-on-theme-color);
     border-color: var(--bew-theme-color);
   }
 

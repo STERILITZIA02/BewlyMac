@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useToast } from 'vue-toastification'
 
+import CloseButton from '~/components/CloseButton.vue'
 import Dialog from '~/components/Dialog.vue'
 import LiquidSegmentIndicator from '~/components/LiquidSegmentIndicator.vue'
 import MomentCard from '~/components/MomentCard/MomentCard.vue'
@@ -3174,7 +3175,7 @@ watch(
           class="moments-filter-panel bew-segment-control bew-segment-control--surface"
           :class="{
             'bew-segment-control--static': !settings.enableLiquidSegmentIndicator,
-            'bew-segment-control--solid': !settings.enableFrostedGlass,
+            'bew-segment-control--solid': settings.disableFrostedGlass,
           }"
         >
           <div class="moments-filter-scroll">
@@ -3610,14 +3611,13 @@ watch(
         @keydown="handleDetailImageViewerKeydown"
         @wheel.prevent.stop="handleDetailImageViewerWheel"
       >
-        <button
-          type="button"
+        <CloseButton
           class="moment-image-viewer__close"
-          aria-label="关闭图片查看器"
+          label="关闭图片查看器"
+          size="large"
+          variant="overlay"
           @click="closeDetailImageViewer"
-        >
-          <span i-tabler-x />
-        </button>
+        />
         <div class="moment-image-viewer__stage" @click.self="closeDetailImageViewer">
           <img
             :src="detailImageViewerUrl"
@@ -3709,6 +3709,8 @@ watch(
   gap: 0;
   margin-bottom: var(--bew-space-4);
   padding: var(--bew-space-3) var(--bew-space-2) var(--bew-space-2);
+  box-sizing: border-box;
+  border: 1px solid var(--bew-surface-border-color);
   border-radius: var(--bew-card-radius);
   background: var(--bew-elevated);
   box-shadow: none;
@@ -3887,7 +3889,7 @@ watch(
 .moments-up-list__item--active .moments-up-list__avatar--all,
 .moments-up-list__item--active .moments-up-list__avatar--wanted {
   border: 2px solid var(--bew-theme-color);
-  color: #fff;
+  color: var(--bew-on-theme-color);
   background: var(--bew-theme-color);
 }
 .moments-up-list__item:disabled {
@@ -3943,8 +3945,9 @@ watch(
 .moments-user-card,
 .moments-live-card,
 .moments-sidebar-skeleton {
+  box-sizing: border-box;
   overflow: hidden;
-  border: 0;
+  border: 1px solid var(--bew-surface-border-color);
   border-radius: var(--bew-panel-radius);
   background: var(--bew-elevated);
   box-shadow: none;
@@ -4259,7 +4262,9 @@ watch(
 .moments-skeleton-card {
   container-type: inline-size;
   min-height: 316px;
+  box-sizing: border-box;
   overflow: hidden;
+  border: 1px solid var(--bew-surface-border-color);
   border-radius: var(--bew-card-radius);
   background: color-mix(in oklab, var(--bew-elevated), transparent 42%);
   box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--bew-border-color), transparent 72%);
@@ -4398,7 +4403,7 @@ watch(
   }
 }
 .moments-page__empty button {
-  border: 1px solid var(--bew-border-color);
+  border: 1px solid var(--bew-surface-border-color);
   min-height: var(--bew-control-height);
   border-radius: var(--bew-interactive-radius);
   background: var(--bew-elevated);
@@ -4418,7 +4423,7 @@ watch(
     opacity var(--bew-duration-normal) var(--bew-ease-standard);
 }
 .moments-page__empty button:hover {
-  color: #fff;
+  color: var(--bew-on-theme-color);
   background: var(--bew-theme-color);
   border-color: var(--bew-theme-color);
 }
@@ -4501,7 +4506,7 @@ watch(
   height: var(--bew-control-height);
   margin: var(--bew-space-5) auto 0;
   padding: 0 var(--bew-space-4);
-  border: 1px solid var(--bew-border-color);
+  border: 1px solid var(--bew-surface-border-color);
   border-radius: var(--bew-radius-full);
   color: var(--bew-text-1);
   background: var(--bew-elevated);
@@ -4517,7 +4522,7 @@ watch(
     opacity var(--bew-duration-normal) var(--bew-ease-standard);
 }
 .moments-wanted-load-more:hover {
-  color: #fff;
+  color: var(--bew-on-theme-color);
   border-color: var(--bew-theme-color);
   background: var(--bew-theme-color);
 }
@@ -4538,6 +4543,8 @@ watch(
   width: 100%;
   height: 100%;
   min-height: 0;
+  box-sizing: border-box;
+  border: 1px solid var(--bew-surface-border-color);
   border-radius: var(--bew-panel-radius);
   overflow: hidden;
   background: var(--bew-bg);
@@ -4660,7 +4667,6 @@ watch(
   cursor: grabbing;
   transition: none;
 }
-.moment-image-viewer__close,
 .moment-image-viewer__nav,
 .moment-image-viewer__toolbar button {
   display: inline-flex;
@@ -4676,7 +4682,6 @@ watch(
   font-family: inherit;
   cursor: pointer;
 }
-.moment-image-viewer__close:hover,
 .moment-image-viewer__nav:hover,
 .moment-image-viewer__toolbar button:hover {
   background: rgb(0 0 0 / 72%);
@@ -4686,10 +4691,6 @@ watch(
   top: 20px;
   left: 20px;
   z-index: 4;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  font-size: var(--bew-icon-size-lg);
 }
 .moment-image-viewer__nav {
   position: absolute;
@@ -4719,6 +4720,7 @@ watch(
   padding: var(--bew-space-2) var(--bew-space-3);
   border: 0;
   border-radius: var(--bew-radius-full);
+  corner-shape: var(--bew-corner-shape-round);
   background: rgb(0 0 0 / 58%);
   box-shadow: 0 8px 30px rgb(0 0 0 / 28%);
   transform: translateX(-50%);
@@ -4727,7 +4729,9 @@ watch(
 .moment-image-viewer__toolbar button {
   width: 34px;
   height: 34px;
+  aspect-ratio: 1;
   border-radius: 50%;
+  corner-shape: var(--bew-corner-shape-round);
   background: transparent;
   font-size: var(--bew-icon-size-md);
 }
@@ -4744,6 +4748,49 @@ watch(
   margin: 0 4px;
   background: rgb(255 255 255 / 24%);
 }
+
+.moments-up-list,
+.moments-up-list__item,
+.moments-up-list__item--skeleton .moments-up-list__name,
+.moments-user-card,
+.moments-live-card,
+.moments-sidebar-skeleton,
+.moments-user-card__badges em,
+.moments-user-card__badges i,
+.moments-publish-link,
+.moments-live-card__list > a,
+.moments-live-card__avatar em,
+.moments-sidebar-skeleton__name,
+.moments-sidebar-skeleton__stats > span,
+.moments-sidebar-skeleton__button,
+.moments-sidebar-skeleton__live > span,
+.moments-skeleton-card,
+.moments-skeleton-card__cover,
+.moments-skeleton-card__title,
+.moments-skeleton-card__line,
+.moments-skeleton-card__author,
+.moments-skeleton-card__time,
+.moments-skeleton-card__action,
+.moments-page__empty button,
+.moments-wanted-load-more,
+.moment-detail-frame,
+.moment-detail-frame__open,
+.moment-image-viewer__nav,
+.moment-image-viewer__toolbar {
+  corner-shape: var(--bew-corner-shape);
+}
+
+.moments-live-card__avatar em::after {
+  corner-shape: inherit;
+}
+
+.moments-live-card__avatar em,
+.moments-wanted-load-more,
+.moment-detail-frame__open,
+.moment-image-viewer__toolbar {
+  corner-shape: var(--bew-corner-shape-round);
+}
+
 @media (max-width: 640px) {
   .moment-image-viewer__stage {
     padding: 68px 12px 92px;

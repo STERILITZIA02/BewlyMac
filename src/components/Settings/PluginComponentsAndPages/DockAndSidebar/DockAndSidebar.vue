@@ -44,6 +44,27 @@ const pageOptions = computed((): { label: string, icon: string, value: string }[
   })
 })
 
+const topBarModeOptions = computed(() => [
+  {
+    label: t('settings.topbar_mode_bewly'),
+    value: false,
+  },
+  {
+    label: t('settings.topbar_mode_bilibili'),
+    value: true,
+  },
+])
+
+const topBarMode = computed({
+  get: () => settingsStore.getUseOriginalBilibiliTopBar(),
+  set: (useOriginalBilibiliTopBar: boolean) => {
+    if (settings.value.pageMode === 'custom')
+      settingsStore.setCustomUseOriginalBilibiliTopBar(useOriginalBilibiliTopBar)
+  },
+})
+
+const topBarModeDisabled = computed(() => settings.value.pageMode !== 'custom')
+
 const sidebarPositions = computed(() => {
   return [
     {
@@ -120,6 +141,25 @@ function updateDockItemPageMode(dockItem: DockItem, useOriginalBiliPage: boolean
         </template>
 
         <template #bottom>
+          <div
+            class="bew-settings-option--lift"
+            flex="~ gap-2 justify-between items-center wrap" p="x-4 y-2" bg="$bew-fill-1" rounded="$bew-radius"
+            mb-2
+          >
+            <div flex="~ gap-2 items-center">
+              <div i-mingcute:layout-top-line />
+              <div w-80px text-ellipsis>
+                {{ $t('settings.topbar_mode') }}
+              </div>
+            </div>
+            <Select
+              v-model="topBarMode"
+              :options="topBarModeOptions"
+              :disabled="topBarModeDisabled"
+              w="160px"
+            />
+          </div>
+
           <draggable
             v-model="settings.dockItemsConfig"
             item-key="page"

@@ -3,6 +3,7 @@ common:
   play_all: 播放全部
   loading: 加载中...
   search: 搜索
+  close: 关闭
   undo: 还原
   days: 天
   view: '{count}次'
@@ -45,6 +46,8 @@ common:
     import: 导入
     export: 导出
     undo_refresh: 撤销刷新
+    forward_refresh: 前进刷新
+    back_to_top: 回到顶部
     remove: 移除
   table:
     index: 索引
@@ -89,10 +92,11 @@ settings:
     no_results: 没有找到相关设置
     located: 已定位到此设置
   category_general_desc: 配置语言、交互布局与抽屉行为。
-  category_appearance_desc: 配置毛玻璃、主题颜色、壁纸、字体、自定义样式和其他页面的适配。
+  category_appearance_desc: 配置毛玻璃、主题颜色、字体、自定义样式和其他页面的适配。
   category_shortcuts_desc: 启用、修改或恢复 BewlyMac 与播放器快捷键。
   breadcrumb: 设置位置
   group_interaction_layout: 交互与布局
+  group_memory_saving: 内存节省
   category_browsing_home_desc: 配置首页推荐、内容过滤、关注页和首页标签。
   category_browsing_video_card_desc: 配置视频卡片的布局、预览、信息展示与打开方式。
   category_browsing_favorites_desc: 配置收藏内容的显示与交互方式。
@@ -190,8 +194,6 @@ settings:
   group_topbar: 顶栏
   topbar_logo_and_channels: Logo 设置
   topbar_logo_and_channels_desc: 设置顶栏 Logo 样式，以及触屏模式下是否显示首页按钮。
-  topbar_switchers: BewlyMac/Bilibili 切换器
-  topbar_switchers_desc: 分别控制首页页面切换器和顶栏切换器是否显示。
   topbar_actions: 顶栏功能图标
   topbar_actions_desc: 分别设置右侧功能图标的显示状态、角标和相关提醒。
   topbar_user_menu: 顶栏用户菜单
@@ -203,7 +205,6 @@ settings:
   group_sidebar_desc: 位于主页以外的页面右侧或左侧，通常有亮/暗模式切换按钮和设置按钮。
   group_color: 颜色
   group_page_style: 页面样式
-  group_wallpaper: 背景图片
   group_logo: LOGO
   group_search_bar: 搜索栏
   group_hot_search: 热搜
@@ -287,7 +288,6 @@ settings:
   open_top_bar_items_in_bewly: 点击顶栏图标打开 Bewly 页面
   open_top_bar_items_in_bewly_desc: 未启用触屏优化时，点击 Logo、动态、收藏、历史或稍后再看图标，将按照“顶栏链接打开行为”打开 Dock 中对应的页面，并沿用该页面的 Bewly/原版 Bilibili 配置；尚未适配的图标保持原有行为。
   show_bewly_or_bili_page_switcher_desc: 在悬浮 Dock 或侧边栏中显示全原版、全 Bewly 与自定义页面模式切换按钮。
-  show_bewly_or_bili_top_bar_switcher_desc: 在页面顶部悬停时显示切换器，用于在 BewlyMac 顶栏和 Bilibili 原版顶栏之间切换。
   hide_lv6_last_login_location_in_top_bar_user_pop: 隐藏 LV6 等级最后登录信息显示
   hide_lv6_last_login_location_in_top_bar_user_pop_desc: 开启后，顶栏头像弹窗中的 LV6 等级信息区域将不再显示最后登录时间和地点，也不会请求登录记录。
   chk_box:
@@ -308,11 +308,8 @@ settings:
     default: Bilibili 默认
     recommend: 推荐
     custom: 自定义
-  customize_font_desc: >
-    对于喜欢旧字形的用户，我们推荐 <a class="link" href="https://github.com/GuiWonder/Shanggu"
-    target="_blank">Shanggu Fonts (尚古字型)</a> 和 <a class="link"
-    href="https://github.com/ayaka14732/FanWunHak" target="_blank">Fan Wun Hak
-    (繁媛黑體)</a>。
+  customize_font_desc: >-
+    对于喜欢旧字形的用户，我们推荐 {shanggu} 和 {fanwunhak}。
 
     这些字形还具有将简体中文转换为繁體/正体中文的能力。
   override_danmaku_font: 覆盖弹幕字体
@@ -321,7 +318,8 @@ settings:
   remove_the_indent_from_chinese_punctuation: 移除中文标点符号的缩进
   remove_the_indent_from_chinese_punctuation_desc: |
     Bilibili 默认会专门处理中文标点符号以实现左对齐。 如果你正在使用自定义字体，建议移除缩进。
-  enable_frosted_glass: 启用毛玻璃效果
+  disable_frosted_glass_and_top_bar_gradient: 关闭毛玻璃与顶栏渐变
+  disable_frosted_glass_and_top_bar_gradient_desc: 开启后关闭全局毛玻璃和顶栏渐变，并使用实色表面；两种效果默认开启。
   frosted_glass_blur_intensity: 毛玻璃模糊强度
   enable_liquid_segment_indicator: 启用液态分段指示器
   enable_liquid_segment_indicator_desc: |
@@ -466,16 +464,11 @@ settings:
     alwaysHide: 总是隐藏
     showOnMouse: 鼠标显示
     showOnScroll: 滚动显示
-  always_use_transparent_top_bar: 顶栏始终使用透明(旧版)样式
-  enable_top_bar_gradient: 启用顶栏渐变效果
-  enable_top_bar_gradient_desc: 开启后顶栏默认使用磨砂玻璃渐变，关闭后改为实色背景。
-  show_top_bar_theme_color_gradient: 在顶栏显示主题色渐变（仅在暗色模式下有效）
-  show_bewly_or_bili_top_bar_switcher: 显示 BewlyMac/Bilibili 顶栏切换器
   show_bewly_or_bili_page_switcher: 显示页面模式切换按钮
   filter_articles_in_moments: 过滤专栏
   filter_articles_in_moments_desc: 在动态列表中过滤掉专栏内容，仅显示视频
   enable_settings_sync: 启用设置同步
-  enable_settings_sync_desc: 开启后同时保存到本地和浏览器云端；壁纸背景与设备播放状态不会同步（需要登录浏览器账号）
+  enable_settings_sync_desc: 开启后同时保存到本地和浏览器云端；设备播放状态不会同步（需要登录浏览器账号）
   top_bar_icon_badges: 图标角标
   top_bar_icon_badges_opt:
     number: 数字
@@ -556,6 +549,10 @@ settings:
   dock_position_desc: 在屏幕中摆放位置。
   dock_content_adjustment: Dock 内容调整
   dock_content_adjustment_desc: 第一个激活的 Dock 项的页面将会是启动页面。
+  topbar_mode: 顶栏模式
+  topbar_mode_desc: 全 Bewly 或全原版模式会跟随全局设置；自定义模式下可单独选择。
+  topbar_mode_bewly: Bewly 顶栏
+  topbar_mode_bilibili: Bilibili 顶栏
   dock_item_open_in_new_tab: 在新标签页打开
   dock_item_use_original_bili_web_page: 使用原版 Bilibili 网页
   disable_dock_glowing_effect: 关闭 Dock 栏发光效果
@@ -576,25 +573,10 @@ settings:
   video_page_dark_mode_desc: 保持全站主题设置不变，仅在视频播放页启用 BewlyMac 深色样式。
   theme_color: 主题色
   dark_mode_base_color: 深色模式基准颜色
-  gradient_theme_color_background: 在暗色模式下使用渐变主题颜色作为背景
-  wallpaper_mode: 背景图片模式
-  wallpaper_mode_desc: '使用网址: 直接用网上图片的网址来设置背景图片。'
-  wallpaper_mode_opt:
-    build_in: 内置
-    by_url: 使用网址
-  choose_ur_wallpaper: 选择你的背景
-  image_url: 图片网址
-  image_url_hint: >
-    网址示例:
-    https://cdn.jsdelivr.net/gh/BewlyBewly/Imgs/wallpapers/rocky-mountain-cloudscape.jpg
-
-    https://cdn.jsdelivr.net/gh/BewlyBewly/Imgs/wallpapers/green-white-mountains.jpg
-  enable_wallpaper_masking: 启用背景遮罩效果
-  wallpaper_cache_time: 背景图片缓存时间
-  wallpaper_cache_time_desc: 设置URL壁纸的缓存时间(小时)。0表示不缓存,每次都重新加载。本地上传的图片不受此设置影响。
-  no_cache: 不缓存
-  wallpaper_mask_opacity: 背景遮罩透明度调整
-  wallpaper_blur_intensity: 背景模糊强度调整
+  enable_oled_dark_mode: OLED 纯黑模式
+  enable_oled_dark_mode_desc: 仅在实际处于深色模式时生效；网页底色变为纯黑，卡片和浮层仍保留层次。
+  gradient_theme_color_background: 在暗色模式下使用主题色渐变
+  gradient_theme_color_background_desc: 同时应用于网页背景和顶栏。
   customize_css: 自定义 CSS
   customize_css_desc: |-
     如果你不熟悉 CSS，请不要修改 CSS。否则可能会导致意外的显示问题。
@@ -625,7 +607,6 @@ settings:
   depersonalize_search_results_desc: 启用后，搜索结果请求不携带登录 Cookie。
   search_results_pagination_mode: 搜索结果分页模式
   search_results_pagination_mode_desc: 选择搜索结果的展示方式：滚动自动加载或翻页
-  individually_set_search_page_wallpaper: 单独设置搜索页背景
   recommendation_mode: 推荐模式
   recommendation_mode_desc: |
     Web：普通网页端推荐模式。无 Cookie：请求首页推荐时不携带 Cookie。App：移动端推荐模式，需先授权 access key。
@@ -658,15 +639,13 @@ settings:
   filter_by_publish_time_unit: 天
   filter_item_already_exist: 这个筛选项目已经存在！
   filter_by_title: 按标题筛选
-  filter_by_title_desc: >
-    按标题筛选掉包含您设置关键字的视频（不区分大小写），也可以使用正则表达式，如 <code>/abc&#124;\d+/</code>，用
-    <code>/</code> 包裹。 <br/> 在下表中，您可以按 <kbd>Enter</kbd> 键添加新的筛选条件或确认修改。 按
-    <kbd>Esc</kbd> 键取消修改。 双击列以编辑当前列。
+  filter_by_title_desc: >-
+    按标题筛选掉包含您设置关键字的视频（不区分大小写），也可以使用正则表达式，如 {regex}，用 {slash} 包裹。{lineBreak}
+    在下表中，您可以按 {enter} 键添加新的筛选条件或确认修改。按 {esc} 键取消修改。双击列以编辑当前列。
   filter_by_user: 按用户筛选
-  filter_by_user_desc: >
-    筛选掉包含您设置的用户名（全名，不区分大小写）或 MID 上传的视频，也可以使用正则表达式，如
-    <code>/abc&#124;\d+/</code>，用 <code>/</code> 包裹。 <br/> 在下表中，您可以按
-    <kbd>Enter</kbd> 键添加新的筛选条件或确认修改。 按 <kbd>Esc</kbd> 键取消修改。 双击列以编辑当前列。
+  filter_by_user_desc: >-
+    筛选掉包含您设置的用户名（全名，不区分大小写）或 MID 上传的视频，也可以使用正则表达式，如 {regex}，用 {slash} 包裹。{lineBreak}
+    在下表中，您可以按 {enter} 键添加新的筛选条件或确认修改。按 {esc} 键取消修改。双击列以编辑当前列。
   filter_by_user_table:
     username_or_mid: 用户名 / MID
   following_tab_show_livestreaming_videos: 在 "正在关注" 中显示直播视频
@@ -692,16 +671,12 @@ settings:
   use_search_page_mode: 首页使用搜索页模式
   settings_shared_with_the_search_page: 与搜索页共用的配置
   settings_shared_with_the_search_page_desc: 这些设置都与搜索页共用。
-  search_page_mode_wallpaper_fixed: 将搜索页模式的壁纸固定
   home_tabs_adjustment: 标签栏调整
   home_tabs_adjustment_desc: 第一个激活的标签项是默认界面
   always_show_tabs_on_home_page: 滚动隐藏首页标签栏
   fixed_home_tabs_on_home_page: 固定首页标签栏
-  topbar_visibility: 顶栏可见性
-  topbar_visibility_desc: 如果您正在使用 Bilibili Evolved 的顶栏，您可以在这里关闭 BewlyMac 的顶栏。
   use_original_bilibili_homepage: 使用原版 Bilibili 首页
   use_original_bilibili_homepage_desc: 在您更改此设置后，如果在首页上，页面将自动刷新！
-  use_original_bilibili_topbar: 使用原版 Bilibili 顶栏
   adapt_to_other_page_styles: 适应其他页面样式
   adapt_to_other_page_styles_desc: 适应一些常见页面，以与 BewlyMac 主题相匹配。
   prevent_mobile_redirect: 防止跳转移动端

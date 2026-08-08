@@ -620,6 +620,7 @@ function handleForwardVideoClick() {
   position: relative;
   margin: 0;
   border-radius: var(--bew-card-radius);
+  corner-shape: var(--bew-corner-shape);
   background-color: transparent;
   cursor: pointer;
   box-shadow: none;
@@ -629,8 +630,11 @@ function handleForwardVideoClick() {
 }
 
 .moment-card__surface {
+  box-sizing: border-box;
   overflow: hidden;
+  border: 1px solid var(--bew-surface-border-color);
   border-radius: inherit;
+  corner-shape: inherit;
   background: var(--bew-elevated);
 }
 
@@ -777,6 +781,7 @@ function handleForwardVideoClick() {
   bottom: auto;
   z-index: 2;
   border-radius: var(--bew-badge-radius);
+  color: var(--bew-on-theme-color);
   background: var(--bew-theme-color);
   font-weight: var(--bew-font-weight-bold);
   letter-spacing: 0.02em;
@@ -883,7 +888,7 @@ function handleForwardVideoClick() {
   flex-direction: column;
   margin-top: var(--bew-space-3);
   overflow: hidden;
-  border: 1px solid color-mix(in oklab, var(--bew-border-color), transparent 58%);
+  border: 1px solid var(--bew-surface-border-color);
   border-radius: var(--bew-card-radius);
   color: var(--bew-text-2);
   background: var(--bew-fill-1);
@@ -1286,7 +1291,7 @@ function handleForwardVideoClick() {
   grid-template-columns: minmax(150px, 44%) minmax(0, 1fr);
   margin-top: var(--bew-space-3);
   overflow: hidden;
-  border: 1px solid color-mix(in oklab, var(--bew-border-color), transparent 58%);
+  border: 1px solid var(--bew-surface-border-color);
   border-radius: var(--bew-card-radius);
   color: inherit;
   background: var(--bew-fill-1);
@@ -1330,6 +1335,25 @@ function handleForwardVideoClick() {
   border-radius: var(--bew-media-radius);
   aspect-ratio: 1;
   background: var(--bew-fill-1);
+}
+
+.moment-card__more,
+.moment-card__video-mark,
+.moment-card__live-mark,
+.moment-card__reserve-mark,
+.moment-card__media-meta--live,
+.moment-card__image-count,
+.moment-card__charge-badge,
+.moment-card__watch-later,
+.moment-card__forward,
+.moment-card__additional,
+.moment-card__additional img,
+.moment-card__likes,
+.moment-card__media,
+.moment-card__gallery,
+.moment-card__forward-video,
+.moment-card__forward-gallery {
+  corner-shape: var(--bew-corner-shape);
 }
 
 .moment-card__forward-gallery--1 {

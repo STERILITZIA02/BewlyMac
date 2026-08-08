@@ -53,7 +53,7 @@
 
 :deep(.search-bar) {
   input:not(:focus, :focus-within) {
-    --uno: "!border-$bew-border-color !shadow-$bew-shadow-1";
+    --uno: "!border-$bew-surface-border-color !shadow-$bew-shadow-1";
   }
 }
 
@@ -65,13 +65,16 @@
   --uno: "after:absolute after:top--30px after:left-1/2 after:-z-1";
   --uno: "after:transform after:-translate-x-1/2";
   border-radius: var(--bew-popover-radius);
+  corner-shape: var(--bew-corner-shape);
+  box-sizing: border-box;
 }
 
 .logo.activated {
   --uno: "bg-$bew-theme-color";
 
   svg {
-    --uno: "!fill-white !filter-none";
+    fill: currentColor !important;
+    filter: none !important;
   }
 }
 
@@ -132,11 +135,12 @@
     --uno: "important:px-1 rounded-full";
     --uno: "text-xs leading-none z-6 min-w-14px h-14px";
     --uno: "grid place-items-center";
-    --uno: "bg-$bew-theme-color text-white shadow-$bew-shadow-1";
+    --uno: "bg-$bew-theme-color text-$bew-on-theme-color shadow-$bew-shadow-1";
   }
 
   .unread-dot {
     --uno: "w-8px h-8px bg-$bew-theme-color rounded-8px absolute right-2px top-2px";
+    corner-shape: var(--bew-corner-shape-round);
   }
 
   .right-side-item {
@@ -191,6 +195,6 @@
 
   .right-side-item .login {
     --uno: "!w-auto !flex items-center bg-$bew-theme-color-10";
-    --uno: "rounded-full important:text-$bew-theme-color important:px-4 hover:important-bg-$bew-theme-color hover:important-text-white important:text-base";
+    --uno: "rounded-full important:text-$bew-theme-color important:px-4 hover:important-bg-$bew-theme-color hover:important-text-$bew-on-theme-color important:text-base";
   }
 }

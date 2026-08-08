@@ -79,7 +79,7 @@ function handleClick(event: MouseEvent, item: { name: string, url: string, unrea
     p="4"
     rounded="$bew-radius"
     shadow="[var(--bew-shadow-edge-glow-1),var(--bew-shadow-3)]"
-    border="1 $bew-border-color"
+    border="1 $bew-surface-border-color"
     flex="~ col"
     class="notifications-pop bew-popover"
     data-key="notifications"
@@ -108,7 +108,7 @@ function handleClick(event: MouseEvent, item: { name: string, url: string, unrea
         :style="{ visibility: item.unreadCount > 0 ? 'visible' : 'hidden' }"
         bg="$bew-theme-color"
         rounded="$bew-radius"
-        text="white xs leading-none center"
+        text="$bew-on-theme-color xs leading-none center"
         grid="~ place-items-center"
         px-1
         min-w="16px"

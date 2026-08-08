@@ -4,6 +4,7 @@ import type { AppPage } from '~/enums/appEnums'
 import { settings } from '~/logic'
 import { useMainStore } from '~/stores/mainStore'
 import { getDefaultCustomUseOriginalBiliPage, resolveUseOriginalBiliPage } from '~/utils/pageMode'
+import { resolveUseOriginalBilibiliTopBar } from '~/utils/topBarMode'
 
 export interface DockItemConfig {
   page: AppPage
@@ -80,6 +81,21 @@ export const useSettingsStore = defineStore('settings', () => {
     settings.value.pageMode = 'custom'
   }
 
+  function getCustomUseOriginalBilibiliTopBar(): boolean {
+    return settings.value.useOriginalBilibiliTopBar
+  }
+
+  function getUseOriginalBilibiliTopBar(): boolean {
+    return resolveUseOriginalBilibiliTopBar(
+      settings.value.pageMode,
+      getCustomUseOriginalBilibiliTopBar(),
+    )
+  }
+
+  function setCustomUseOriginalBilibiliTopBar(useOriginalBilibiliTopBar: boolean): void {
+    settings.value.useOriginalBilibiliTopBar = useOriginalBilibiliTopBar
+  }
+
   ensureDockItemsConfig()
 
   return {
@@ -87,7 +103,10 @@ export const useSettingsStore = defineStore('settings', () => {
     getDockItemConfigByPage,
     getDockItemCustomUseOriginalBiliPage,
     getDockItemIsUseOriginalBiliPage,
+    getCustomUseOriginalBilibiliTopBar,
+    getUseOriginalBilibiliTopBar,
     resetDockItemsConfig,
+    setCustomUseOriginalBilibiliTopBar,
     setDockItemCustomUseOriginalBiliPage,
   }
 })

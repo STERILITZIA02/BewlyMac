@@ -203,6 +203,7 @@ function handleContributorImageError() {
   padding: var(--bew-space-4);
   background: var(--bew-fill-alt);
   border-radius: var(--bew-panel-radius);
+  corner-shape: var(--bew-corner-shape);
   box-shadow: var(--bew-shadow-1), var(--bew-shadow-edge-glow-1);
 }
 
@@ -230,6 +231,7 @@ function handleContributorImageError() {
   text-align: center;
   background: var(--bew-fill-1);
   border-radius: var(--bew-panel-radius);
+  corner-shape: var(--bew-corner-shape);
 }
 
 .link-card {

@@ -43,6 +43,8 @@
   --bew-radius-xl: 16px;
   --bew-radius-2xl: 24px;
   --bew-radius-full: 9999px;
+  --bew-corner-shape: superellipse(1.7);
+  --bew-corner-shape-round: round;
   --bew-radius: var(--bew-radius-lg);
   --bew-card-radius: var(--bew-radius-lg);
   --bew-media-radius: var(--bew-radius-lg);
@@ -144,7 +146,6 @@
   --bew-liquid-indicator-paint-duration: var(--bew-duration-normal);
 
   --bew-top-bar-height: 64px;
-  --bew-top-bar-switcher-height: 24px;
 
   // #region Filters
   // Use this in all components (except dialogs) if you want to add a frosted glass effect
@@ -198,6 +199,7 @@
   --bew-theme-color-auto: var(--bew-text-1);
 
   --bew-theme-color: hsl(195 100% 42%);
+  --bew-on-theme-color: white;
   --bew-theme-color-10: color-mix(in oklab, var(--bew-theme-color), transparent 90%);
   --bew-theme-color-20: color-mix(in oklab, var(--bew-theme-color), transparent 80%);
   --bew-theme-color-30: color-mix(in oklab, var(--bew-theme-color), transparent 70%);
@@ -274,8 +276,6 @@
 
   // Used as the background color of the Bilibili homepage (www.bilibili.com)
   --bew-homepage-bg: hsl(240 31% 96%);
-  --bew-homepage-bg-mask-opacity: 0;
-  --bew-homepage-bg-mask: hsl(240 31% 96% / var(--bew-homepage-bg-mask-opacity));
   // #endregion
 
   --bew-content-opacity: 0.68;
@@ -331,6 +331,7 @@
   // #endregion
 
   --bew-border-color: rgb(131 131 145 / 18%);
+  --bew-surface-border-color: #d1d2d4;
 
   // Threaded comments use this subtle rail to keep nested reply ancestry visible.
   --bew-comment-tree-line-color: rgb(131 131 145 / 30%);
@@ -375,10 +376,11 @@
   --bew-text-3: hsl(220 13% 75% / 75%);
   --bew-text-4: hsl(220 13% 65% / 55%);
 
-  --bew-bg: color-mix(in oklab, var(--bew-dark-base-color), black 20%);
-  --bew-homepage-bg: color-mix(in oklab, var(--bew-dark-base-color), black 20%);
-  --bew-homepage-bg-mask-opacity: 0;
-  --bew-homepage-bg-mask: hsl(210 8% 16% / var(--bew-homepage-bg-mask-opacity));
+  // Keep webpage backgrounds in a stable perceptual dark range while retaining
+  // only a restrained hue hint from the user's dark base color.
+  --bew-dark-page-bg: #181a1e;
+  --bew-bg: var(--bew-dark-page-bg);
+  --bew-homepage-bg: var(--bew-dark-page-bg);
 
   --bew-content: rgb(from color-mix(in oklab, var(--bew-dark-base-color), white 3%) r g b / var(--bew-content-opacity));
   --bew-content-hover: rgb(
@@ -402,8 +404,8 @@
   --bew-elevated-hover: rgb(
     from color-mix(in oklab, var(--bew-dark-base-color), white 11%) r g b / var(--bew-content-opacity)
   );
-  --bew-elevated-alt: var(--bew-elevated);
-  --bew-elevated-alt-hover: var(--bew-elevated-hover);
+  --bew-elevated-alt: rgb(from color-mix(in oklab, #08090b 82%, var(--bew-dark-base-color) 18%) r g b / 42%);
+  --bew-elevated-alt-hover: rgb(from color-mix(in oklab, #08090b 78%, var(--bew-dark-base-color) 22%) r g b / 52%);
 
   --bew-elevated-solid: color-mix(in oklab, var(--bew-dark-base-color), white 6%);
   --bew-elevated-solid-hover: color-mix(in oklab, var(--bew-dark-base-color), white 11%);
@@ -417,6 +419,7 @@
   --bew-fill-alt: var(--bew-fill-1);
 
   --bew-border-color: rgb(131 131 145 / 16%);
+  --bew-surface-border-color: #4b4c4e;
 
   // Blend a white-majority tone with the dark base, then soften it to 35% alpha for reply rails.
   --bew-comment-tree-line-color: rgb(
@@ -431,6 +434,22 @@
   --bew-ip-tag-text: var(--bew-text-3);
 }
 
+@supports (color: oklch(from white l c h)) {
+  :host(.dark),
+  :root.dark {
+    --bew-dark-page-bg: oklch(
+      from var(--bew-dark-base-color) clamp(0.16, l, 0.22) clamp(0.008, calc(c * 0.35), 0.04) h
+    );
+  }
+}
+
+:host(.dark.oled-dark),
+:root.dark.oled-dark {
+  --bew-bg: #000;
+  --bew-homepage-bg: #000;
+  --bew-surface-border-color: #4b4c4e;
+}
+
 :root.dark.bewly-design.forceDark,
 :host(.dark.bewly-design.forceDark) {
   --bew-filter-force-dark: invert(0.98) hue-rotate(180deg) brightness(1.1);
@@ -439,6 +458,8 @@
 :host(.disable-frosted-glass),
 :root.disable-frosted-glass {
   --bew-content-opacity: 1;
+  --bew-elevated-alt: var(--bew-elevated-alt-solid);
+  --bew-elevated-alt-hover: var(--bew-elevated-alt-solid-hover);
   --bew-filter-glass-1: none;
   --bew-filter-glass-2: none;
   --bew-shadow-edge-glow-1: 0 0 0 transparent;
@@ -1066,6 +1087,15 @@
   --Lb1_rgb: 11, 32, 42;
   --Lb5_rgb: 0, 135, 189;
   --Lb7_rgb: 88, 177, 212;
+}
+
+:root.dark.bewly-design.oled-dark {
+  --Ga0: #000;
+  --Ga0_t: #000;
+  --Ga0_rgb: 0, 0, 0;
+  --bg1: #000;
+  --bg1_rgb: 0, 0, 0;
+  --bpx-aux-content-bg: #000;
 }
 
 // #endregion

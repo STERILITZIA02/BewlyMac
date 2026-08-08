@@ -100,7 +100,7 @@ function handleOpenVideoPageAndRemove(index: number, aid: number, bvid: string) 
     pos="relative"
     of="hidden"
     shadow="[var(--bew-shadow-edge-glow-1),var(--bew-shadow-3)]"
-    border="1 $bew-border-color"
+    border="1 $bew-surface-border-color"
     class="watchLater-pop bew-popover"
     data-key="watchLater"
     flex="~ col"
@@ -197,6 +197,7 @@ function handleOpenVideoPageAndRemove(index: number, aid: number, bvid: string) 
                 <!-- Open in regular video page button -->
                 <Tooltip :content="$t('watch_later.open_video_page')" placement="top">
                   <button
+                    class="bew-shape-circle"
                     type="button"
                     w-24px h-24px
                     bg="black opacity-60 hover:$bew-theme-color"
@@ -212,6 +213,7 @@ function handleOpenVideoPageAndRemove(index: number, aid: number, bvid: string) 
                 <!-- Open in video page and remove button -->
                 <Tooltip :content="$t('watch_later.play_video')" placement="top">
                   <button
+                    class="bew-shape-circle"
                     type="button"
                     w-24px h-24px
                     bg="black opacity-60 hover:$bew-theme-color"
@@ -227,7 +229,7 @@ function handleOpenVideoPageAndRemove(index: number, aid: number, bvid: string) 
 
               <!-- Delete button -->
               <div
-                class="group-hover:opacity-100 opacity-0"
+                class="group-hover:opacity-100 opacity-0 bew-shape-circle"
                 pos="absolute top-0 right-0" z-1 w-24px h-24px
                 bg="black opacity-60 hover:$bew-error-color"
                 grid="~ place-items-center"

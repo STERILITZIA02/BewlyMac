@@ -204,7 +204,7 @@ defineExpose({
     rounded="$bew-radius"
     pos="relative"
     shadow="[var(--bew-shadow-edge-glow-1),var(--bew-shadow-3)]"
-    border="1 $bew-border-color"
+    border="1 $bew-surface-border-color"
     class="favorites-pop"
   >
     <!-- top bar -->
@@ -367,6 +367,6 @@ defineExpose({
 
 <style lang="scss" scoped>
 .activated-category {
-  --uno: "bg-$bew-theme-color text-white";
+  --uno: "bg-$bew-theme-color text-$bew-on-theme-color";
 }
 </style>

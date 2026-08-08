@@ -43,8 +43,10 @@ function toggle() {
   align-items: center;
   gap: var(--bew-control-gap);
   padding: var(--bew-control-padding) var(--bew-control-item-padding-x);
-  border: 1px solid color-mix(in oklab, var(--bew-border-color), transparent 32%);
+  box-sizing: border-box;
+  border: 1px solid var(--bew-surface-border-color);
   border-radius: var(--bew-badge-radius);
+  corner-shape: var(--bew-corner-shape);
   color: var(--bew-text-3);
   background: var(--bew-fill-1);
   font: inherit;

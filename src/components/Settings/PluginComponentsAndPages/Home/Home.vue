@@ -362,7 +362,23 @@ function handleToggleHomeTab(tab: any) {
         >
           <Radio v-model="settings.enableFilterByTitle" />
           <template v-if="settings.enableFilterByTitle" #bottom>
-            <div text="$bew-text-2 sm" mb-2 v-html="$t('settings.filter_by_title_desc')" />
+            <i18n-t keypath="settings.filter_by_title_desc" tag="div" text="$bew-text-2 sm" mb-2>
+              <template #regex>
+                <code>/abc|\d+/</code>
+              </template>
+              <template #slash>
+                <code>/</code>
+              </template>
+              <template #lineBreak>
+                <br>
+              </template>
+              <template #enter>
+                <kbd>Enter</kbd>
+              </template>
+              <template #esc>
+                <kbd>Esc</kbd>
+              </template>
+            </i18n-t>
             <div flex="~ gap-2" mb-2>
               <Button type="secondary" size="small" @click="handleImportFilterByTitle">
                 <template #left>
@@ -390,7 +406,23 @@ function handleToggleHomeTab(tab: any) {
         >
           <Radio v-model="settings.enableFilterByUser" />
           <template v-if="settings.enableFilterByUser" #bottom>
-            <div text="$bew-text-2 sm" mb-2 v-html="$t('settings.filter_by_user_desc')" />
+            <i18n-t keypath="settings.filter_by_user_desc" tag="div" text="$bew-text-2 sm" mb-2>
+              <template #regex>
+                <code>/abc|\d+/</code>
+              </template>
+              <template #slash>
+                <code>/</code>
+              </template>
+              <template #lineBreak>
+                <br>
+              </template>
+              <template #enter>
+                <kbd>Enter</kbd>
+              </template>
+              <template #esc>
+                <kbd>Esc</kbd>
+              </template>
+            </i18n-t>
             <div flex="~ gap-2" mb-2>
               <Button type="secondary" size="small" @click="handleImportFilterByUser">
                 <template #left>
@@ -525,10 +557,6 @@ function handleToggleHomeTab(tab: any) {
 
             <SearchPage />
           </Dialog>
-        </SettingsItem>
-
-        <SettingsItem :title="$t('settings.search_page_mode_wallpaper_fixed')" right-width="auto">
-          <Radio v-model="settings.searchPageModeWallpaperFixed" />
         </SettingsItem>
       </template>
     </SettingsItemGroup>

@@ -61,6 +61,7 @@ input[type="range"] {
   &::-webkit-slider-thumb {
     --uno: "appearance-none w-$b-thumb-height h-$b-thumb-height bg-white rounded-$b-thumb-height";
     --uno: "ring-$bew-border-color ring-2 cursor-pointer duration-300";
+    corner-shape: var(--bew-corner-shape-round);
   }
 
   &::-webkit-slider-thumb:hover {
@@ -70,6 +71,7 @@ input[type="range"] {
   &::-moz-range-thumb {
     --uno: "appearance-none w-$b-thumb-height h-$b-thumb-height bg-white rounded-$b-thumb-height";
     --uno: "ring-$bew-border-color ring-2 cursor-pointer duration-300";
+    corner-shape: var(--bew-corner-shape-round);
   }
 
   &::-moz-range-thumb:hover {

@@ -72,7 +72,6 @@ const blurLayers = Array.from({ length: BLUR_LAYER_COUNT }, (_, index) => {
 
 // 雾化层只改清晰度，还需要一层雾色叠上去才有"雾"的质感。
 const tintBackground = computed(() => {
-  // 壁纸模式下方是图片，压黑雾才压得住
   if (forceWhiteIcon.value)
     return fogGradient('0 0 0', 42)
 
@@ -198,8 +197,8 @@ function refreshSearchContent() {
   <main
     class="top-bar-header"
     :class="{
-      'top-bar-header--solid': !settings.enableTopBarGradient,
-      'top-bar-header--solid-force-white': !settings.enableTopBarGradient && forceWhiteIcon,
+      'top-bar-header--solid': settings.disableFrostedGlass,
+      'top-bar-header--solid-force-white': settings.disableFrostedGlass && forceWhiteIcon,
     }"
     max-w="$bew-page-max-width"
     grid="~ cols-[auto_1fr_auto] items-center gap-4"
@@ -207,7 +206,7 @@ function refreshSearchContent() {
     h="$bew-top-bar-height"
   >
     <!-- 顶栏边缘雾化：渐进模糊 + 雾色 -->
-    <div v-if="settings.enableTopBarGradient" class="top-bar-header__scroll-edge" :style="{ height: OVERLAY_HEIGHT }">
+    <div v-if="!settings.disableFrostedGlass" class="top-bar-header__scroll-edge" :style="{ height: OVERLAY_HEIGHT }">
       <Transition name="fade">
         <div v-if="!reachTop" class="top-bar-header__blur-stack">
           <div
@@ -228,7 +227,7 @@ function refreshSearchContent() {
     <!-- Top bar theme color gradient -->
     <Transition name="fade">
       <div
-        v-if="settings.enableTopBarGradient && settings.showTopBarThemeColorGradient && !forceWhiteIcon && reachTop && isDark"
+        v-if="!settings.disableFrostedGlass && settings.useLinearGradientThemeColorBackground && !forceWhiteIcon && reachTop && isDark"
         pos="absolute top-0 left-0" w-full h="$bew-top-bar-height" pointer-events-none
         :style="{ background: 'linear-gradient(to bottom, var(--bew-theme-color-10), transparent)' }"
       />

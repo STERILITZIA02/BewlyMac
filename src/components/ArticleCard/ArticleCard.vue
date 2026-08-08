@@ -81,7 +81,7 @@ function formatDate(timestamp: number | string | undefined) {
   <ALink
     :href="articleUrl"
     type="videoCard"
-    class="article-card"
+    class="article-card bew-surface-border"
     flex gap-4 p-4
     bg="$bew-elevated hover:$bew-elevated-hover"
     rounded="$bew-card-radius"
@@ -159,7 +159,7 @@ function formatDate(timestamp: number | string | undefined) {
     <!-- 右侧图片 -->
     <div
       v-if="cover"
-      class="article-cover"
+      class="article-cover bew-surface-border"
       w-32 h-24
       rounded="$bew-media-radius"
       overflow-hidden
@@ -169,7 +169,7 @@ function formatDate(timestamp: number | string | undefined) {
       <img
         :src="cover"
         :alt="title"
-        w-full h-full object-cover
+        w-full h-full object-cover rounded-inherit
       >
     </div>
   </ALink>

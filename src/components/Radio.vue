@@ -45,8 +45,10 @@ label {
   height: var(--b-switch-height);
   flex: 0 0 auto;
   background: var(--bew-fill-1);
-  border: var(--b-switch-border-width) solid var(--bew-border-color);
-  border-radius: var(--bew-badge-radius);
+  border: var(--b-switch-border-width) solid var(--bew-surface-border-color);
+  border-radius: var(--bew-radius-full);
+  corner-shape: round;
+  overflow: hidden;
 
   &::after {
     --b-switch-thumb-offset: 0px;
@@ -59,8 +61,10 @@ label {
     left: calc(var(--b-switch-edge-inset) - var(--b-switch-border-width));
     width: var(--b-switch-thumb-size);
     height: var(--b-switch-thumb-size);
+    aspect-ratio: 1;
     background: white;
-    border-radius: var(--bew-badge-radius);
+    border-radius: 50%;
+    corner-shape: round;
     content: "";
     transform: translate(var(--b-switch-thumb-offset), -50%) scale(var(--b-switch-thumb-scale));
   }

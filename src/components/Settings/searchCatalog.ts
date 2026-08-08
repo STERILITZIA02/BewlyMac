@@ -36,7 +36,7 @@ const nonSettingTitleKeyPatterns = [
   /^settings\.bilibili_features\./,
   /^settings\.shortcuts\.group\./,
   /^settings\.maintenance\.(title|backup_title|reset_title)$/,
-  /^settings\.topbar_(display_settings|logo_and_channels|switchers|actions|user_menu)$/,
+  /^settings\.topbar_(display_settings|logo_and_channels|actions|user_menu)$/,
 ]
 
 function isSettingTitleKey(titleKey: string) {
@@ -140,17 +140,6 @@ const compatibilityRoute: SearchRoute = {
 const shortcutsRoute: SearchRoute = { menu: MenuType.Shortcuts }
 const aboutRoute: SearchRoute = { menu: MenuType.About }
 
-const wallpaperTitleKeys = [
-  'settings.group_wallpaper',
-  'settings.wallpaper_mode',
-  'settings.wallpaper_cache_time',
-  'settings.choose_ur_wallpaper',
-  'settings.image_url',
-  'settings.enable_wallpaper_masking',
-  'settings.wallpaper_mask_opacity',
-  'settings.wallpaper_blur_intensity',
-]
-
 const linkOpeningOptionKeys = [
   'settings.link_opening_behavior_opt.current_tab',
   'settings.link_opening_behavior_opt.current_tab_if_not_homepage',
@@ -180,9 +169,6 @@ const topBarGlobalTitleKeys = [
   'settings.topbar_display_settings',
   'settings.auto_hide_top_bar',
   'settings.video_page_top_bar_config',
-  'settings.always_use_transparent_top_bar',
-  'settings.enable_top_bar_gradient',
-  'settings.show_top_bar_theme_color_gradient',
   'settings.open_top_bar_items_in_bewly',
   'settings.open_notifications_page_as_drawer',
 ]
@@ -196,6 +182,8 @@ export const settingsSearchEntries: SettingsSearchEntry[] = [
     'settings.touch_screen_optimization',
     'settings.enable_grid_layout_switcher',
     'settings.enable_horizontal_scrolling',
+    'settings.group_memory_saving',
+    'settings.release_offscreen_images',
     'settings.group_drawer_behavior',
     'settings.close_drawer_without_pressing_esc_again',
   ]),
@@ -240,7 +228,6 @@ export const settingsSearchEntries: SettingsSearchEntry[] = [
     'settings.group_search_page_mode',
     'settings.use_search_page_mode',
     'settings.settings_shared_with_the_search_page',
-    'settings.search_page_mode_wallpaper_fixed',
   ]),
   ...createEntries(homeRoute, [
     'settings.recommendation_mode',
@@ -296,7 +283,6 @@ export const settingsSearchEntries: SettingsSearchEntry[] = [
     'settings.grid_breakpoints',
     'settings.group_video_card_display',
     'settings.video_card_layout',
-    'settings.release_offscreen_images',
     'settings.enable_video_preview',
     'settings.enable_video_ctrl_bar_on_video_card',
     'settings.video_preview_swipe_seek',
@@ -358,11 +344,6 @@ export const settingsSearchEntries: SettingsSearchEntry[] = [
     'settings.topbar_pinned_channels_title',
   ]),
   ...createEntries(topBarRoute, [
-    'settings.topbar_switchers',
-    'settings.show_bewly_or_bili_page_switcher',
-    'settings.show_bewly_or_bili_top_bar_switcher',
-  ]),
-  ...createEntries(topBarRoute, [
     'settings.group_search_bar',
     'settings.show_hot_search_in_top_bar',
     'settings.show_search_recommendation',
@@ -402,6 +383,8 @@ export const settingsSearchEntries: SettingsSearchEntry[] = [
     'settings.auto_hide_dock',
     'settings.half_hide_dock',
     'settings.dock_content_adjustment',
+    'settings.topbar_mode',
+    'settings.show_bewly_or_bili_page_switcher',
     'settings.disable_dock_glowing_effect',
     'settings.disable_light_dark_mode_switcher',
     'settings.back_to_top_and_refresh_buttons_are_separated',
@@ -413,6 +396,10 @@ export const settingsSearchEntries: SettingsSearchEntry[] = [
   ...createEntries(dockRoute, [
     'settings.dock_position',
   ], { keywordKeys: ['common.position.left', 'common.position.right', 'common.position.bottom'] }),
+  ...createEntries(dockRoute, [
+    'settings.topbar_mode_bewly',
+    'settings.topbar_mode_bilibili',
+  ]),
   ...createEntries(dockRoute, [
     'settings.sidebar_position',
   ], { keywordKeys: ['common.position.left', 'common.position.right'] }),
@@ -435,8 +422,6 @@ export const settingsSearchEntries: SettingsSearchEntry[] = [
     'settings.use_plugin_search_results_page',
     'settings.depersonalize_search_results',
     'settings.search_results_pagination_mode',
-    'settings.individually_set_search_page_wallpaper',
-    ...wallpaperTitleKeys,
   ]),
 
   ...createEntries(playerRoute, [
@@ -529,7 +514,7 @@ export const settingsSearchEntries: SettingsSearchEntry[] = [
   ...createEntries(appearanceRoute, [
     'settings.menu_appearance',
     'settings.group_visual_effects',
-    'settings.enable_frosted_glass',
+    'settings.disable_frosted_glass_and_top_bar_gradient',
     'settings.frosted_glass_blur_intensity',
     'settings.enable_liquid_segment_indicator',
     'settings.disable_shadow',
@@ -541,6 +526,7 @@ export const settingsSearchEntries: SettingsSearchEntry[] = [
     'settings.video_page_dark_mode',
     'settings.theme_color',
     'settings.dark_mode_base_color',
+    'settings.enable_oled_dark_mode',
     'settings.gradient_theme_color_background',
     'settings.follow_bilibili_evolved_color',
     'settings.group_fonts',
@@ -548,7 +534,6 @@ export const settingsSearchEntries: SettingsSearchEntry[] = [
     'settings.remove_the_indent_from_chinese_punctuation',
     'settings.override_danmaku_font',
     'settings.customize_css',
-    ...wallpaperTitleKeys,
   ]),
 
   ...createEntries(playerRoute, [
@@ -577,8 +562,6 @@ export const settingsSearchEntries: SettingsSearchEntry[] = [
   ...createEntries(compatibilityRoute, [
     'settings.menu_compatibility',
     'settings.group_common',
-    'settings.topbar_visibility',
-    'settings.use_original_bilibili_topbar',
     'settings.use_original_bilibili_homepage',
     'settings.prevent_mobile_redirect',
     'settings.group_ad_blocking',

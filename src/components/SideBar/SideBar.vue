@@ -13,7 +13,9 @@ import type { HoveringDockItem } from './types'
 const props = defineProps<{
   activatedPage: AppPage
 }>()
-const emit = defineEmits(['settingsVisibilityChange'])
+const emit = defineEmits<{
+  (e: 'settingsVisibilityChange', origin: DOMRect): void
+}>()
 const { isDark, toggleDark } = useDark()
 
 const tooltipPlacement = computed<'left' | 'right'>(() => {
@@ -55,6 +57,10 @@ function toggleHideSidebar(hide: boolean) {
   else
     hideSidebar.value = false
 }
+
+function openSettings(event: MouseEvent) {
+  emit('settingsVisibilityChange', (event.currentTarget as HTMLElement).getBoundingClientRect())
+}
 </script>
 
 <template>
@@ -95,7 +101,7 @@ function toggleHideSidebar(hide: boolean) {
       />
       <Tooltip :content="isDark ? $t('dock.dark_mode') : $t('dock.light_mode')" :placement="tooltipPlacement">
         <Button
-          class="ctrl-btn"
+          class="ctrl-btn bew-shape-circle"
           style="backdrop-filter: var(--bew-filter-glass-1);"
           center size="small" round
           @click="toggleDark"
@@ -118,10 +124,10 @@ function toggleHideSidebar(hide: boolean) {
       </Tooltip>
       <Tooltip :content="$t('dock.settings')" :placement="tooltipPlacement">
         <Button
-          class="ctrl-btn group"
+          class="ctrl-btn group bew-shape-circle"
           style="backdrop-filter: var(--bew-filter-glass-1);"
           center size="small" round
-          @click="emit('settingsVisibilityChange')"
+          @click="openSettings"
         >
           <div mt--2px>
             <i

@@ -261,6 +261,11 @@ export function useSettingsStorage<T extends object>(
       queuedPatch = mergeSettingsStoragePatches(patch, queuedPatch)
       inFlightPatch = null
       renderCanonicalValue()
+      if (isExtensionContextInvalidatedError(error)) {
+        disposed = true
+        rejectFlushWaiters(error)
+        return
+      }
       onError(error)
       rejectFlushWaiters(error)
     }
@@ -330,10 +335,14 @@ export function useSettingsStorage<T extends object>(
       void flushQueuedPatch()
     }
     catch (error) {
-      if (!(error instanceof StaleStorageGenerationError)) {
+      if (error instanceof StaleStorageGenerationError)
+        return
+
+      if (isExtensionContextInvalidatedError(error))
+        disposed = true
+      else
         onError(error)
-        rejectFlushWaiters(error)
-      }
+      rejectFlushWaiters(error)
     }
     finally {
       if (readInFlightGeneration === generation)

@@ -3,12 +3,14 @@ import { useBewlyApp } from '~/composables/useAppProvider'
 import { useDark } from '~/composables/useDark'
 import { IFRAME_DARK_MODE_CHANGE, IFRAME_TOP_BAR_CHANGE } from '~/constants/globalEvents'
 import { settings } from '~/logic'
+import { useSettingsStore } from '~/stores/settingsStore'
 
 const props = defineProps<{
   url: string
 }>()
 const { reachTop } = useBewlyApp()
-const { isDark } = useDark()
+const { isDark, isOledDark } = useDark()
+const settingsStore = useSettingsStore()
 const headerShow = ref(false)
 const iframeRef = ref<HTMLIFrameElement | null>(null)
 const currentUrl = ref<string>(props.url)
@@ -110,12 +112,13 @@ function syncIframeTopBarVisibility(useOriginalBilibiliTopBar: boolean) {
   }
 }
 
-watch(() => isDark.value, (newValue) => {
+watch([isDark, isOledDark], ([newValue, newOledValue]) => {
   if (iframeRef.value?.contentWindow) {
     try {
       iframeRef.value.contentWindow.postMessage({
         type: IFRAME_DARK_MODE_CHANGE,
         isDark: newValue,
+        isOledDark: newOledValue,
       }, '*')
     }
     catch (error) {
@@ -124,7 +127,7 @@ watch(() => isDark.value, (newValue) => {
   }
 })
 
-watch(() => settings.value.useOriginalBilibiliTopBar, (newValue) => {
+watch(() => settingsStore.getUseOriginalBilibiliTopBar(), (newValue) => {
   syncIframeTopBarVisibility(newValue)
 }, { immediate: true })
 
@@ -135,6 +138,7 @@ watch(() => settings.value.darkModeBaseColor, (newColor) => {
       iframeRef.value.contentWindow.postMessage({
         type: IFRAME_DARK_MODE_CHANGE,
         isDark: isDark.value,
+        isOledDark: isOledDark.value,
         darkModeBaseColor: newColor,
       }, '*')
     }
@@ -158,7 +162,7 @@ function handleIframeLoad() {
   showLoading.value = false
 
   setupIframeScrollSync()
-  syncIframeTopBarVisibility(settings.value.useOriginalBilibiliTopBar)
+  syncIframeTopBarVisibility(settingsStore.getUseOriginalBilibiliTopBar())
 
   // 当iframe加载完成后，发送当前的黑暗模式状态（仅在跨域时需要）
   if (iframeRef.value?.contentWindow) {
@@ -167,9 +171,10 @@ function handleIframeLoad() {
         iframeRef.value?.contentWindow?.postMessage({
           type: IFRAME_DARK_MODE_CHANGE,
           isDark: isDark.value,
+          isOledDark: isOledDark.value,
           darkModeBaseColor: settings.value.darkModeBaseColor,
         }, '*')
-        syncIframeTopBarVisibility(settings.value.useOriginalBilibiliTopBar)
+        syncIframeTopBarVisibility(settingsStore.getUseOriginalBilibiliTopBar())
       }
       catch (error) {
         console.warn('Failed to send initial dark mode state to iframe:', error)

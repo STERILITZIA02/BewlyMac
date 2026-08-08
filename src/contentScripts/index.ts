@@ -6,7 +6,7 @@ import { createApp } from 'vue'
 import { useDark } from '~/composables/useDark'
 import { CONTENT_SCRIPT_PING, CONTENT_SCRIPT_PONG } from '~/constants/contentScript'
 import { BEWLY_MOUNTED, IFRAME_DARK_MODE_CHANGE, IFRAME_TOP_BAR_CHANGE } from '~/constants/globalEvents'
-import { localSettings, settings, settingsReady } from '~/logic'
+import { settings, settingsReady } from '~/logic'
 import { setupApp } from '~/logic/common-setup'
 import { useTopBarStore } from '~/stores/topBarStore'
 import RESET_BEWLY_CSS from '~/styles/reset.css?raw'
@@ -16,7 +16,6 @@ import { cleanupBilibiliScripts } from '~/utils/bilibiliScriptCleanup'
 import { captureOriginalBilibiliTopBar, ensureOriginalBilibiliTopBarAppended, resetBilibiliTopBarInlineStyles, setupLoginButtonClickHandlers } from '~/utils/bilibiliTopBar'
 import { initFavoriteDialogEnhancement } from '~/utils/favoriteDialog'
 import { runWhenIdle } from '~/utils/lazyLoad'
-import { getLocalWallpaper, hasLocalWallpaper, isLocalWallpaperUrl } from '~/utils/localWallpaper'
 import { compareVersions, getCookie, injectCSS, isElectron, isHomePage, isInIframe, isNotificationPage, isVideoOrBangumiPage, isVideoPlaybackPage, isWatchLaterListPage } from '~/utils/main'
 import { initNativeFavoriteSeasonPlayAllIntercept } from '~/utils/nativeFavoriteSeasonPlayAll'
 import { applyAutoPlayByVideoType, applyDefaultCaptionState, applyDefaultDanmakuState, defaultMode, getVideoElement, handleVideoPageNavigation, isPlayerDisplayModeReady, isVideoPage, resolveDefaultVideoPlayerMode, startAutoExitFullscreenMonitoring, startAutoPlayUserChangeMonitoring, webFullscreen, widescreen } from '~/utils/player'
@@ -1130,6 +1129,8 @@ else if (shouldInitializeContentScript) {
     container.id = 'bewly'
     container.setAttribute('data-version', version)
     container.setAttribute('data-dev', import.meta.env.DEV ? 'true' : 'false')
+    container.classList.toggle('dark', document.documentElement.classList.contains('dark'))
+    container.classList.toggle('oled-dark', document.documentElement.classList.contains('oled-dark'))
 
     // 立即设置Shadow DOM容器的基准颜色，确保Vue组件能够访问到正确的CSS变量
     if (settings.value.darkModeBaseColor) {
@@ -1169,7 +1170,7 @@ else if (shouldInitializeContentScript) {
     shadowDOM.appendChild(root)
 
     // 样式就绪前隐藏整个 Shadow DOM，避免未应用样式的内容闪现。
-    // 就绪后一次性展示，避免容器淡入与壁纸遮罩透明度叠加，造成遮罩延迟出现。
+    // 就绪后一次性展示，避免容器淡入与页面样式透明度叠加，造成内容延迟出现。
     container.style.visibility = 'hidden'
     const revealContainer = () => {
       container.style.visibility = 'visible'
@@ -1318,7 +1319,7 @@ else if (shouldInitializeContentScript) {
     if (event.source !== window.parent)
       return
 
-    const { type, isDark, darkModeBaseColor, useOriginalBilibiliTopBar } = event.data
+    const { type, isDark, isOledDark, darkModeBaseColor, useOriginalBilibiliTopBar } = event.data
 
     if (type === IFRAME_DARK_MODE_CHANGE) {
     // Check if we should apply selective dark mode (plugin UI only) on festival pages
@@ -1329,12 +1330,15 @@ else if (shouldInitializeContentScript) {
         const bewlyElement = document.querySelector('#bewly')
         if (bewlyElement) {
           bewlyElement.classList.add('dark')
+          bewlyElement.classList.toggle('oled-dark', isOledDark === true)
         }
 
         // Only apply global styles if not on festival pages
         if (!isSelectiveDark) {
           document.documentElement.classList.add('dark')
+          document.documentElement.classList.toggle('oled-dark', isOledDark === true)
           document.body?.classList.add('dark')
+          document.body?.classList.toggle('oled-dark', isOledDark === true)
         }
 
         // 如果提供了深色模式基准颜色，则应用它
@@ -1345,13 +1349,13 @@ else if (shouldInitializeContentScript) {
       else {
         const bewlyElement = document.querySelector('#bewly')
         if (bewlyElement) {
-          bewlyElement.classList.remove('dark')
+          bewlyElement.classList.remove('dark', 'oled-dark')
         }
 
         // Only remove global classes if not in selective mode
         if (!isSelectiveDark) {
-          document.documentElement.classList.remove('dark')
-          document.body?.classList.remove('dark')
+          document.documentElement.classList.remove('dark', 'oled-dark')
+          document.body?.classList.remove('dark', 'oled-dark')
         }
       }
     }
@@ -1367,42 +1371,6 @@ else if (shouldInitializeContentScript) {
       }
     }
   }, { passive: true })
-
-  // 验证和恢复本地壁纸
-  function validateAndRestoreLocalWallpaper() {
-    const localWallpaper = localSettings.value.locallyUploadedWallpaper
-    if (localWallpaper?.isLocal && localWallpaper.id) {
-      if (!hasLocalWallpaper(localWallpaper.id)) {
-        localSettings.value.locallyUploadedWallpaper = null
-
-        // 如果当前壁纸使用的是丢失的本地壁纸，也清理掉
-        if (isLocalWallpaperUrl(settings.value.wallpaper)) {
-          settings.value.wallpaper = ''
-        }
-        if (isLocalWallpaperUrl(settings.value.searchPageWallpaper)) {
-          settings.value.searchPageWallpaper = ''
-        }
-      }
-      else {
-      // 如果本地壁纸存在，确保当前壁纸URL使用正确的格式
-        const expectedUrl = `local-wallpaper:${localWallpaper.id}`
-        const base64Data = getLocalWallpaper(localWallpaper.id)
-
-        if (base64Data) {
-        // 检查当前壁纸是否需要更新格式（从旧的base64格式迁移到新格式）
-          if (settings.value.wallpaper.startsWith('data:image/') && settings.value.wallpaper === base64Data) {
-            settings.value.wallpaper = expectedUrl
-          }
-          if (settings.value.searchPageWallpaper.startsWith('data:image/') && settings.value.searchPageWallpaper === base64Data) {
-            settings.value.searchPageWallpaper = expectedUrl
-          }
-        }
-      }
-    }
-  }
-
-  // 在应用启动时验证本地壁纸
-  validateAndRestoreLocalWallpaper()
 
   // 启动自动播放用户修改监听
   startAutoPlayUserChangeMonitoring()

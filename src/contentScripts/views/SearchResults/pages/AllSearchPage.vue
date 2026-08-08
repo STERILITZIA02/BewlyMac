@@ -949,11 +949,13 @@ defineExpose({
 }
 
 .activity-card {
+  box-sizing: border-box;
   display: flex;
   gap: 1rem;
   padding: 1rem;
   background: var(--bew-elevated);
   border-radius: var(--bew-card-radius);
+  border: 1px solid var(--bew-surface-border-color);
   text-decoration: none;
   color: inherit;
 }
@@ -963,13 +965,17 @@ defineExpose({
   min-width: 120px;
   aspect-ratio: 4 / 3;
   border-radius: var(--bew-media-radius);
+  border: 1px solid var(--bew-surface-border-color);
   overflow: hidden;
   background: var(--bew-skeleton);
 
   img {
+    display: block;
     width: 100%;
     height: 100%;
     object-fit: cover;
+    border-radius: inherit;
+    corner-shape: inherit;
   }
 }
 
@@ -1019,11 +1025,13 @@ defineExpose({
 
 .bangumi-highlight-card,
 .media-ft-highlight-card {
+  box-sizing: border-box;
   display: flex;
   gap: 1rem;
   padding: 1rem;
   background: var(--bew-elevated);
   border-radius: var(--bew-card-radius);
+  border: 1px solid var(--bew-surface-border-color);
 }
 
 .bangumi-highlight-cover,
@@ -1033,13 +1041,17 @@ defineExpose({
   min-width: 160px;
   aspect-ratio: 3 / 4;
   border-radius: var(--bew-media-radius);
+  border: 1px solid var(--bew-surface-border-color);
   overflow: hidden;
   position: relative;
 
   img {
+    display: block;
     width: 100%;
     height: 100%;
     object-fit: cover;
+    border-radius: inherit;
+    corner-shape: inherit;
   }
 }
 
@@ -1106,7 +1118,7 @@ defineExpose({
   min-height: var(--bew-control-height);
   border-radius: var(--bew-interactive-radius);
   background: var(--bew-theme-color);
-  color: #fff;
+  color: var(--bew-on-theme-color);
   font-size: var(--bew-font-size-control);
   font-weight: var(--bew-font-weight-semibold);
   text-decoration: none;
@@ -1123,8 +1135,10 @@ defineExpose({
 }
 
 .user-highlight-card {
+  box-sizing: border-box;
   background: var(--bew-elevated);
   border-radius: var(--bew-card-radius);
+  border: 1px solid var(--bew-surface-border-color);
   padding: 1rem;
   display: flex;
   flex-direction: column;
@@ -1154,7 +1168,7 @@ defineExpose({
   min-height: var(--bew-control-height);
   border-radius: var(--bew-interactive-radius);
   background: var(--bew-theme-color);
-  color: white;
+  color: var(--bew-on-theme-color);
   font-size: var(--bew-font-size-control);
   font-weight: var(--bew-font-weight-semibold);
   border: 1px solid var(--bew-theme-color);
@@ -1255,5 +1269,24 @@ defineExpose({
 
 .article-results {
   display: grid;
+}
+
+.activity-card,
+.activity-cover,
+.activity-badge,
+.bangumi-highlight-card,
+.media-ft-highlight-card,
+.bangumi-highlight-cover,
+.media-ft-highlight-cover,
+.bangumi-highlight-badge,
+.media-ft-highlight-badge,
+.bangumi-highlight-tags span,
+.bangumi-highlight-button,
+.media-ft-highlight-button,
+.user-highlight-card,
+.user-highlight-verify,
+.user-highlight-follow,
+.more-esports-button {
+  corner-shape: var(--bew-corner-shape);
 }
 </style>

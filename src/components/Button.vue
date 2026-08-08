@@ -28,7 +28,7 @@ function handleClick(evt: MouseEvent) {
 
 <template>
   <button
-    class="b-button"
+    class="b-button bew-shape-smooth-rect"
     :class="[
       `b-button--type-${type ?? 'default'}`,
       `b-button--size-${size ?? 'medium'}`,
@@ -63,8 +63,8 @@ function handleClick(evt: MouseEvent) {
   --b-button-icon-size: var(--bew-control-icon-size);
   --b-button-width: fit-content;
   --b-button-height: var(--bew-control-height);
-  --b-button-border-width: 0px;
-  --b-button-border-color: var(--bew-border-color);
+  --b-button-border-width: 1px;
+  --b-button-border-color: var(--bew-surface-border-color);
   --b-button-shadow: none;
   --b-button-shadow-hover: var(--b-button-shadow);
   --b-button-shadow-active: var(--b-button-shadow);
@@ -107,7 +107,7 @@ function handleClick(evt: MouseEvent) {
   &--type-primary {
     --b-button-color: var(--bew-theme-color);
     --b-button-color-hover: var(--bew-theme-color);
-    --b-button-text-color: white;
+    --b-button-text-color: var(--bew-on-theme-color);
   }
 
   &--type-secondary {

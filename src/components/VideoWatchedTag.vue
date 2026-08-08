@@ -23,6 +23,7 @@ const visible = computed(() =>
   margin-right: var(--bew-space-1);
   padding: 0 var(--bew-space-1);
   border-radius: var(--bew-radius-sm);
+  corner-shape: var(--bew-corner-shape);
   color: var(--bew-text-2);
   background: var(--bew-fill-2);
   font-size: var(--bew-font-size-caption);

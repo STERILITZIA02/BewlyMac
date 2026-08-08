@@ -16,7 +16,7 @@ const emit = defineEmits<{
 }>()
 
 const { mainAppRef, activeDrawer, setActiveDrawer } = useBewlyApp()
-const { isDark } = useDark()
+const { isDark, isOledDark } = useDark()
 
 const show = ref(false)
 const iframeRef = ref<HTMLIFrameElement | null>(null)
@@ -57,6 +57,7 @@ function syncIframeDarkModeState() {
       iframeRef.value.contentWindow.postMessage({
         type: IFRAME_DARK_MODE_CHANGE,
         isDark: isDark.value,
+        isOledDark: isOledDark.value,
         darkModeBaseColor: settings.value.darkModeBaseColor,
       }, '*')
     }
@@ -76,7 +77,7 @@ function handleIframeLoad() {
 }
 
 // 监听黑暗模式变化
-watch(() => isDark.value, () => {
+watch([isDark, isOledDark], () => {
   syncIframeDarkModeState()
 })
 
@@ -428,7 +429,7 @@ function handleFocusDrawer(e?: Event) {
                 <div
                   v-if="showEscHint"
                   pointer-events-auto
-                  bg="$bew-theme-color" text="white sm" px-3 py-2 rounded="$bew-interactive-radius"
+                  bg="$bew-theme-color" text="$bew-on-theme-color sm" px-3 py-2 rounded="$bew-interactive-radius"
                   flex="~ items-center gap-2"
                 >
                   <i i-mingcute:information-line />

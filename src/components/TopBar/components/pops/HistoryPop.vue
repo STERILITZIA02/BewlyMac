@@ -213,7 +213,7 @@ defineExpose({
     rounded="$bew-radius"
     pos="relative"
     shadow="[var(--bew-shadow-edge-glow-1),var(--bew-shadow-3)]"
-    border="1 $bew-border-color"
+    border="1 $bew-surface-border-color"
     class="history-pop bew-popover"
     data-key="history"
     flex="~ col"
@@ -303,7 +303,7 @@ defineExpose({
             >
               <!-- Delete button -->
               <div
-                class="group-hover:opacity-100 opacity-0"
+                class="group-hover:opacity-100 opacity-0 bew-shape-circle"
                 pos="absolute top-0 right-0" z-1 w-24px h-24px
                 bg="black opacity-60 hover:$bew-error-color"
                 grid="~ place-items-center"
@@ -370,7 +370,7 @@ defineExpose({
                     v-if="historyItem.live_status === 1"
                     pos="absolute top-0 left-0"
                     bg="$bew-theme-color"
-                    text="xs white"
+                    text="xs $bew-on-theme-color"
                     p="x-2 y-1"
                     m="1"
                     rounded-full

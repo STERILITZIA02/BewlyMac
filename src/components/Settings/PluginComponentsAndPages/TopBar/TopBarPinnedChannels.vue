@@ -125,6 +125,7 @@ function resetPinnedChannels() {
     gap: 12px;
     padding: var(--bew-space-3);
     border-radius: var(--bew-interactive-radius);
+    corner-shape: var(--bew-corner-shape);
     background: var(--bew-fill-1);
     color: var(--bew-text-1);
     transition:
@@ -150,13 +151,15 @@ function resetPinnedChannels() {
   }
 
   &__icon {
+    box-sizing: border-box;
     width: 32px;
     height: 32px;
     display: grid;
     place-items: center;
     border-radius: var(--bew-interactive-radius);
     background: color-mix(in oklab, white, transparent 20%);
-    border: 1px solid color-mix(in oklab, var(--bew-border-color), transparent 30%);
+    border: 1px solid var(--bew-surface-border-color);
+    corner-shape: var(--bew-corner-shape);
 
     svg {
       width: 24px;
@@ -188,7 +191,7 @@ function resetPinnedChannels() {
     pointer-events: none;
     font-size: var(--bew-font-size-control);
     font-weight: var(--bew-font-weight-semibold);
-    color: white;
+    color: var(--bew-on-theme-color);
     background: var(--bew-theme-color);
   }
 

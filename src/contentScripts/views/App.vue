@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { onKeyStroke, useEventListener, useIntersectionObserver, useThrottleFn, useToggle } from '@vueuse/core'
+import { onKeyStroke, useEventListener, useIntersectionObserver, useThrottleFn } from '@vueuse/core'
 import type { Ref } from 'vue'
 import { provide, ref, watch } from 'vue'
 
 import Button from '~/components/Button.vue'
+import CloseButton from '~/components/CloseButton.vue'
 import type { BewlyAppProvider } from '~/composables/useAppProvider'
 import { DrawerType, UndoForwardState } from '~/composables/useAppProvider'
 import { confirmDialogKey } from '~/composables/useConfirmDialog'
@@ -31,6 +32,7 @@ function isFestivalPage(): boolean {
 const mainStore = useMainStore()
 const settingsStore = useSettingsStore()
 const topBarStore = useTopBarStore()
+const useOriginalBilibiliTopBar = computed(() => settingsStore.getUseOriginalBilibiliTopBar())
 
 // Conditionally use dark mode. `useDark()` handles the video-page-only route gate.
 let isDark: Ref<boolean>
@@ -43,14 +45,44 @@ if (shouldUseDark) {
 else {
   isDark = ref(false)
 }
-const [showSettings, toggleSettings] = useToggle(false)
+const showSettings = ref(false)
+const settingsLaunchStyle = ref<Record<string, string>>({})
 const searchFocusOverlayActive = ref(false)
 
-// The top-bar switcher is teleported to document.body, outside this Shadow DOM.
-// Raise the host while settings are open so the modal can stay above that layer.
-watch(showSettings, (visible) => {
-  document.getElementById('bewly')?.classList.toggle('settings-open', visible)
-}, { immediate: true })
+function clamp(value: number, min: number, max: number) {
+  return Math.min(max, Math.max(min, value))
+}
+
+function toggleSettings(origin: DOMRect) {
+  if (showSettings.value) {
+    showSettings.value = false
+    return
+  }
+
+  const viewportWidth = window.innerWidth
+  const viewportHeight = window.innerHeight
+  const compactLayout = viewportWidth <= 1279
+  const panelWidth = compactLayout
+    ? Math.min(1072, viewportWidth - 24)
+    : Math.min(viewportWidth * 0.9, 1000)
+  const panelHeight = Math.min(viewportHeight * 0.9, 900)
+  const panelCenterX = viewportWidth / 2 + (compactLayout ? -4 : 0)
+  const panelCenterY = viewportHeight / 2
+  const sourceX = origin.left + origin.width / 2
+  const sourceY = origin.top + origin.height / 2
+  const enterX = clamp(sourceX - panelCenterX, -96, 96)
+  const enterY = clamp(sourceY - panelCenterY, -72, 72)
+
+  settingsLaunchStyle.value = {
+    '--bew-settings-origin-x': `${clamp(sourceX - (panelCenterX - panelWidth / 2), 0, panelWidth)}px`,
+    '--bew-settings-origin-y': `${clamp(sourceY - (panelCenterY - panelHeight / 2), 0, panelHeight)}px`,
+    '--bew-settings-enter-x': `${enterX}px`,
+    '--bew-settings-enter-y': `${enterY}px`,
+    '--bew-settings-leave-x': `${enterX * 0.35}px`,
+    '--bew-settings-leave-y': `${enterY * 0.35}px`,
+  }
+  showSettings.value = true
+}
 
 interface ConfirmDialogRequest {
   id: number
@@ -342,7 +374,7 @@ useEventListener(window, 'message', ({ data, source }) => {
   if (source !== window.parent)
     return
 
-  const { type, isDark, darkModeBaseColor } = data
+  const { type, isDark, isOledDark, darkModeBaseColor } = data
 
   if (type === 'iframeDarkModeChange') {
     // 在iframe环境中，只更新DOM样式，不修改用户的主题设置
@@ -354,12 +386,16 @@ useEventListener(window, 'message', ({ data, source }) => {
       // 立即更新DOM样式，不修改settings.value.theme
       if (isDark) {
         // Always apply to plugin container
-        document.querySelector('#bewly')?.classList.add('dark')
+        const bewlyContainer = document.querySelector('#bewly')
+        bewlyContainer?.classList.add('dark')
+        bewlyContainer?.classList.toggle('oled-dark', isOledDark === true)
 
         // Only apply global styles if not on festival pages
         if (!isSelectiveDark) {
           document.documentElement.classList.add('dark')
+          document.documentElement.classList.toggle('oled-dark', isOledDark === true)
           document.body?.classList.add('dark')
+          document.body?.classList.toggle('oled-dark', isOledDark === true)
         }
 
         // 如果提供了深色模式基准颜色，则应用它（仅应用到DOM，不修改设置）
@@ -374,12 +410,13 @@ useEventListener(window, 'message', ({ data, source }) => {
         }
       }
       else {
-        document.querySelector('#bewly')?.classList?.remove('dark')
+        const bewlyContainer = document.querySelector('#bewly')
+        bewlyContainer?.classList.remove('dark', 'oled-dark')
 
         // Only remove global classes if not in selective mode
         if (!isSelectiveDark) {
-          document.documentElement.classList.remove('dark')
-          document.body?.classList.remove('dark')
+          document.documentElement.classList.remove('dark', 'oled-dark')
+          document.body?.classList.remove('dark', 'oled-dark')
         }
       }
 
@@ -539,9 +576,6 @@ onMounted(() => {
   }
 
   if (isHomePage()) {
-    // Force overwrite Bilibili Evolved body tag & html tag background color
-    document.body.style.setProperty('background-color', 'unset', 'important')
-
     focusScrollViewport()
 
     // Windows/Linux: 监听 Home 键
@@ -662,7 +696,7 @@ function handleOsScroll(_instance: any, event: Event) {
     const scrollTop = latestScrollTop
 
     emitter.emit(OVERLAY_SCROLL_BAR_SCROLL, scrollTop)
-    if (settings.value.useOriginalBilibiliTopBar)
+    if (useOriginalBilibiliTopBar.value)
       setOriginalBilibiliTopBarScrolled(document, scrollTop > 0)
 
     // 只在滚动距离超过阈值时更新状态
@@ -955,15 +989,22 @@ if (settings.value.cleanUrlArgument) {
     }"
     text="$bew-text-1 size-$bew-base-font-size"
   >
-    <!-- Background -->
+    <!-- Theme color gradient -->
     <template v-if="showBewlyPage">
-      <AppBackground :activated-page="activatedPage" />
+      <AppGradientBackground :activated-page="activatedPage" />
     </template>
 
     <!-- Settings -->
-    <KeepAlive>
-      <Settings v-if="showSettings" z-10002 @close="showSettings = false" />
-    </KeepAlive>
+    <Transition name="settings-launch">
+      <KeepAlive>
+        <Settings
+          v-if="showSettings"
+          z-10002
+          :style="settingsLaunchStyle"
+          @close="showSettings = false"
+        />
+      </KeepAlive>
+    </Transition>
 
     <!-- Dock & RightSideButtons -->
     <div
@@ -1006,8 +1047,6 @@ if (settings.value.cleanUrlArgument) {
         transition: 'opacity 0.2s ease',
       }"
     >
-      <BewlyOrBiliTopBarSwitcher v-if="settings.showBewlyOrBiliTopBarSwitcher" />
-
       <TopBar
         class="top-bar-layer"
         pos="top-0 left-0" w-full
@@ -1035,7 +1074,7 @@ if (settings.value.cleanUrlArgument) {
               <div
                 p="t-[calc(var(--bew-top-bar-height)+10px)]" m-auto
                 w="lg:[calc(100%-200px)] [calc(100%-150px)]"
-                :style="settings.useOriginalBilibiliTopBar && !reachTop
+                :style="useOriginalBilibiliTopBar && !reachTop
                   ? { paddingTop: 'calc(var(--bew-top-bar-height) + 120px)' }
                   : undefined"
               >
@@ -1077,14 +1116,12 @@ if (settings.value.cleanUrlArgument) {
           <p class="bew-confirm-dialog__title">
             {{ $t('common.operation.confirm') }}
           </p>
-          <button
-            type="button"
+          <CloseButton
             class="bew-confirm-dialog__close"
-            :aria-label="$t('common.operation.cancel')"
+            :label="$t('common.close')"
+            size="medium"
             @click="finishConfirmDialog(false)"
-          >
-            <div i-ic-baseline-clear />
-          </button>
+          />
         </header>
         <div class="bew-confirm-dialog__body">
           <p class="bew-confirm-dialog__message">
@@ -1132,8 +1169,10 @@ if (settings.value.cleanUrlArgument) {
   max-width: calc(100vw - 32px);
   overflow: hidden;
   background: var(--bew-elevated-alt-solid);
-  border: 1px solid var(--bew-border-color);
+  box-sizing: border-box;
+  border: 1px solid var(--bew-surface-border-color);
   border-radius: var(--bew-modal-radius);
+  corner-shape: var(--bew-corner-shape);
   box-shadow: var(--bew-shadow-4), var(--bew-shadow-edge-glow-2);
   transform: translate(-50%, -50%);
 }
@@ -1152,33 +1191,6 @@ if (settings.value.cleanUrlArgument) {
   font-size: var(--bew-font-size-title);
   font-weight: var(--bew-font-weight-semibold);
   line-height: var(--bew-line-height-title);
-}
-
-.bew-confirm-dialog__close {
-  display: flex;
-  flex-shrink: 0;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  padding: 0;
-  appearance: none;
-  color: inherit;
-  cursor: pointer;
-  background: var(--bew-elevated);
-  border: 1px solid var(--bew-border-color);
-  border-radius: var(--bew-interactive-radius);
-  box-shadow: var(--bew-shadow-edge-glow-1), var(--bew-shadow-2);
-
-  &:hover {
-    color: var(--bew-theme-color);
-    background: var(--bew-theme-color-30);
-  }
-
-  &:focus-visible {
-    outline: 2px solid var(--bew-theme-color-40);
-    outline-offset: var(--bew-space-0-5);
-  }
 }
 
 .bew-confirm-dialog__body {
@@ -1219,6 +1231,7 @@ if (settings.value.cleanUrlArgument) {
   min-width: 0;
   height: 100%;
   overflow: hidden;
+  background-color: var(--bew-homepage-bg);
 }
 
 .bewly-scroll-viewport {

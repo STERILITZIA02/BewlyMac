@@ -19,6 +19,7 @@ export default defineConfig({
     outDir: r(isFirefox ? 'extension-firefox/dist/contentScripts' : isSafari ? 'extension-safari/dist/contentScripts' : 'extension/dist/contentScripts'),
     cssCodeSplit: false,
     emptyOutDir: false,
+    minify: isDev ? false : undefined,
     sourcemap: false, // https://github.com/vitejs/vite-plugin-vue/issues/35
     lib: {
       entry: r('src/contentScripts/index.ts'),

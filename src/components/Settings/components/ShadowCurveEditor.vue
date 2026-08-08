@@ -395,6 +395,7 @@ watch(() => [props.width, props.height], draw)
 
 .curve-canvas {
   border-radius: var(--bew-radius);
+  corner-shape: var(--bew-corner-shape);
   background: var(--bew-fill-1);
 }
 

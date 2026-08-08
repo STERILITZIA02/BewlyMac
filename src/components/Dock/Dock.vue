@@ -15,6 +15,7 @@ import { useMainStore } from '~/stores/mainStore'
 import { useSettingsStore } from '~/stores/settingsStore'
 import { isHomePage, openLinkToNewTab } from '~/utils/main'
 
+import IconButton from '../IconButton.vue'
 import LiquidSegmentIndicator from '../LiquidSegmentIndicator.vue'
 import PageModeSwitcherButton from '../PageModeSwitcherButton.vue'
 import Tooltip from '../Tooltip.vue'
@@ -27,7 +28,7 @@ const props = defineProps<{
 const emit = defineEmits<{
   (e: 'dockItemClick', dockItem: DockItem): void
   (e: 'dockItemMiddleClick', dockItem: DockItem): void
-  (e: 'settingsVisibilityChange'): void
+  (e: 'settingsVisibilityChange', origin: DOMRect): void
   (e: 'refresh'): void
   (e: 'backToTop'): void
   (e: 'undoRefresh'): void
@@ -232,6 +233,10 @@ function handleDockItemClick($event: MouseEvent, dockItem: DockItem) {
 
 function openDockItemInNewTab(dockItem: DockItem) {
   openLinkToNewTab(`https://www.bilibili.com/?page=${dockItem.page}`)
+}
+
+function openSettings(event: MouseEvent) {
+  emit('settingsVisibilityChange', (event.currentTarget as HTMLElement).getBoundingClientRect())
 }
 
 function handleBackToTopOrRefresh(action: 'backToTop' | 'refresh' | 'auto' = 'auto') {
@@ -544,19 +549,19 @@ onUnmounted(() => {
       @mouseleave="toggleHideDock(true)"
     >
       <div
-        class="dock-content-inner"
+        class="dock-content-inner bew-shape-pill"
       >
         <div
           class="dock-page-navigation bew-segment-control"
           :class="{ 'disable-glowing-effect': settings.disableDockGlowingEffect }"
         >
-          <LiquidSegmentIndicator :active-key="activeDockItemPage" white />
+          <LiquidSegmentIndicator class="dock-page-navigation__indicator bew-shape-circle" :active-key="activeDockItemPage" white />
 
           <template v-for="dockItem in currentDockItems" :key="dockItem.page">
             <Tooltip :content="$t(dockItem.i18nKey)" :placement="tooltipPlacement">
               <button
                 type="button"
-                class="dock-page-navigation__item bew-segment-control__item bew-segment-control__item--icon"
+                class="dock-page-navigation__item bew-segment-control__item bew-segment-control__item--icon bew-shape-circle"
                 :class="{ inactive: hoveringDockItem.themeMode && isDark }"
                 data-segment-item
                 :data-active="isDockItemActivated(dockItem) ? 'true' : undefined"
@@ -606,7 +611,7 @@ onUnmounted(() => {
           />
 
           <button
-            class="dock-item"
+            class="dock-item bew-shape-circle"
             bg="!dark-hover:$bew-bg" transform="!dark-hover:scale-100"
             :shadow="settings.disableDockGlowingEffect ? 'none' : '!dark-hover:[inset_4px_-2px_8px_hsla(226deg,85%,77%,1)]'"
             pointer-events-auto
@@ -631,11 +636,11 @@ onUnmounted(() => {
 
         <Tooltip :content="$t('dock.settings')" :placement="tooltipPlacement">
           <button
-            class="dock-item group"
+            class="dock-item group bew-shape-circle"
             :class="{
               inactive: hoveringDockItem.themeMode && isDark,
             }"
-            @click="emit('settingsVisibilityChange')"
+            @click="openSettings"
           >
             <div i-mingcute:settings-3-line text-xl group-hover:rotate-180 transition="transform duration-400 ease-out" />
           </button>
@@ -654,9 +659,10 @@ onUnmounted(() => {
         >
           <template v-for="key in 2" :key="key">
             <Transition name="fade">
-              <button
+              <IconButton
                 v-if="(key === 1 && canRefreshCurrentPage) || (key === 2 && !reachTop)"
                 class="back-to-top-or-refresh-btn"
+                :label="key === 1 ? $t('common.operation.refresh') : $t('common.operation.back_to_top')"
                 :class="{
                   inactive: hoveringDockItem.themeMode && isDark,
                 }"
@@ -672,13 +678,14 @@ onUnmounted(() => {
                   icon="line-md:arrow-small-up"
                   shrink-0 absolute text="size-$bew-icon-size-lg"
                 />
-              </button>
+              </IconButton>
             </Transition>
           </template>
         </template>
         <template v-else>
-          <button
+          <IconButton
             class="back-to-top-or-refresh-btn"
+            :label="reachTop && canRefreshCurrentPage ? $t('common.operation.refresh') : $t('common.operation.back_to_top')"
             :class="{
               inactive: hoveringDockItem.themeMode && isDark,
             }"
@@ -696,13 +703,14 @@ onUnmounted(() => {
                 shrink-0 absolute text="size-$bew-icon-size-lg"
               />
             </Transition>
-          </button>
+          </IconButton>
         </template>
         <!-- 将原来的两个按钮替换为一个 -->
         <Transition name="fade">
-          <button
+          <IconButton
             v-if="showUndoForwardActions"
             class="back-to-top-or-refresh-btn"
+            :label="showUndo ? $t('common.operation.undo_refresh') : $t('common.operation.forward_refresh')"
             :class="{
               inactive: hoveringDockItem.themeMode && isDark,
             }"
@@ -718,7 +726,7 @@ onUnmounted(() => {
               icon="mdi:redo-variant"
               shrink-0 absolute text="size-$bew-icon-size-lg"
             />
-          </button>
+          </IconButton>
         </Transition>
       </div>
     </div>
@@ -732,33 +740,36 @@ onUnmounted(() => {
       flex="~ gap-2"
     >
       <Transition name="fade">
-        <button
+        <IconButton
           v-if="showBackToTopOrRefreshButton && canRefreshCurrentPage"
           class="back-to-top-or-refresh-btn"
+          :label="$t('common.operation.refresh')"
           @click="handleBackToTopOrRefresh('refresh')"
         >
           <Icon
             icon="line-md:rotate-270"
             shrink-0 rotate-90 absolute text="size-$bew-icon-size-lg"
           />
-        </button>
+        </IconButton>
       </Transition>
       <Transition name="fade">
-        <button
+        <IconButton
           v-if="showBackToTopOrRefreshButton && !reachTop"
           class="back-to-top-or-refresh-btn"
+          :label="$t('common.operation.back_to_top')"
           @click="handleBackToTopOrRefresh('backToTop')"
         >
           <Icon
             icon="line-md:arrow-small-up"
             shrink-0 absolute text="size-$bew-icon-size-lg"
           />
-        </button>
+        </IconButton>
       </Transition>
       <Transition name="fade">
-        <button
+        <IconButton
           v-if="showUndoForwardActions"
           class="back-to-top-or-refresh-btn"
+          :label="showUndo ? $t('common.operation.undo_refresh') : $t('common.operation.forward_refresh')"
           @click="handleHistoryNavigation"
         >
           <Icon
@@ -771,7 +782,7 @@ onUnmounted(() => {
             icon="mdi:redo-variant"
             shrink-0 absolute text="size-$bew-icon-size-lg"
           />
-        </button>
+        </IconButton>
       </Transition>
     </div>
   </aside>
@@ -813,9 +824,10 @@ onUnmounted(() => {
     --uno: "grid place-items-center";
     --uno: "filter-$bew-filter-glass-1";
     --uno: "bg-$bew-elevated hover:bg-$bew-content-hover";
-    --uno: "rounded-full shadow-$bew-shadow-2 border-1 border-$bew-border-color";
+    --uno: "rounded-full shadow-$bew-shadow-2 border-1 border-$bew-surface-border-color";
 
     backdrop-filter: var(--bew-filter-glass-1);
+    box-sizing: border-box;
     transition:
       transform 300ms var(--bew-ease-emphasized, cubic-bezier(0.34, 1.3, 0.64, 1)),
       background 300ms ease,
@@ -877,6 +889,7 @@ onUnmounted(() => {
 
   .divider {
     --uno: "my-1 mx-3 h-3px bg-$bew-border-color rounded-full";
+    corner-shape: var(--bew-corner-shape-round);
   }
 
   &.bottom .divider {
@@ -887,9 +900,10 @@ onUnmounted(() => {
     --uno: "duration-300 ease-in-out";
     --uno: "p-2 m-2 bg-$bew-content-alt dark:bg-$bew-elevated";
     --uno: "flex flex-col gap-2 shrink-0";
-    --uno: "rounded-full border-1 border-$bew-border-color";
+    --uno: "rounded-full border-1 border-$bew-surface-border-color";
     box-shadow: var(--bew-shadow-edge-glow-1), var(--bew-shadow-2);
     backdrop-filter: var(--bew-filter-glass-1);
+    box-sizing: border-box;
   }
 
   &.bottom .dock-content-inner {
@@ -953,6 +967,10 @@ onUnmounted(() => {
     }
   }
 
+  .dock-page-navigation__indicator {
+    corner-shape: var(--bew-corner-shape-round);
+  }
+
   .dock-page-navigation:not(.disable-glowing-effect) {
     .dock-page-navigation__item:hover:not([data-active="true"]):not(:disabled),
     .dock-page-navigation__item:focus-visible:not([data-active="true"]):not(:disabled) {
@@ -976,9 +994,10 @@ onUnmounted(() => {
     --uno: "grid place-items-center";
     --uno: "filter-$bew-filter-glass-1";
     --uno: "bg-$bew-elevated hover:bg-$bew-content-hover";
-    --uno: "rounded-full shadow-$bew-shadow-2 border-1 border-$bew-border-color";
+    --uno: "rounded-full shadow-$bew-shadow-2 border-1 border-$bew-surface-border-color";
 
     backdrop-filter: var(--bew-filter-glass-1);
+    box-sizing: border-box;
     transition:
       transform 300ms var(--bew-ease-emphasized, cubic-bezier(0.34, 1.3, 0.64, 1)),
       background 300ms ease,
@@ -1019,6 +1038,7 @@ onUnmounted(() => {
   --uno: "rounded-full antialiased";
   --uno: "bg-$bew-fill-alt hover:bg-$bew-fill-2 cursor-pointer";
   --uno: "dark:bg-$bew-fill-1 dark-hover:bg-$bew-fill-4";
+  corner-shape: var(--bew-corner-shape-round);
 
   box-shadow: var(--bew-shadow-edge-glow-1), var(--bew-shadow-1);
   transition:
@@ -1040,7 +1060,7 @@ onUnmounted(() => {
   }
 
   &.active {
-    --uno: "important-bg-$bew-theme-color text-white !dark:bg-white !dark:text-black";
+    --uno: "important-bg-$bew-theme-color text-$bew-on-theme-color !dark:bg-white !dark:text-black";
     --uno: "shadow-$shadow-active dark:shadow-$shadow-dark";
     --uno: "active:shadow-$shadow-active-active dark-active:shadow-$shadow-dark-active";
   }
@@ -1055,6 +1075,12 @@ onUnmounted(() => {
     display: block;
     vertical-align: middle;
   }
+}
+
+.back-to-top-or-refresh-btn {
+  aspect-ratio: 1;
+  border-radius: 50%;
+  corner-shape: var(--bew-corner-shape-round);
 }
 
 @media (min-width: 1024px) {

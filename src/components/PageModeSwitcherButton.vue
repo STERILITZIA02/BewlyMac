@@ -61,8 +61,10 @@ const displayedIcon = computed(() => previewNextMode.value ? nextIcon.value : cu
   display: grid;
   flex: none;
   place-items: center;
+  aspect-ratio: 1;
   padding: 0;
   border-radius: var(--bew-radius-full);
+  corner-shape: var(--bew-corner-shape-round);
   appearance: none;
   color: var(--bew-text-1);
   cursor: pointer;
@@ -117,7 +119,7 @@ const displayedIcon = computed(() => previewNextMode.value ? nextIcon.value : cu
   &--sidebar {
     width: var(--bew-floating-control-size);
     height: var(--bew-floating-control-size);
-    border: 1px solid var(--bew-border-color);
+    border: 1px solid var(--bew-surface-border-color);
     background: var(--bew-elevated);
     box-shadow: var(--bew-shadow-1);
     backdrop-filter: var(--bew-filter-glass-1);
